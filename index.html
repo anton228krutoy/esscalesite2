@@ -9,15 +9,17 @@
 </head>
 <body>
     
+    <div class="video-background">
+        <video src="images/fons2.mp4" autoplay loop muted playsinline></video>
+    </div>
+
     <header class="header">
         <div class="container">
             <div class="header__iner">
                 <a href="/" class="logo">
                     <img src="images/logo.svg" alt="Esscale Logo">
                 </a>
-
                 <nav class="menu">
-                    <!-- Для работы мобильного меню нужен JS, который будет добавлять/убирать класс 'menu--open' у этого тега <nav> -->
                     <ul class="menu__list">
                         <li class="menu__item"><a href="#company-facts" class="menu__link">О компании</a></li>
                         <li class="menu__item"><a href="#interests" class="menu__link">Интересы</a></li>
@@ -25,9 +27,7 @@
                         <li class="menu__item"><a href="#contact" class="menu__link">Контакты</a></li>
                     </ul>
                 </nav>
-
                 <a href="#contact" class="header__workwith">Работа с нами</a>
-                
                 <button class="menu-btn" type="button" aria-label="Открыть меню">
                     <span></span>
                     <span></span>
@@ -53,7 +53,6 @@
                     <h2>О компании</h2>
                     <p>то, чем мы гордимся</p>
                 </div>
-
                 <div class="facts__grid">
                     <article class="facts__item">
                         <div class="facts__item-header">
@@ -194,10 +193,27 @@
                 </div>
             </div>
         </section>
-
     </main>
 
     <script src="js/main.js"></script> 
 
+    <!-- 
+      КОД ДЛЯ ИСПРАВЛЕНИЯ ПЛАВНОЙ ПРОКРУТКИ 
+      Этот скрипт можно вставить сюда или добавить в конец файла main.js
+    -->
+    <script>
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    </script>
 </body>
 </html>
