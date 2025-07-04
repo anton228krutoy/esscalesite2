@@ -1,0 +1,32 @@
+@font-face {
+  font-family: 'Inter'; /* Имя у них одинаковое! */
+  src: url('Inter-Regular.woff2') format('woff2');
+  font-weight: 400; /* 400 или normal */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Регистрируем ЖИРНОЕ начертание */
+@font-face {
+  font-family: 'Inter'; /* Имя то же самое */
+  src: url('Inter-Bold.woff2') format('woff2');
+  font-weight: 700; /* 700 или bold */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Kumbh'; 
+  src: url('KumbhSans-Regular.woff2') format('woff2');
+  font-weight: 400; 
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter-SemiBolt'; 
+  src: url('Inter-SemiBold.woff2') format('woff2');
+  font-weight: 400; 
+  font-style: normal;
+  font-display: swap;
+}
