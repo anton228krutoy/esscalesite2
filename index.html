@@ -9,8 +9,9 @@
 </head>
 <body> <!--Содержит весь контент, который видят пользователи-->
     
-    <div class="video-background"> <!--включает фоновое видео на всю страницу повторяя его-->
-        <video src="images/fons2.mp4" autoplay loop muted playsinline></video>
+    <div class="video-background"> <!--включает фоновое видео на всю страницу-->
+        <!-- ИЗМЕНЕНО: Добавлен id для легкого доступа из JS -->
+        <video id="bg-video" src="images/fons2.mp4" autoplay loop muted playsinline></video>
     </div>
 
     <header class="header"> <!--шапка сайта-->
@@ -21,8 +22,8 @@
                 </a>
                 <nav class="menu"> <!--навигационное меню-->
                     <ul class="menu__list"> <!--список пунктов меню-->
-                        <li class="menu__item"><a href="#company-facts" class="menu__link">О компании</a></li> 
-                        <li class="menu__item"><a href="#interests" class="menu__link">Интересы</a></li>
+                        <li class="menu__item"><a href="#interests" class="menu__link">Интересы</a></li> 
+                        <li class="menu__item"><a href="#aboutus" class="menu__link">О компании</a></li>
                         <li class="menu__item"><a href="#developments" class="menu__link">Разработки</a></li>
                         <li class="menu__item"><a href="#contact" class="menu__link">Контакты</a></li>
                     </ul>
@@ -47,57 +48,73 @@
             </div>
         </section>
 
-        <section id="company-facts" class="facts"> <!--секция "О компании"-->
+        <section id="interests" class="facts"> <!--секция "интересы"-->
             <div class="container">
                 <div class="section-title section-title--left"> <!--заголовок секции-->
-                    <h2>О компании</h2>
-                    <p>то, чем мы гордимся</p>
+                    <h2>Интересы</h2>
+                    <p>то, что нам нравиться</p>
                 </div>
-                <div class="facts__grid"> <!--сетка фактов-->
+                <div class="facts__grid"> <!--сетка интересов-->
                     <article class="facts__item"> <!--карточка факта-->
                         <div class="facts__item-header"> 
                             <span class="facts__item-number">1</span>
                             <h3 class="facts__item-title">Обработка данных</h3>
                         </div>
-                        <p class="facts__item-text">В наших проектах используются различные методы восстановления, прогнозирования и сбора информации.</p>
+                        <p class="facts__item-text">Представьте, что у вас есть мешок с разными овощами — это сырые данные. Каждый овощ сам по себе — это просто факт (морковь, картошка, лук). 
+                            Обработка данных — это как приготовление супа: вы моете, чистите, режете, варите овощи по определенному рецепту. 
+                            В итоге вы получаете готовое блюдо (суп) — это полезная информация, которую можно употребить (использовать для принятия решений, анализа и т.д.). 
+                            В наших проектах мы используем различные методы восстановления, прогнозирования, сбора данных и их безопасного хранения.</p>
                     </article> <!--повторяющиеся блоки фактов-->
                     <article class="facts__item">
                         <div class="facts__item-header">
                             <span class="facts__item-number">2</span>
-                            <h3 class="facts__item-title">Разработка ML и DL</h3>
+                            <h3 class="facts__item-title">Разработка машинных моделей</h3>
                         </div>
-                        <p class="facts__item-text">Машинное обучение можно применить к большому количеству задач, мы решаем каждую из них.</p>
+                        <p class="facts__item-text">Классическое программирование: Вы создаете фильтр с дырочками строго определенного размера. Он будет пропускать только те зерна, которые меньше этого размера. 
+                            Это жесткое правило. Машинное обучение: Вы берете "умный" фильтр, который может менять размер своих ячеек. Вы показываете ему тысячи хороших зерен и говорите: "Вот это — хорошо". 
+                            Затем показываете мусор (камешки, веточки) и говорите: "А вот это — плохо".
+                            Машинное обучение можно применить к большому количеству задач, мы решаем каждую из них.</p>
                     </article>
                     <article class="facts__item">
                         <div class="facts__item-header">
                             <span class="facts__item-number">3</span>
-                            <h3 class="facts__item-title">Физическое моделирование</h3>
+                            <h3 class="facts__item-title">Прикладная физика</h3>
                         </div>
-                        <p class="facts__item-text">Помимо работы с данными при решении некоторых задач нужно учитывать фундаментальные физические процессы.</p>
+                        <p class="facts__item-text">Мост между чистым научным знанием и реальными технологиями. 
+                            Прикладная физика берет фундаментальные законы природы и ищет способы их практического применения для решения конкретных задач и создания полезных устройств.
+                            Помимо работы с данными при решении некоторых задач нужно учитывать физические процессы.</p>
                     </article>
                     <article class="facts__item">
                         <div class="facts__item-header">
                             <span class="facts__item-number">4</span>
                             <h3 class="facts__item-title">Налаживание бизнес-процессов</h3>
                         </div>
-                        <p class="facts__item-text">Современный математический подход позволяет эффективно работать в сфере финансов.</p>
+                        <p class="facts__item-text">Снижение издержек,
+                                                    ускорение работы,
+                                                    повышение качества,
+                                                    прозрачность и управляемость,
+                                                    снижение зависимости от "незаменимых" сотрудников,
+                                                    масштабируемость.
+                                                    Современный математический подход позволяет эффективно решать эти и другие проблемы.</p>
                     </article>
                     <article class="facts__item">
                         <div class="facts__item-header">
                             <span class="facts__item-number">5</span>
                             <h3 class="facts__item-title">Сетевое программирование</h3>
                         </div>
-                        <p class="facts__item-text">Безопасность хранения и передачи информации является крайне важным аспектом работы с данными.</p>
+                        <p class="facts__item-text">В современном мире ни одно приложение не существует в вакууме. 
+                            Чтобы ваш сервис был по-настоящему полезен, он должен обмениваться данными — с серверами, мобильными устройствами, базами данных и другими системами.
+                             Это и есть сетевое программирование — цифровая "нервная система", которая связывает все компоненты вашего проекта в единое целое. </p>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section id="interests" class="about-timeline"> <!--секция "Интересы"-->
+        <section id="aboutus" class="about-timeline"> <!--секция "о компании"-->
             <div class="container">
                 <div class="section-title">
-                    <h2>Интересы</h2>
-                    <p>кто мы есть</p>
+                    <h2>О компании</h2>
+                    <p>кому мы полезны</p>
                 </div>
                 <div class="about-timeline__wrapper">
                     <div class="about-timeline__line"> <!--линия таймлайна-->
@@ -134,82 +151,114 @@
             </div>
         </section>
 
-        <section id="developments" class="portfolio"> <!--секция "Разработки" -->
+        <!-- ИЗМЕНЕНО: СЕКЦИЯ "РАЗРАБОТКИ" -->
+        <section id="developments" class="portfolio"> 
             <div class="container"> 
                 <div class="section-title">
                     <h2>Разработки</h2>
                     <p>то, что мы создали</p>
                 </div>
                 
-                <div class="portfolio__filters"> <!--фильтры портфолио -->
-                    <button class="portfolio__filter-btn active" type="button">Разработка приложений</button>
-                    <button class="portfolio__filter-btn" type="button">Разработка программ</button>
+                <!-- ИЗМЕНЕНО: Добавлены data-атрибуты для фильтрации -->
+                <div class="portfolio__filters">
+                    <button class="portfolio__filter-btn active" type="button" data-filter="all">Все проекты</button>
+                    <button class="portfolio__filter-btn" type="button" data-filter="app">Разработка приложений</button>
+                    <button class="portfolio__filter-btn" type="button" data-filter="software">Разработка программ</button>
                 </div>
 
-                <div class="portfolio__list"> <!--контейнер для всех элементов портфолио-->
-                    <article class="portfolio__item"> <!--карточка отдельного проекта-->
-                        <div class="portfolio__item-img"> <!--контейнер для изображения проекта-->
+                <div class="portfolio__list">
+                    <!-- Проект 1: Приложение -->
+                    <article class="portfolio__item" data-category="app">
+                        <div class="portfolio__item-img">
                             <img src="images/work-1.jpg" alt="Мобильное приложение Рейтинг"> 
                         </div>
-                        <div class="portfolio__item-content"> <!--текстовая часть карточки проекта-->
-                            <h3 class="portfolio__item-title">Мобильное приложение "Рейтинг"</h3> <!--заголовок проекта h3-->
-                            <p class="portfolio__item-text">Creativity is to discover a question that has never been asked. If one brings up an idiosyncratic question, the answer he gives will necessarily be unique as well.</p> <!--краткое описание проекта-->
-                            <a href="#" class="portfolio__item-btn">Узнать больше</a> <!--кноплка. стилизует для визуального отделения-->
+                        <div class="portfolio__item-content">
+                            <h3 class="portfolio__item-title">Мобильное приложение "Рейтинг"</h3>
+                            <p class="portfolio__item-text">Creativity is to discover a question that has never been asked. If one brings up an idiosyncratic question, the answer he gives will necessarily be unique as well.</p>
+                            <a href="#" class="portfolio__item-btn">Узнать больше</a>
                         </div>
                     </article>
 
-                    <article class="portfolio__item portfolio__item--reverse"> <!--создаёт визуальное разнообразие-->
-                        <div class="portfolio__item-img"> <!--контролирует отступы и размеры-->
+                    <!-- Проект 2: Программа -->
+                    <article class="portfolio__item portfolio__item--reverse" data-category="software">
+                        <div class="portfolio__item-img">
                             <img src="images/work-2.jpg" alt="Программный комплекс Аналитика">
                         </div>
-                        <div class="portfolio__item-content"> <!--текстовая информация о проекте-->
-                            <h3 class="portfolio__item-title">Программный комплекс "Аналитика"</h3> <!--Заголовок проекта h3-->
-                            <p class="portfolio__item-text">Creativity is to discover a combine that has never been asked. If one brings up an idiosyncratic question, the answer will be unique.</p> <!--краткое описание проекта-->
-                            <a href="#" class="portfolio__item-btn">Узнать больше</a> <!--стилизуется как кнопка для визуального выделения-->
+                        <div class="portfolio__item-content">
+                            <h3 class="portfolio__item-title">Программный комплекс "Аналитика"</h3>
+                            <p class="portfolio__item-text">Creativity is to discover a combine that has never been asked. If one brings up an idiosyncratic question, the answer will be unique.</p>
+                            <a href="#" class="portfolio__item-btn">Узнать больше</a>
                         </div>
                     </article>
+
+                    <!-- Проект 3: Программа (пример) -->
+                    <article class="portfolio__item" data-category="software">
+                        <div class="portfolio__item-img">
+                            <img src="images/work-3.jpg" alt="Программный комплекс Оптимизация">
+                        </div>
+                        <div class="portfolio__item-content">
+                            <h3 class="portfolio__item-title">Программный комплекс "Оптимизация"</h3>
+                            <p class="portfolio__item-text">A new software for business process optimization using ML algorithms and applied physics principles to reduce operational costs.</p>
+                            <a href="#" class="portfolio__item-btn">Узнать больше</a>
+                        </div>
+                    </article>
+
+                     <!-- Проект 4: Приложение (пример) -->
+                    <article class="portfolio__item portfolio__item--reverse" data-category="app">
+                        <div class="portfolio__item-img">
+                            <img src="images/work-4.jpg" alt="Мобильное приложение GeoConnect"> 
+                        </div>
+                        <div class="portfolio__item-content">
+                            <h3 class="portfolio__item-title">Мобильное приложение "GeoConnect"</h3>
+                            <p class="portfolio__item-text">A networking application that connects professionals based on their geographical location and shared interests, fostering local collaboration.</p>
+                            <a href="#" class="portfolio__item-btn">Узнать больше</a>
+                        </div>
+                    </article>
+
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="contact"> <!--якорь для навигации. помогает быстро перейти из меню-->
+        <!-- ИЗМЕНЕНО: СЕКЦИЯ "КОНТАКТЫ" -->
+        <section id="contact" class="contact">
             <div class="container">
                 <div class="section-title">
-                    <h2>Контакты</h2> <!--основной заголовок h2-->
-                    <p>обсудим ваш проект</p> <!--подзаголовок-->
+                    <h2>Контакты</h2>
+                    <p>свяжитесь с нами</p>
                 </div>
                 <div class="contact__wrapper">
-                    <div class="contact__info">
-                        <h3 class="contact__info-title">Нужен проект или консультация?</h3> <!--заголовок вопрос h3-->
-                        <p class="contact__info-text"> <!--поясняющий текст-->
-                            Свяжитесь с нами любым удобным способом. Мы ответим в течение 24 часов, чтобы обсудить детали вашего проекта и предложить наилучшие решения.
-                        </p>
-                        <ul class="contact__info-list"> <!--список контактов-->
-                            <li><a href="mailto:project@esscale.dev">project@esscale.dev</a></li> <!--открывает почтовый клиент-->
-                            <li><a href="tel:+79991234567">+7 (999) 123-45-67</a></li> <!--позволяет звонить с мобильных-->
-                            <li>г. Москва, Инновационный центр "Сколково"</li> <!--физический адрес-->
-                        </ul>
+                    <!-- Удалено старое содержимое -->
+                    <!-- НОВЫЙ БЛОК: Иконки социальных сетей -->
+                    <div class="contact__socials">
+                        <a href="https://vk.com/" target="_blank" class="contact__social-link" aria-label="VK">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M545 117.7c-11.8-10.7-30.2-10.7-42 0L256 320l-71-67.6c-11.8-11.2-30.8-11.2-42.7 0L29.3 365.1c-11.2 11.8-11.2 30.8 0 42.7L235.3 493c11.8 11.2 30.8 11.2 42.7 0l279-269.4c11.2-11.8 11.2-30.8-.1-42.9z"/></svg>
+                        </a>
+                        <a href="https://telegram.org/" target="_blank" class="contact__social-link" aria-label="Telegram">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142.3 89.4-61.2-19.1c-13.3-4.2-13.5-13.3 2.8-19.7l239.1-92.2c11.1-4.2 20.8 2.7 17.2 19.5z"/></svg>
+                        </a>
+                        <a href="https://instagram.com/" target="_blank" class="contact__social-link" aria-label="Instagram">
+                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9 26.3 26.2 58 34.4 93.9 36.2 37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+                        </a>
+                        <a href="mailto:project@esscale.dev" class="contact__social-link" aria-label="Email">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm0 48h416v41.4c-21.9 18.5-53.2 44.1-154.6 127.1-17 14.2-38.6 25.8-63.4 25.8s-46.4-11.6-63.4-25.8C101.2 197.5 69.9 171.9 48 153.4V112zm0 288V206.5c23.2 18 56.6 45.4 158.4 128.8 18.2 14.9 40.3 23.8 63.6 23.8s45.4-8.8 63.6-23.8C407.4 251.9 440.8 224.5 464 206.5V400H48z"/></svg>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
-    </main> <!-- закрытие основного контента -->
+    </main>
+
+    <script src="js/main.js"></script>
     
-
-    <script src="js/main.js"></script> <!--подключает внешний файл с кодом для интерактивности на странице-->
-
-    <!-- 
-      КОД ДЛЯ ИСПРАВЛЕНИЯ ПЛАВНОЙ ПРОКРУТКИ 
-      Этот скрипт можно вставить сюда или добавить в конец файла main.js
-    -->
+    <!-- Встроенный скрипт для плавной прокрутки можно оставить, он не конфликтует -->
     <script>
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {          /*выбирает все якорные ссылки*/
-        anchor.addEventListener('click', function (e) {                      /*добавляет обработчик клика*/
-          e.preventDefault();                                                /*отменяет стандартный прыжок к якорю*/
-          const targetId = this.getAttribute('href');                        /*находит DOM-элемент, соответсвуйющий ID*/
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {        
+        anchor.addEventListener('click', function (e) {                     
+          e.preventDefault();                                               
+          const targetId = this.getAttribute('href');                       
           const targetElement = document.querySelector(targetId);            
           if (targetElement) {
-            targetElement.scrollIntoView({                                   /*активирует плавную прокрутку*/
+            targetElement.scrollIntoView({                                   
               behavior: 'smooth'
             });
           }
