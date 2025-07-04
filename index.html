@@ -1,34 +1,34 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/reset.css">
+<!DOCTYPE html> /*Объявляет тип документа как HTML*/
+<html lang="ru"> /*основной язык страницы - русский*/
+<head> /*Содержит метаинформацию о странице и подключенные ресурсы*/
+    <meta charset="UTF-8"> /*поддержка кириллицы и спецсимволов*/
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> /*Настройка адаптивности*/
+    <link rel="stylesheet" href="css/reset.css"> /*Подключение CSS-стилей*/
     <link rel="stylesheet" href="css/style.css">
-    <title>esscale</title>
+    <title>esscale</title> /*Заголовок страницы*/
 </head>
-<body>
+<body> /*Содержит весь контент, который видят пользователи*/
     
-    <div class="video-background">
+    <div class="video-background"> /*включает фоновое видео на всю страницу повторяя его*/
         <video src="images/fons2.mp4" autoplay loop muted playsinline></video>
     </div>
 
-    <header class="header">
-        <div class="container">
-            <div class="header__iner">
-                <a href="/" class="logo">
-                    <img src="images/logo.svg" alt="Esscale Logo">
+    <header class="header"> /* шапка сайта */
+        <div class="container"> /* контейнер для центрирования контента */
+            <div class="header__iner"> /* внутренний блок шапки */
+                <a href="/" class="logo"> /* логотип с ссылкой на галвную страницу */
+                    <img src="images/logo.svg" alt="Esscale Logo"> /* изображение логотипа */
                 </a>
-                <nav class="menu">
-                    <ul class="menu__list">
-                        <li class="menu__item"><a href="#company-facts" class="menu__link">О компании</a></li>
+                <nav class="menu"> /* навигационное меню */
+                    <ul class="menu__list"> /* список пунктов меню */
+                        <li class="menu__item"><a href="#company-facts" class="menu__link">О компании</a></li> 
                         <li class="menu__item"><a href="#interests" class="menu__link">Интересы</a></li>
                         <li class="menu__item"><a href="#developments" class="menu__link">Разработки</a></li>
                         <li class="menu__item"><a href="#contact" class="menu__link">Контакты</a></li>
                     </ul>
                 </nav>
-                <a href="#contact" class="header__workwith">Работа с нами</a>
-                <button class="menu-btn" type="button" aria-label="Открыть меню">
+                <a href="#contact" class="header__workwith">Работа с нами</a> /* выделенная кнопка-ссылка */
+                <button class="menu-btn" type="button" aria-label="Открыть меню"> /* бургер в мобильном*/
                     <span></span>
                     <span></span>
                     <span></span>
@@ -37,30 +37,30 @@
         </div>
     </header>
 
-    <main class="main">
-        <section class="hero">
-            <div class="container-big">
-                <div class="hero__content">
-                    <h1 class="title__company">Esscale</h1>
-                    <p class="title__accent">инновационные решения для вашего бизнеса.</p>
+    <main class="main"> /* основное содержание страницы*/
+        <section class="hero"> /* герой-секция (первый экран)  */
+            <div class="container-big"> /* широкий контейнер */
+                <div class="hero__content"> /* контейнер герой-секции */
+                    <h1 class="title__company">Esscale</h1> /* главный заголовок */
+                    <p class="title__accent">инновационные решения для вашего бизнеса.</p> /* подзаголовок */
                 </div>
             </div>
         </section>
 
-        <section id="company-facts" class="facts">
+        <section id="company-facts" class="facts"> /* секция "О компании" */
             <div class="container">
-                <div class="section-title section-title--left">
+                <div class="section-title section-title--left"> /* заголовок секции */
                     <h2>О компании</h2>
                     <p>то, чем мы гордимся</p>
                 </div>
-                <div class="facts__grid">
-                    <article class="facts__item">
-                        <div class="facts__item-header">
+                <div class="facts__grid"> /* сетка фактов */
+                    <article class="facts__item"> /* карточка факта */
+                        <div class="facts__item-header"> 
                             <span class="facts__item-number">1</span>
                             <h3 class="facts__item-title">Обработка данных</h3>
                         </div>
                         <p class="facts__item-text">В наших проектах используются различные методы восстановления, прогнозирования и сбора информации.</p>
-                    </article>
+                    </article> /* повторяющиеся блоки фактов */
                     <article class="facts__item">
                         <div class="facts__item-header">
                             <span class="facts__item-number">2</span>
@@ -93,21 +93,21 @@
             </div>
         </section>
 
-        <section id="interests" class="about-timeline">
+        <section id="interests" class="about-timeline"> /* секция "Интересы" */
             <div class="container">
                 <div class="section-title">
                     <h2>Интересы</h2>
                     <p>кто мы есть</p>
                 </div>
                 <div class="about-timeline__wrapper">
-                    <div class="about-timeline__line">
-                        <article class="about-timeline__item">
+                    <div class="about-timeline__line"> /* линия таймлайна */
+                        <article class="about-timeline__item"> /* элементы таймлайна */
                             <div class="about-timeline__item-header">
                                 <span class="about-timeline__item-number">1</span>
                                 <h3 class="about-timeline__item-title">Основатели проекта</h3>
                             </div>
                             <p class="about-timeline__item-text">Начинающие ученые из разных областей современной физики, которые хотят сделать инновации доступными для каждого.</p>
-                        </article>
+                        </article> /* повторяющиеся блоки таймлайна */
                         <article class="about-timeline__item">
                             <div class="about-timeline__item-header">
                                 <span class="about-timeline__item-number">2</span>
@@ -134,81 +134,81 @@
             </div>
         </section>
 
-        <section id="developments" class="portfolio">
-            <div class="container">
+        <section id="developments" class="portfolio"> /* секция "Разработки" */
+            <div class="container"> 
                 <div class="section-title">
                     <h2>Разработки</h2>
                     <p>то, что мы создали</p>
                 </div>
                 
-                <div class="portfolio__filters">
+                <div class="portfolio__filters"> /* фильтры портфолио */
                     <button class="portfolio__filter-btn active" type="button">Разработка приложений</button>
                     <button class="portfolio__filter-btn" type="button">Разработка программ</button>
                 </div>
 
-                <div class="portfolio__list">
-                    <article class="portfolio__item">
-                        <div class="portfolio__item-img">
-                            <img src="images/work-1.jpg" alt="Мобильное приложение Рейтинг">
+                <div class="portfolio__list"> /*контейнер для всех элементов портфолио*/
+                    <article class="portfolio__item"> /*карточка отдельного проекта*/
+                        <div class="portfolio__item-img"> /*контейнер для изображения проекта*/
+                            <img src="images/work-1.jpg" alt="Мобильное приложение Рейтинг"> 
                         </div>
-                        <div class="portfolio__item-content">
-                            <h3 class="portfolio__item-title">Мобильное приложение "Рейтинг"</h3>
-                            <p class="portfolio__item-text">Creativity is to discover a question that has never been asked. If one brings up an idiosyncratic question, the answer he gives will necessarily be unique as well.</p>
-                            <a href="#" class="portfolio__item-btn">Узнать больше</a>
+                        <div class="portfolio__item-content"> /*текстовая часть карточки проекта*/
+                            <h3 class="portfolio__item-title">Мобильное приложение "Рейтинг"</h3> /*заголовок проекта h3*/
+                            <p class="portfolio__item-text">Creativity is to discover a question that has never been asked. If one brings up an idiosyncratic question, the answer he gives will necessarily be unique as well.</p> /*краткое описание проекта*/
+                            <a href="#" class="portfolio__item-btn">Узнать больше</a> /*кноплка. стилизует для визуального отделения*/
                         </div>
                     </article>
 
-                    <article class="portfolio__item portfolio__item--reverse">
-                        <div class="portfolio__item-img">
+                    <article class="portfolio__item portfolio__item--reverse"> /*создаёт визуальное разнообразие*/
+                        <div class="portfolio__item-img"> /*контролирует отступы и размеры*/
                             <img src="images/work-2.jpg" alt="Программный комплекс Аналитика">
                         </div>
-                        <div class="portfolio__item-content">
-                            <h3 class="portfolio__item-title">Программный комплекс "Аналитика"</h3>
-                            <p class="portfolio__item-text">Creativity is to discover a combine that has never been asked. If one brings up an idiosyncratic question, the answer will be unique.</p>
-                            <a href="#" class="portfolio__item-btn">Узнать больше</a>
+                        <div class="portfolio__item-content"> /*текстовая информация о проекте*/
+                            <h3 class="portfolio__item-title">Программный комплекс "Аналитика"</h3> /*Заголовок проекта h3*/
+                            <p class="portfolio__item-text">Creativity is to discover a combine that has never been asked. If one brings up an idiosyncratic question, the answer will be unique.</p> /*краткое описание проекта*/
+                            <a href="#" class="portfolio__item-btn">Узнать больше</a> /*стилизуется как кнопка для визуального выделения*/
                         </div>
                     </article>
                 </div>
             </div>
         </section>
 
-        <section id="contact" class="contact">
+        <section id="contact" class="contact"> /*якорь для навигации. помогает быстро перейти из меню*/
             <div class="container">
                 <div class="section-title">
-                    <h2>Контакты</h2>
-                    <p>обсудим ваш проект</p>
+                    <h2>Контакты</h2> /*основной заголовок h2*/
+                    <p>обсудим ваш проект</p> /*подзаголовок*/
                 </div>
                 <div class="contact__wrapper">
                     <div class="contact__info">
-                        <h3 class="contact__info-title">Нужен проект или консультация?</h3>
-                        <p class="contact__info-text">
+                        <h3 class="contact__info-title">Нужен проект или консультация?</h3> /*заголовок вопрос h3*/
+                        <p class="contact__info-text"> /*поясняющий текст*/
                             Свяжитесь с нами любым удобным способом. Мы ответим в течение 24 часов, чтобы обсудить детали вашего проекта и предложить наилучшие решения.
                         </p>
-                        <ul class="contact__info-list">
-                            <li><a href="mailto:project@esscale.dev">project@esscale.dev</a></li>
-                            <li><a href="tel:+79991234567">+7 (999) 123-45-67</a></li>
-                            <li>г. Москва, Инновационный центр "Сколково"</li>
+                        <ul class="contact__info-list"> /*список контактов*/
+                            <li><a href="mailto:project@esscale.dev">project@esscale.dev</a></li> /*открывает почтовый клиент*/
+                            <li><a href="tel:+79991234567">+7 (999) 123-45-67</a></li> /*позволяет звонить с мобильных*/
+                            <li>г. Москва, Инновационный центр "Сколково"</li> /*физический адрес*/
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
-    </main>
+    </main> /*закрытие основного контента*/
 
-    <script src="js/main.js"></script> 
+    <script src="js/main.js"></script> /*подключает внешний файл с кодом для интерактивности на странице*/
 
     <!-- 
       КОД ДЛЯ ИСПРАВЛЕНИЯ ПЛАВНОЙ ПРОКРУТКИ 
       Этот скрипт можно вставить сюда или добавить в конец файла main.js
     -->
     <script>
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href');
-          const targetElement = document.querySelector(targetId);
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {          /*выбирает все якорные ссылки*/
+        anchor.addEventListener('click', function (e) {                      /*добавляет обработчик клика*/
+          e.preventDefault();                                                /*отменяет стандартный прыжок к якорю*/
+          const targetId = this.getAttribute('href');                        /*находит DOM-элемент, соответсвуйющий ID*/
+          const targetElement = document.querySelector(targetId);            
           if (targetElement) {
-            targetElement.scrollIntoView({
+            targetElement.scrollIntoView({                                   /*активирует плавную прокрутку*/
               behavior: 'smooth'
             });
           }
