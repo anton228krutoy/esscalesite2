@@ -10,6 +10,7 @@
     --accent-hover: #59e4d1;
     --border-color: rgba(255, 255, 255, 0.1);
     --shadow-color: rgba(0, 0, 0, 0.2);
+    --parallax-intensity: 300px;
 }
 
 html {
@@ -24,29 +25,30 @@ body {
     line-height: 1.6;
     font-weight: 400;
     overflow-x: hidden;
+    
+    /* ▼▼▼ НОВОЕ УЛУЧШЕНИЕ: Запрет выделения текста на всей странице ▼▼▼ */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none;     /* IE 10+ */
+    user-select: none;         /* Стандарт */
 }
-/* НОВЫЙ СТИЛЬ: для блокировки скролла при открытом меню */
+
 body.no-scroll {
     overflow: hidden;
 }
 
-
-/* --- ФОНОВОЕ ВИДЕО --- */
-.video-background {
+/* --- ИНТЕРАКТИВНЫЙ ФОН --- */
+#particles-js {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh + var(--parallax-intensity));
     z-index: -1;
-    overflow: hidden;
+    background-color: var(--bg-color);
 }
 
-.video-background video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center 50%;
+#particles-js > canvas {
+    height: 100% !important;
 }
 
 a {
@@ -132,7 +134,7 @@ a:hover {
 }
 
 .menu-btn { display: none; }
-/* НОВЫЙ СТИЛЬ: Кнопка "Работа с нами" в мобильном меню, по умолчанию скрыта */
+
 .menu__workwith {
     display: none;
 }
@@ -468,7 +470,6 @@ a:hover {
         background-color: rgba(18, 18, 18, 0.95);
         backdrop-filter: blur(5px);
         display: flex;
-        /* ИЗМЕНЕНО: Направление элементов в колонку */
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -481,22 +482,20 @@ a:hover {
     .menu--open + .menu-btn span:nth-child(2) { opacity: 0; }
     .menu--open + .menu-btn span:nth-child(3) { transform: translateY(-9.5px) rotate(-45deg); }
 
-    /* НОВЫЙ СТИЛЬ: Отображаем и стилизуем кнопку в мобильном меню */
     .menu__workwith {
         display: inline-block;
         padding: 12px 28px;
         background-color: var(--accent-color);
-        color: var(--bg-color) !important; /* !important для переопределения цвета ссылки */
+        color: var(--bg-color) !important;
         border-radius: 50px;
         font-family: 'Inter', sans-serif;
         font-weight: 700;
         transition: background-color 0.3s ease, transform 0.3s ease;
-        margin-bottom: 40px; /* Отступ от списка ссылок */
+        margin-bottom: 40px;
         font-size: 18px;
     }
     .menu__workwith:hover {
         background-color: var(--accent-hover);
-        transform: translateY(-2px);
     }
 
     .menu__list {

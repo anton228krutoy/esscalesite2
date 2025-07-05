@@ -1,8 +1,7 @@
-// --- БУРГЕР-МЕНЮ (существующий код с дополнением) ---
+// --- БУРГЕР-МЕНЮ ---
 const menuBtn = document.querySelector('.menu-btn');
 const menuNav = document.querySelector('.menu');
 const menuLinks = document.querySelectorAll('.menu__link');
-// НОВЫЙ ЭЛЕМЕНТ: Находим кнопку "Работа с нами" в мобильном меню
 const menuWorkWithBtn = document.querySelector('.menu__workwith');
 
 const toggleMenu = () => {
@@ -19,31 +18,14 @@ const closeMenu = () => {
     document.body.classList.remove('no-scroll');
 };
 
-// Вешаем обработчик клика на каждую ссылку в меню
 if (menuLinks.length > 0) {
     menuLinks.forEach(link => {
         link.addEventListener('click', closeMenu);
     });
 }
-// НОВЫЙ ОБРАБОТЧИК: Вешаем обработчик клика на кнопку "Работа с нами"
 if (menuWorkWithBtn) {
     menuWorkWithBtn.addEventListener('click', closeMenu);
 }
-
-
-// --- ЭФФЕКТ ПРОКРУТКИ ФОНОВОГО ВИДЕО ---
-document.addEventListener('DOMContentLoaded', () => {
-    const video = document.getElementById('bg-video');
-    if (!video) return;
-
-    const handleScroll = () => {
-        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-        const videoPosition = scrollPercent * 100;
-        video.style.objectPosition = `center ${videoPosition}%`;
-    };
-
-    window.addEventListener('scroll', handleScroll);
-});
 
 
 // --- ФИЛЬТРАЦИЯ В ПОРТФОЛИО ---
@@ -87,5 +69,54 @@ document.addEventListener('DOMContentLoaded', () => {
             visibleItems.forEach(item => item.style.marginBottom = '80px');
             visibleItems[visibleItems.length - 1].style.marginBottom = '0';
         }
+    });
+});
+
+
+// --- ЭФФЕКТ ПАРАЛЛАКСА ДЛЯ ФОНА ---
+document.addEventListener('DOMContentLoaded', () => {
+    const particlesCanvas = document.querySelector('#particles-js canvas');
+
+    if (!particlesCanvas) {
+        console.error('Canvas for particles not found! Check script order in index.html');
+        return;
+    }
+
+    const intensityValue = getComputedStyle(document.documentElement)
+        .getPropertyValue('--parallax-intensity');
+
+    const parallaxIntensity = parseInt(intensityValue, 10);
+
+    let isTicking = false;
+
+    const handleParallaxScroll = () => {
+        if (!parallaxIntensity) return;
+        const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+        const translateY = scrollPercent * parallaxIntensity * -1;
+        particlesCanvas.style.transform = `translateY(${translateY}px)`;
+    };
+
+    window.addEventListener('scroll', () => {
+        if (!isTicking) {
+            window.requestAnimationFrame(() => {
+                handleParallaxScroll();
+                isTicking = false;
+            });
+            isTicking = true;
+        }
+    });
+});
+
+// --- ПЛАВНАЯ ПРОКРУТКА К ЯКОРЯМ ---
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {        
+    anchor.addEventListener('click', function (e) {                     
+      e.preventDefault();                                               
+      const targetId = this.getAttribute('href');                       
+      const targetElement = document.querySelector(targetId);            
+      if (targetElement) {
+        targetElement.scrollIntoView({                                   
+          behavior: 'smooth'
+        });
+      }
     });
 });
