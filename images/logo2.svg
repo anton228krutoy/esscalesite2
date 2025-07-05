@@ -1,0 +1,9 @@
+<svg width="80" height="100" viewBox="0 0 80 100" xmlns="http://www.w3.org/2000/svg">
+ 
+  <path 
+    fill-rule="evenodd" 
+    clip-rule="evenodd" 
+    d="M80 20V0H0V100H80V80H20V60H70V40H20V20H80Z" 
+    fill="#4ADBC8"
+  />
+</svg>

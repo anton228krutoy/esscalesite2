@@ -25,6 +25,11 @@ body {
     font-weight: 400;
     overflow-x: hidden;
 }
+/* НОВЫЙ СТИЛЬ: для блокировки скролла при открытом меню */
+body.no-scroll {
+    overflow: hidden;
+}
+
 
 /* --- ФОНОВОЕ ВИДЕО --- */
 .video-background {
@@ -40,9 +45,7 @@ body {
 .video-background video {
     width: 100%;
     height: 100%;
-    /* ИЗМЕНЕНО: object-fit: cover остается, но теперь мы будем управлять его позицией через JS */
     object-fit: cover;
-    /* Начальная позиция видео - по центру */
     object-position: center 50%;
 }
 
@@ -129,6 +132,11 @@ a:hover {
 }
 
 .menu-btn { display: none; }
+/* НОВЫЙ СТИЛЬ: Кнопка "Работа с нами" в мобильном меню, по умолчанию скрыта */
+.menu__workwith {
+    display: none;
+}
+
 
 /* --- ГЛАВНЫЙ ЭКРАН (HERO) --- */
 .hero {
@@ -322,14 +330,11 @@ a:hover {
     border-radius: 10px;
     overflow: hidden;
     backdrop-filter: blur(10px);
-    /* НОВОЕ: Плавный переход для фильтрации */
     transition: opacity 0.4s ease, transform 0.4s ease;
 }
-/* НОВОЕ: Стиль для скрытых элементов */
 .portfolio__item.hidden {
     opacity: 0;
     transform: scale(0.95);
-    /* display: none; будет управляться через JS */
     height: 0;
     overflow: hidden;
     margin: 0;
@@ -342,7 +347,7 @@ a:hover {
 }
 .portfolio__item-content {
     padding: 40px;
-    transition: padding 0.4s ease; /* Плавный переход для скрытия */
+    transition: padding 0.4s ease;
 }
 .portfolio__item.hidden .portfolio__item-content {
     padding: 0;
@@ -388,9 +393,6 @@ a:hover {
     border: 1px solid var(--border-color);
     backdrop-filter: blur(10px);
 }
-/* Удалены старые стили .contact__info... */
-
-/* НОВЫЕ СТИЛИ: Для иконок соцсетей */
 .contact__socials {
     display: flex;
     justify-content: center;
@@ -466,15 +468,37 @@ a:hover {
         background-color: rgba(18, 18, 18, 0.95);
         backdrop-filter: blur(5px);
         display: flex;
+        /* ИЗМЕНЕНО: Направление элементов в колонку */
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         transition: left 0.4s ease-in-out;
         z-index: 100;
+        padding: 20px;
     }
     .menu--open { left: 0; }
     .menu--open + .menu-btn span:nth-child(1) { transform: translateY(9.5px) rotate(45deg); }
     .menu--open + .menu-btn span:nth-child(2) { opacity: 0; }
     .menu--open + .menu-btn span:nth-child(3) { transform: translateY(-9.5px) rotate(-45deg); }
+
+    /* НОВЫЙ СТИЛЬ: Отображаем и стилизуем кнопку в мобильном меню */
+    .menu__workwith {
+        display: inline-block;
+        padding: 12px 28px;
+        background-color: var(--accent-color);
+        color: var(--bg-color) !important; /* !important для переопределения цвета ссылки */
+        border-radius: 50px;
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+        margin-bottom: 40px; /* Отступ от списка ссылок */
+        font-size: 18px;
+    }
+    .menu__workwith:hover {
+        background-color: var(--accent-hover);
+        transform: translateY(-2px);
+    }
+
     .menu__list {
         flex-direction: column;
         align-items: center;
