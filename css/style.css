@@ -426,6 +426,30 @@ a:hover {
     fill: var(--bg-color);
 }
 
+/* --- СТИЛИ ДЛЯ ДОПОЛНИТЕЛЬНЫХ КОНТАКТОВ --- */
+.contact__details {
+    margin-top: 40px; /* Отступ сверху от иконок */
+    color: var(--text-secondary); /* Используем вторичный, более мягкий цвет текста */
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.contact__details p {
+    margin: 0; /* Убираем стандартные отступы у параграфов */
+}
+
+/* Стили для ссылок внутри этого блока */
+.contact__details a {
+    color: var(--text-color); /* Делаем ссылки чуть ярче, чем обычный текст */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact__details a:hover {
+    color: var(--accent-color); /* При наведении подсвечиваем акцентным цветом */
+    text-decoration: underline; /* Добавляем подчеркивание для наглядности */
+}
+
 
 /* --- АДАПТИВНОСТЬ --- */
 @media (max-width: 1024px) {
