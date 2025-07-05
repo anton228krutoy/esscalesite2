@@ -1,33 +1,3 @@
-// --- БУРГЕР-МЕНЮ ---
-const menuBtn = document.querySelector('.menu-btn');
-const menuNav = document.querySelector('.menu');
-const menuLinks = document.querySelectorAll('.menu__link');
-const menuWorkWithBtn = document.querySelector('.menu__workwith');
-
-const toggleMenu = () => {
-    menuNav.classList.toggle('menu--open');
-    document.body.classList.toggle('no-scroll');
-};
-
-if (menuBtn && menuNav) {
-    menuBtn.addEventListener('click', toggleMenu);
-}
-
-const closeMenu = () => {
-    menuNav.classList.remove('menu--open');
-    document.body.classList.remove('no-scroll');
-};
-
-if (menuLinks.length > 0) {
-    menuLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-}
-if (menuWorkWithBtn) {
-    menuWorkWithBtn.addEventListener('click', closeMenu);
-}
-
-
 // --- ФИЛЬТРАЦИЯ В ПОРТФОЛИО ---
 document.addEventListener('DOMContentLoaded', () => {
     const filterContainer = document.querySelector('.portfolio__filters');
@@ -119,4 +89,34 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         });
       }
     });
+});
+
+
+
+
+// Ждём, пока весь HTML-документ загрузится
+document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Логика для анимации заголовка при скролле ---
+    const scrollController = () => {
+        const body = document.body;
+        const scrollThreshold = 50; // Порог в пикселях, после которого сработает анимация
+
+        // Проверяем, насколько прокручена страница
+        if (window.scrollY > scrollThreshold) {
+            // Если прокрутили больше порога, добавляем класс
+            body.classList.add('scrolled');
+        } else {
+            // Иначе — убираем класс
+            body.classList.remove('scrolled');
+        }
+    };
+
+    // Вешаем "слушателя" на событие прокрутки страницы
+    window.addEventListener('scroll', scrollController);
+
+    // Вызываем функцию один раз при загрузке на случай, если страница уже прокручена (например, после перезагрузки)
+    scrollController();
+
+    // Если у вас в main.js есть другой код, просто добавьте этот блок к нему.
 });
