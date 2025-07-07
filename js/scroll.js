@@ -17,3 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     scrollController();
 });
+
+// Анимация элементов timeline
+const timelineItems = document.querySelectorAll('.about-timeline__item');
+
+function animateTimeline() {
+    timelineItems.forEach(item => {
+        const itemTop = item.getBoundingClientRect().top;
+        const windowHeight = window.innerHeight;
+        
+        if (itemTop < windowHeight * 0.85) {
+            item.classList.add('visible');
+        }
+    });
+}
+
+// Инициализация
+window.addEventListener('load', animateTimeline);
+window.addEventListener('scroll', animateTimeline);

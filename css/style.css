@@ -228,29 +228,31 @@ a:hover {
 
 /* --- СЕКЦИЯ "О КОМПАНИИ" (TIMELINE) --- */
 .about-timeline__wrapper { /* Контейнер-обёртка для секции "линия времени" */
-    max-width: 800px; /* Ограничивает максимальную ширину блока, чтобы текст не был слишком длинным */
+    max-width: 900px; /* Ограничивает максимальную ширину блока, чтобы текст не был слишком длинным */
     margin: 0 auto; /* Центрирует этот блок по горизонтали на странице */
 }
+
 .about-timeline__line { /* Контейнер для всех элементов на "линии времени" */
     position: relative; /* Устанавливает относительное позиционирование, чтобы служить точкой отсчёта для абсолютных дочерних элементов */
-    padding-left: 50px; /* Добавляет отступ слева, чтобы освободить место для вертикальной линии и кружочков */
 }
+
 .about-timeline__line::before { /* Псевдо-элемент, который создаёт саму вертикальную линию */
     content: ''; /* Обязательное свойство для создания псевдо-элемента */
     position: absolute; /* Позиционирует линию абсолютно относительно её родителя (.about-timeline__line) */
-    left: 17px; /* Располагает линию на расстоянии 17px от левого края родителя (внутри padding) */
-    top: 10px; /* Начинает линию на 10px ниже верхнего края родителя */
-    bottom: 10px; /* Заканчивает линию на 10px выше нижнего края родителя */
+    top: 0px; /* Начинает линию на 10px ниже верхнего края родителя */
+    bottom: 0px; /* Заканчивает линию на 10px выше нижнего края родителя */
     width: 2px; /* Устанавливает толщину линии */
     background-color: var(--border-color); /* Задаёт цвет линии из переменной */
+    z-index: 1;
 }
+
 .about-timeline__item { /* Стиль для отдельного события на линии времени */
     position: relative; /* Устанавливает относительное позиционирование, чтобы служить точкой отсчёта для кружочка с номером */
-    margin-bottom: 30px; /* Создаёт отступ снизу, разделяя события */
+    padding: 25px;
+    margin-bottom: 30px;
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 25px;
     backdrop-filter: blur(10px);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -264,8 +266,7 @@ a:hover {
 }
 .about-timeline__item-number { /* Стиль для кружочка с номером на линии времени */
     position: absolute; /* Позиционирует кружок абсолютно относительно родителя (.about-timeline__item) */
-    left: -50px; /* Сдвигает кружок влево на 50px, помещая его точно на вертикальную линию (компенсирует padding-left) */
-    top: 0; /* Прижимает кружок к верхнему краю родителя */
+    top: 25px; /* Прижимает кружок к верхнему краю родителя */
     width: 36px; /* Задаёт ширину */
     height: 36px; /* Задаёт высоту */
     border: 2px solid var(--accent-color); /* Рисует рамку акцентным цветом */
@@ -276,6 +277,7 @@ a:hover {
     font-weight: 700; /* Делает цифру жирной */
     color: var(--accent-color); /* Задаёт цвет цифре */
     background-color: var(--bg-color); /* Задаёт фон, чтобы перекрыть собой вертикальную линию, проходящую "сквозь" кружок */
+    z-index: 2;
 }
 .about-timeline__item-title { /* Стиль для заголовка события */
     font-size: 24px; /* Устанавливает размер шрифта */
@@ -497,23 +499,137 @@ a:hover {
 .about-timeline .accordion-content {
     height: 0;
 }
+
+/* Анимация при скролле */
+.about-timeline__item {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.about-timeline__item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* === TIMELINE - МОБИЛЬНАЯ ВЕРСИЯ === */
 @media (max-width: 991px) {
-    .facts .accordion-content {
-        height: 0;
+    .about-timeline__line {
+        padding-left: 50px;
+    }
+    
+    .about-timeline__line::before {
+        left: 17px;
+    }
+    
+    .about-timeline__item-number {
+        left: -50px;
     }
 }
 
-/* 5. Условия отображения для секции "Интересы" на ПК */
+/* === TIMELINE - ДЕСКТОПНАЯ ВЕРСИЯ (min-width: 992px) === */
 @media (min-width: 992px) {
-    .facts .accordion-header {
-        cursor: default;
+    /* 1. Подготовка общего контейнера */
+    .about-timeline__wrapper {
+        position: relative; /* Необходимо для позиционирования дочерних элементов */
+        min-height: 650px;  /* Высота, чтобы вместить все карточки */
     }
-    .facts .accordion-item:not(.active):hover .accordion-header::after {
-        width: 0; 
+    
+    .about-timeline__line {
+        padding-left: 0; /* Убираем мобильный отступ */
     }
-    /* ВАЖНО: принудительно показываем контент и убираем инлайновый стиль height */
-    .facts .accordion-content {
-        height: auto !important; 
+    
+    /* 2. Рисуем центральную вертикальную линию (ось) */
+    .about-timeline__line::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%; /* Линия строго по центру */
+        width: 2px;
+        background-color: var(--accent-color);
+        transform: translateX(-50%);
+        z-index: 1; /* Линия под карточками */
+    }
+    
+    /* 3. Общие стили для карточек */
+    .about-timeline__item {
+        position: absolute; /* Позиционируем относительно wrapper'а */
+        width: calc(50% - 40px); /* Ширина карточки = половина минус отступ от оси */
+        margin-bottom: 0;
+        z-index: 2; /* Карточки над линией */
+    }
+
+    /* 4. Стили для НЕЧЕТНЫХ карточек (1, 3) - они будут СЛЕВА */
+    .about-timeline__item:nth-child(odd) {
+        left: 0;
+        /* Заголовок будет выровнен отдельно, а основной текст - влево */
+    }
+    
+    /* Для левых карточек: заголовок и номер сдвигаем к оси (вправо) */
+    .about-timeline__item:nth-child(odd) .about-timeline__item-header {
+        flex-direction: row-reverse; /* Меняем порядок номера и заголовка */
+    }
+    .about-timeline__item:nth-child(odd) .about-timeline__item-title {
+        text-align: right;
+    }
+
+    /* Для левых карточек: основной текст сдвигаем влево, как вы просили */
+    .about-timeline__item:nth-child(odd) .about-timeline__item-text {
+        text-align: left;
+    }
+
+
+    /* 5. Стили для ЧЕТНЫХ карточек (2, 4) - они будут СПРАВА */
+    .about-timeline__item:nth-child(even) {
+        left: calc(50% + 40px); /* Позиция справа от оси с отступом */
+        text-align: left; /* Весь текст выравниваем к оси */
+    }
+    
+    /* 6. Позиционируем номерные кружки ПРЯМО НА ОСИ */
+    .about-timeline__item-number {
+        position: absolute; /* Вырываем из потока */
+        top: 25px;
+        z-index: 3; /* Номер поверх всего */
+        background-color: var(--bg-color); /* Фон, чтобы перекрыть ось */
+    }
+
+    /* Позиция номера для ЛЕВЫХ карточек */
+    .about-timeline__item:nth-child(odd) .about-timeline__item-number {
+        right: -58px; /* = 40px (половина зазора) + 18px (половина ширины кружка) */
+        left: auto;
+    }
+    
+    /* Позиция номера для ПРАВЫХ карточек */
+    .about-timeline__item:nth-child(even) .about-timeline__item-number {
+        left: -58px;
+        right: auto;
+    }
+
+    /* Добавляем отступ, чтобы текст заголовка не заезжал на место кружка */
+     .about-timeline__item:nth-child(odd) .about-timeline__item-header {
+        padding-right: 51px; /* 36px (ширина кружка) + 15px (отступ) */
+    }
+    .about-timeline__item:nth-child(even) .about-timeline__item-header {
+        padding-left: 51px;
+    }
+    
+    /* 7. Расставляем карточки по вертикали */
+    .about-timeline__item:nth-child(1) { top: 0; }
+    .about-timeline__item:nth-child(2) { top: 150px; }
+    .about-timeline__item:nth-child(3) { top: 300px; }
+    .about-timeline__item:nth-child(4) { top: 450px; }
+}
+
+/* === АДАПТИВ ДЛЯ ВЫСОКИХ ЭКРАНОВ === */
+@media (min-width: 1200px) {
+    .about-timeline__item:nth-child(1) { top: 0; }
+    .about-timeline__item:nth-child(2) { top: 180px; }
+    .about-timeline__item:nth-child(3) { top: 360px; }
+    .about-timeline__item:nth-child(4) { top: 540px; }
+    
+    .about-timeline__wrapper {
+        min-height: 720px;
     }
 }
 
