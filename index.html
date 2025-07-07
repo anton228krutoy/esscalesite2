@@ -3,9 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
     <title>esscale</title>
+    
+    <!-- Стили подключаются напрямую для лучшей производительности -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="fonts/fontstyle.css">
+    <link rel="stylesheet" href="css/headline.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -18,7 +22,7 @@
                     <img src="images/logo.svg" alt="Esscale Logo">
                 </a>
                 <nav class="menu">
-                    <a href="https://t.me/your_telegram_username" target="_blank" class="menu__workwith">Работа с нами</a>
+                    <a href="https://t.me/EsscaleBot" target="_blank" class="menu__workwith">Работа с нами</a>
                     <ul class="menu__list">
                         <li class="menu__item"><a href="#interests" class="menu__link">Интересы</a></li> 
                         <li class="menu__item"><a href="#aboutus" class="menu__link">О компании</a></li>
@@ -26,12 +30,12 @@
                         <li class="menu__item"><a href="#contact" class="menu__link">Контакты</a></li>
                     </ul>
                 </nav>
-                <a href="https://t.me/your_telegram_username" target="_blank" class="header__workwith">Работа с нами</a> 
-                <div class="menu-btn" type="button" tabindex="0" aria-label="Открыть меню">
+                <a href="https://t.me/EsscaleBot" target="_blank" class="header__workwith">Работа с нами</a> 
+                <button class="menu-btn" type="button" tabindex="0" aria-label="Открыть меню">
                     <span></span>
                     <span></span>
                     <span></span>
-                </div>
+                </button>
             </div>
         </div>
     </header>
@@ -40,8 +44,13 @@
         <section class="hero">
             <div class="container-big">
                 <div class="hero__content">
-                    <h1 class="title__company">Esscale</h1>
-                    <p class="title__accent">Инновационные решения для вашего бизнеса</p>
+                    <h1 class="title__company" data-text="Esscale">Esscale</h1>
+                    <p class="title__accent" data-text="Инновационные решения для вашего бизнеса">Инновационные решения для вашего бизнеса</p>
+                    
+                    <a href="#interests" class="hero__scroll-down" aria-label="Прокрутить вниз">
+                        <span></span>
+                    </a>
+                     
                 </div>
             </div>
         </section>
@@ -166,54 +175,36 @@
                 
                 <div class="portfolio__filters">
                     <button class="portfolio__filter-btn active" type="button" data-filter="all">Все проекты</button>
-                    <button class="portfolio__filter-btn" type="button" data-filter="app">Разработка приложений</button>
-                    <button class="portfolio__filter-btn" type="button" data-filter="software">Разработка программ</button>
+                    <button class="portfolio__filter-btn" type="button" data-filter="app">Веб-приложения</button>
+                    <button class="portfolio__filter-btn" type="button" data-filter="software">Сайты</button>
                 </div>
 
                 <div class="portfolio__list">
                     <article class="portfolio__item" data-category="app">
                         <div class="portfolio__item-img">
-                            <img src="images/work-1.jpg" alt="Мобильное приложение Рейтинг"> 
+                            <img src="images/school.jpg" alt="Онлайн школа 'Школград'"> 
                         </div>
                         <div class="portfolio__item-content">
-                            <h3 class="portfolio__item-title">Мобильное приложение "Рейтинг"</h3>
-                            <p class="portfolio__item-text">Creativity is to discover a question that has never been asked. If one brings up an idiosyncratic question, the answer he gives will necessarily be unique as well.</p>
+                            <h3 class="portfolio__item-title">Онлайн школа "ШколГрад"</h3>
+                            <p class="portfolio__item-text">Новые методы обучение, разработанные недавними выпускниками.</p>
                             <a href="#" class="portfolio__item-btn">Узнать больше</a>
                         </div>
                     </article>
 
                     <article class="portfolio__item portfolio__item--reverse" data-category="software">
                         <div class="portfolio__item-img">
-                            <img src="images/work-2.jpg" alt="Программный комплекс Аналитика">
+                            <img src="images/sait.png" alt="Сайт 'Esscale group'">
                         </div>
                         <div class="portfolio__item-content">
-                            <h3 class="portfolio__item-title">Программный комплекс "Аналитика"</h3>
-                            <p class="portfolio__item-text">Creativity is to discover a combine that has never been asked. If one brings up an idiosyncratic question, the answer will be unique.</p>
-                            <a href="#" class="portfolio__item-btn">Узнать больше</a>
+                            <h3 class="portfolio__item-title">Сайт "Esscale Group"</h3>
+                            <p class="portfolio__item-text">Написан нами, для нас.</p>
+                            <a href="https://github.com/anton228krutoy/esscalesite2.git" class="portfolio__item-btn">Узнать больше</a>
                         </div>
                     </article>
 
-                    <article class="portfolio__item" data-category="software">
-                        <div class="portfolio__item-img">
-                            <img src="images/work-3.jpg" alt="Программный комплекс Оптимизация">
-                        </div>
-                        <div class="portfolio__item-content">
-                            <h3 class="portfolio__item-title">Программный комплекс "Оптимизация"</h3>
-                            <p class="portfolio__item-text">A new software for business process optimization using ML algorithms and applied physics principles to reduce operational costs.</p>
-                            <a href="#" class="portfolio__item-btn">Узнать больше</a>
-                        </div>
-                    </article>
+                    
 
-                    <article class="portfolio__item portfolio__item--reverse" data-category="app">
-                        <div class="portfolio__item-img">
-                            <img src="images/work-4.jpg" alt="Мобильное приложение GeoConnect"> 
-                        </div>
-                        <div class="portfolio__item-content">
-                            <h3 class="portfolio__item-title">Мобильное приложение "GeoConnect"</h3>
-                            <p class="portfolio__item-text">A networking application that connects professionals based on their geographical location and shared interests, fostering local collaboration.</p>
-                            <a href="#" class="portfolio__item-btn">Узнать больше</a>
-                        </div>
-                    </article>
+                    
 
                 </div>
             </div>
@@ -252,11 +243,12 @@
         </section>
     </main>
 
+    <!-- Подключение библиотеки для частиц -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <!-- Скрипт инициализации частиц -->
     <script src="js/particles-init.js"></script>
+    <!-- Единый главный скрипт со всей логикой -->
     <script src="js/main.js"></script>
-    <script src="js/burger.js"></script>
-    <script src="js/scroll.js"></script>
-    <script src="js/headline.js"></script>
+
 </body>
 </html>
