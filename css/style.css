@@ -712,10 +712,18 @@ a:hover {
         justify-content: space-between;
         width: 30px;
         height: 22px;
+        
+        /* --- Стили для кросс-браузерной совместимости кнопки --- */
+        padding: 0;
         background: transparent;
         border: none;
         cursor: pointer;
-        z-index: 101;
+        
+        /* --- Ключевые исправления для iOS --- */
+        position: relative; /* Устанавливаем контекст для z-index */
+        z-index: 101; /* Убеждаемся, что кнопка ВЫШЕ всех остальных элементов в шапке */
+        -webkit-appearance: none; /* Сбрасывает стандартные стили iOS для кнопок */
+        -webkit-tap-highlight-color: transparent; /* Убирает подсветку при нажатии */
     }
     .menu-btn span {
         width: 100%;
