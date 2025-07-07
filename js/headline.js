@@ -1,21 +1,34 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- НАСТРОЙКИ АНИМАЦИИ ---
-    const config = {
-        mainTitle: { element: document.querySelector('.title__company'), text: document.querySelector('.title__company')?.textContent, speed: 150 },
-        subTitle: { element: document.querySelector('.title__accent'), text: document.querySelector('.title__accent')?.textContent, speed: 50 },
-        startDelay: 500,
-        interDelay: 300,
-    };
+        // --- АНИМАЦИЯ ЗАГОЛОВКА НА ГЛАВНОМ ЭКРАНЕ ---
+    async function startHeroAnimation() {
+        const mainTitle = document.querySelector('.title__company');
+        const subTitle = document.querySelector('.title__accent');
+        
+        if (mainTitle && subTitle) {
+            // Сохраняем текст перед печатью
+            const mainTitleText = mainTitle.textContent;
+            const subTitleText = subTitle.textContent;
+            
+            await typeWriter(mainTitle, mainTitleText, 150);
+            await new Promise(resolve => setTimeout(resolve, 300));
+            await typeWriter(subTitle, subTitleText, 50);
+        }
+    }
 
-    /**
-     * Основная функция для эффекта печати.
-     */
+    if (document.querySelector('.title__company')) {
+        setTimeout(startHeroAnimation, 500);
+    }
+    
+    // --- ФУНКЦИЯ ПЕЧАТИ ТЕКСТА ---
     function typeWriter(element, text, speed) {
         return new Promise((resolve) => {
-            if (!element || !text) return resolve();
+            if (!element || typeof text === 'undefined' || text === null) {
+                return resolve();
+            }
             
             element.style.visibility = 'visible';
+            element.style.opacity = 1; // Убедимся, что текст видимый
             element.textContent = '';
             element.classList.add('typing-cursor');
             
@@ -34,71 +47,69 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /**
-     * Запускает анимацию для главного экрана.
-     */
-    async function startAnimationSequence() {
-        if (config.mainTitle.element && config.subTitle.element) {
-            await typeWriter(config.mainTitle.element, config.mainTitle.text, config.mainTitle.speed);
-            await new Promise(resolve => setTimeout(resolve, config.interDelay));
-            await typeWriter(config.subTitle.element, config.subTitle.text, config.subTitle.speed);
+    // --- Вся остальная ваша логика (анимация заголовков и т.д.) может быть здесь ---
+    // ...
+
+    // ===================================================================
+    // === НАДЕЖНЫЙ АККОРДЕОН С ПЛАВНОЙ АНИМАЦИЕЙ И ПЕЧАТЬЮ ===
+    // ===================================================================
+    document.querySelectorAll('.accordion-item').forEach(item => {
+        const header = item.querySelector('.accordion-header');
+        const contentWrapper = item.querySelector('.accordion-content');
+        const textElement = contentWrapper.querySelector('p');
+
+        // Сохраняем оригинальный текст при загрузке
+        if (textElement && !textElement.dataset.originalText) {
+            textElement.dataset.originalText = textElement.textContent;
         }
-    }
-    
-    if (document.querySelector('.title__company')) {
-        setTimeout(startAnimationSequence, config.startDelay);
-    }
 
-    const anchorLinks = document.querySelectorAll('.menu__link[href^="#"]');
+        header.addEventListener('click', () => {
+            // Если это секция "Интересы" на ПК, ничего не делаем
+            if (item.closest('.facts') && window.innerWidth > 991) {
+                return; 
+            }
 
-    anchorLinks.forEach(link => {
-        link.addEventListener('click', function(event) {
-            event.preventDefault();
+            // Предотвращаем "двойные" клики во время анимации
+            if (item.dataset.animating === 'true') {
+                return;
+            }
+            item.dataset.animating = 'true';
 
-            const targetId = this.getAttribute('href');
-            const targetSection = document.querySelector(targetId);
+            const isActive = item.classList.contains('active');
 
-            if (!targetSection) return;
+            if (isActive) {
+                // --- ЗАКРЫВАЕМ АККОРДЕОН ---
+                item.classList.remove('active');
+                contentWrapper.style.height = '0px';
 
-            const sectionTitleContainer = targetSection.querySelector('.section-title');
-            if (sectionTitleContainer) {
-                const title = sectionTitleContainer.querySelector('h2');
-                const subtitle = sectionTitleContainer.querySelector('p');
+                // После завершения анимации высоты, удаляем флаг
+                setTimeout(() => {
+                    item.dataset.animating = 'false';
+                }, 400); // Длительность transition из CSS
 
-                if (title) title.style.visibility = 'hidden';
-                if (subtitle) subtitle.style.visibility = 'hidden';
+            } else {
+                // --- ОТКРЫВАЕМ АККОРДЕОН ---
+                item.classList.add('active');
                 
-                const runTypingAnimation = async () => {
-                    if (title) {
-                        const originalTitleText = title.textContent;
-                        await typeWriter(title, originalTitleText, 75);
-                    }
-                    if (subtitle) {
-                        const originalSubtitleText = subtitle.textContent;
+                // 1. Делаем текст ПОЛНОСТЬЮ ПРОЗРАЧНЫМ, но он все еще там
+                if (textElement) {
+                    textElement.style.opacity = 0;
+                    textElement.textContent = textElement.dataset.originalText; // Восстанавливаем текст "невидимо"
+                }
 
-                        await new Promise(resolve => setTimeout(resolve, 100)); 
-                        await typeWriter(subtitle, originalSubtitleText, 40);
-                    }
-                };
+                // 2. Устанавливаем высоту, чтобы блок развернулся.
+                // Так как текст на месте (хоть и невидимый), scrollHeight будет правильным.
+                contentWrapper.style.height = contentWrapper.scrollHeight + 'px';
 
-                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                waitForScrollEnd(runTypingAnimation);
+                // 3. Ждем, пока анимация высоты завершится
+                setTimeout(() => {
+                    // 4. Запускаем печать текста. Функция typeWriter сама сделает его видимым.
+                    if (textElement) {
+                        typeWriter(textElement, textElement.dataset.originalText, 20);
+                    }
+                    item.dataset.animating = 'false';
+                }, 400); // Длительность transition из CSS
             }
         });
     });
-
-    /**
-     * Надежная функция для отслеживания завершения прокрутки.
-     */
-    function waitForScrollEnd(callback) {
-        let scrollTimeout;
-        const scrollListener = () => {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                window.removeEventListener('scroll', scrollListener);
-                callback();
-            }, 100);
-        };
-        window.addEventListener('scroll', scrollListener);
-    }
 });

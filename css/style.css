@@ -462,6 +462,60 @@ a:hover {
     opacity: 0; 
 }
 
+/*--- СТИЛИ ДЛЯ АККОРДЕОНА  ---*/
+
+/* 1. Стили для заголовка и линии подчеркивания */
+.accordion-header {
+    cursor: pointer;
+    position: relative;
+    padding-bottom: 10px;
+}
+.accordion-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+/* 2. Анимация появления линии */
+.accordion-item:hover .accordion-header::after,
+.accordion-item.active .accordion-header::after {
+    width: 100%;
+}
+
+/* 3. Стили для контента аккордеона */
+.accordion-content {
+    overflow: hidden;
+    transition: height 0.4s ease-out;
+}
+
+/* 4. По умолчанию сворачиваем аккордеоны (для мобильных и для .about-timeline) */
+.about-timeline .accordion-content {
+    height: 0;
+}
+@media (max-width: 991px) {
+    .facts .accordion-content {
+        height: 0;
+    }
+}
+
+/* 5. Условия отображения для секции "Интересы" на ПК */
+@media (min-width: 992px) {
+    .facts .accordion-header {
+        cursor: default;
+    }
+    .facts .accordion-item:not(.active):hover .accordion-header::after {
+        width: 0; 
+    }
+    /* ВАЖНО: принудительно показываем контент и убираем инлайновый стиль height */
+    .facts .accordion-content {
+        height: auto !important; 
+    }
+}
 
 /* --- АДАПТИВНОСТЬ --- */
 @media (max-width: 1024px) { /* Начало блока стилей, которые применяются ТОЛЬКО когда ширина экрана 1024 пикселя или МЕНЬШЕ */
