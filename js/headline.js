@@ -2,33 +2,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- НАСТРОЙКИ АНИМАЦИИ ---
     const config = {
-        mainTitle: {
-            element: document.querySelector('.title__company'),
-            text: document.querySelector('.title__company').textContent, 
-            speed: 150, // Скорость печати (ms)
-        },
-        subTitle: {
-            element: document.querySelector('.title__accent'),
-            text: document.querySelector('.title__accent').textContent,
-            speed: 50,
-        },
-        startDelay: 500,    // Задержка перед началом всей анимации
-        interDelay: 300,    // Задержка между печатью заголовка и подзаголовка
+        mainTitle: { element: document.querySelector('.title__company'), text: document.querySelector('.title__company')?.textContent, speed: 150 },
+        subTitle: { element: document.querySelector('.title__accent'), text: document.querySelector('.title__accent')?.textContent, speed: 50 },
+        startDelay: 500,
+        interDelay: 300,
     };
 
     /**
      * Основная функция для эффекта печати.
-     * @param {HTMLElement} element - Элемент, в котором будет печататься текст.
-     * @param {string} text - Текст для печати.
-     * @param {number} speed - Скорость печати в миллисекундах.
-     * @returns {Promise} - Возвращает Promise, который разрешается после завершения печати.
      */
     function typeWriter(element, text, speed) {
         return new Promise((resolve) => {
             if (!element || !text) return resolve();
+            
             element.style.visibility = 'visible';
-            element.textContent = ''; // Очищаем элемент
-            element.classList.add('typing-cursor'); // Добавляем курсор
+            element.textContent = '';
+            element.classList.add('typing-cursor');
             
             let i = 0;
             function type() {
@@ -37,9 +26,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     i++;
                     setTimeout(type, speed);
                 } else {
-                    // Убираем курсор с текущего элемента перед завершением
                     element.classList.remove('typing-cursor');
-                    resolve(); // Сообщаем, что печать завершена
+                    resolve();
                 }
             }
             type();
@@ -47,30 +35,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Запускает всю последовательность анимаций.
+     * Запускает анимацию для главного экрана.
      */
     async function startAnimationSequence() {
         if (config.mainTitle.element && config.subTitle.element) {
-            // 1. Печатаем главный заголовок и ждем завершения
-        await typeWriter(config.mainTitle.element, config.mainTitle.text, config.mainTitle.speed);
-        
-        // 2. Делаем паузу
-        await new Promise(resolve => setTimeout(resolve, config.interDelay));
-
-        // 3. Печатаем подзаголовок и ждем завершения
-        await typeWriter(config.subTitle.element, config.subTitle.text, config.subTitle.speed);
+            await typeWriter(config.mainTitle.element, config.mainTitle.text, config.mainTitle.speed);
+            await new Promise(resolve => setTimeout(resolve, config.interDelay));
+            await typeWriter(config.subTitle.element, config.subTitle.text, config.subTitle.speed);
         }
-        // Вся анимация завершена. Курсор уже убран.
     }
-
+    
     if (document.querySelector('.title__company')) {
         setTimeout(startAnimationSequence, config.startDelay);
     }
 
     const anchorLinks = document.querySelectorAll('.menu__link[href^="#"]');
 
-    anchorLinks.forEach(link =>{
-        link.addEventListener('click', function(event){
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
             event.preventDefault();
 
             const targetId = this.getAttribute('href');
@@ -78,27 +60,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!targetSection) return;
 
-                const sectionTitle = targetSection.querySelector('.section-title h2');
-                if (sectionTitle) {
-                    const originalText = sectionTitle.textContent;
-                    sectionTitle.style.visibility = 'hidden';
+            const sectionTitleContainer = targetSection.querySelector('.section-title');
+            if (sectionTitleContainer) {
+                const title = sectionTitleContainer.querySelector('h2');
+                const subtitle = sectionTitleContainer.querySelector('p');
 
-                    const onScrollEnd = () => {
-                        typeWriter(sectionTitle, originalText, 75);
-                    };
+                if (title) title.style.visibility = 'hidden';
+                if (subtitle) subtitle.style.visibility = 'hidden';
+                
+                const runTypingAnimation = async () => {
+                    if (title) {
+                        const originalTitleText = title.textContent;
+                        await typeWriter(title, originalTitleText, 75);
+                    }
+                    if (subtitle) {
+                        const originalSubtitleText = subtitle.textContent;
 
-                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        await new Promise(resolve => setTimeout(resolve, 100)); 
+                        await typeWriter(subtitle, originalSubtitleText, 40);
+                    }
+                };
 
-                    waitForScrollEnd(onScrollEnd);
-                }
+                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                waitForScrollEnd(runTypingAnimation);
+            }
+        });
+    });
 
-            });
-        }); 
-
-        /**
-         *  Надёжная функция для отслеживания завершения прокрутки.
-         * @param {function} callback - Функция, которую нужно вызвать после завершения скролла.
-        */
+    /**
+     * Надежная функция для отслеживания завершения прокрутки.
+     */
     function waitForScrollEnd(callback) {
         let scrollTimeout;
         const scrollListener = () => {
@@ -106,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
             scrollTimeout = setTimeout(() => {
                 window.removeEventListener('scroll', scrollListener);
                 callback();
-            }, 100); // Короткая задержка в 100 мс - этого достаточно
+            }, 100);
         };
         window.addEventListener('scroll', scrollListener);
     }
