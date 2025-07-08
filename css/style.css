@@ -343,6 +343,12 @@ a:hover {
 }
 .about-timeline__item-text {
     color: var(--text-secondary);
+
+    /* ДОБАВЛЕНО: Выравнивание текста по ширине */
+    text-align: justify; 
+    
+    /* ДОБАВЛЕНО: Включаем переносы для лучшего вида */
+    hyphens: auto; 
 }
 
 /* 
