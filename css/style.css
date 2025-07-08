@@ -663,6 +663,7 @@ a:hover {
     .about-timeline__item:nth-child(2) { top: 150px; }
     .about-timeline__item:nth-child(3) { top: 300px; }
     .about-timeline__item:nth-child(4) { top: 450px; }
+    .about-timeline__item:nth-child(5) { top: 600px; } 
 }
 
 /* === АДАПТИВ ДЛЯ ВЫСОКИХ ЭКРАНОВ === */
@@ -671,9 +672,10 @@ a:hover {
     .about-timeline__item:nth-child(2) { top: 180px; }
     .about-timeline__item:nth-child(3) { top: 360px; }
     .about-timeline__item:nth-child(4) { top: 540px; }
+     .about-timeline__item:nth-child(5) { top: 720px; }
     
     .about-timeline__wrapper {
-        min-height: 720px;
+        min-height: 900px;
     }
 }
 
