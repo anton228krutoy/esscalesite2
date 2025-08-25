@@ -78,7 +78,13 @@ a:hover {
     left: 0;
     width: 100%;
     z-index: 100;
+    transition: transform 0.4s ease-in-out; 
 }
+
+.header--hidden {
+    transform: translateY(-100%); /* Сдвигаем шапку вверх за пределы экрана */
+}
+
 .header__iner {
     display: flex;
     justify-content: space-between;
@@ -174,9 +180,6 @@ a:hover {
     transition: border-color 0.3s ease;
 }
 
-.hero__scroll-down:hover::after {
-    border-color: var(--accent-color); /* Меняем цвет при наведении */
-}
 
 /* Ключевые кадры для анимации "подпрыгивания" */
 @keyframes bounce-arrow {
@@ -238,6 +241,19 @@ a:hover {
 }
 
 /* --- СЕКЦИЯ "ИНТЕРЕСЫ" (FACTS) --- */
+
+@keyframes jump-animation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Прыжок вверх */
+  }
+}
+
+.facts__item--jumping {
+  animation: jump-animation 0.8s ease-in-out infinite;
+}
 .facts__grid {
     display: flex;
     flex-wrap: wrap;
@@ -424,6 +440,13 @@ a:hover {
     overflow: hidden;
     pointer-events: none;
 }
+
+.portfolio__item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
 .portfolio__item-img {
     flex: 0 0 50%;
 }
@@ -531,6 +554,10 @@ a:hover {
 .scrolled .title__accent {
     transform: translateY(-80px); 
     opacity: 0; 
+}
+.scrolled .hero__scroll-down { /* <-- Добавляем этот блок */
+    opacity: 0; /* Делаем стрелку невидимой */
+    transition: opacity 0.5s ease-out; /* Плавное исчезновение */
 }
 
 /*--- СТИЛИ ДЛЯ АККОРДЕОНА  ---*/
@@ -813,3 +840,4 @@ a:hover {
     .contact__social-link { width: 50px; height: 50px; }
     .contact__social-link svg { width: 24px; height: 24px; }
 }
+

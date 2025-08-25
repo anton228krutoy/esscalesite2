@@ -172,7 +172,11 @@ function initAccordions() {
 
         if (!header || !contentWrapper) return;
 
-        header.addEventListener('click', () => {
+        // Определяем, должен ли элемент "прыгать"
+        const toggleJumpAnimation = (e) => {
+            // Предотвращаем стандартное поведение браузера
+            e.preventDefault();
+
             // Если это секция "Интересы" и экран широкий, ничего не делаем
             if (item.closest('.facts') && window.innerWidth > 991) {
                 return;
@@ -181,13 +185,38 @@ function initAccordions() {
             const isActive = item.classList.contains('active');
 
             if (isActive) {
+                // Если аккордеон уже активен, закрываем его
                 item.classList.remove('active');
                 contentWrapper.style.height = '0px';
+                // Убираем анимацию "прыжка"
+                item.classList.remove('facts__item--jumping');
             } else {
+                // Если аккордеон не активен, открываем его
                 item.classList.add('active');
                 contentWrapper.style.height = contentWrapper.scrollHeight + 'px';
+                // Убираем анимацию "прыжка"
+                item.classList.remove('facts__item--jumping');
             }
+        };
+
+        // Запускаем анимацию "прыжка" при касании
+        header.addEventListener('touchstart', (e) => {
+            // Если это не мобильное устройство, ничего не делаем
+            if (window.innerWidth > 991) return;
+            // Добавляем класс, чтобы запустить анимацию
+            item.classList.add('facts__item--jumping');
         });
+
+        // Останавливаем анимацию, когда палец отпущен
+        header.addEventListener('touchend', (e) => {
+            // Если это не мобильное устройство, ничего не делаем
+            if (window.innerWidth > 991) return;
+            // Удаляем класс, чтобы остановить анимацию
+            item.classList.remove('facts__item--jumping');
+        });
+
+        // Основное событие для открытия/закрытия аккордеона
+        header.addEventListener('click', toggleJumpAnimation);
     });
 }
 
@@ -202,9 +231,10 @@ function initScrollAnimations() {
         .getPropertyValue('--parallax-intensity'), 10) || 0;
         
     let isTicking = false;
+    
 
     const handleHeaderScroll = () => {
-        const scrollThreshold = 50;
+        const scrollThreshold = 250;
         if (window.scrollY > scrollThreshold) {
             document.body.classList.add('scrolled');
         } else {
