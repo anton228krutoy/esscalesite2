@@ -1,341 +1,782 @@
 <!DOCTYPE html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esscale — Инновационное консалтинговое агентство: аналитика, ML, IT-разработка</title>
-    
-    <!-- Стили подключаются напрямую для лучшей производительности -->
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="fonts/fontstyle.css">
-    <link rel="stylesheet" href="css/headline.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="/images/logo.svg" type="images/svg+xml">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            Esscale — Инновационное консалтинговое агентство: аналитика, ML,
+            IT-разработка
+        </title>
 
-    <!-- SEO базовое -->
-<link rel="canonical" href="https://esscale.ru/">
-<meta name="description" content="Esscale — инновационное консалтинговое агентство. Аналитика, бизнес-процессы, машинное обучение, IT-разработка и математические модели для бизнеса.">
-<meta name="robots" content="index, follow">
+        <!-- Preload критических ресурсов -->
+        <link rel="preload" href="fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="fonts/SpaceGrotesk-Medium.woff2" as="font" type="font/woff2" crossorigin>
+        <link rel="preload" href="images/logo.svg" as="image">
+        
+        <!-- DNS prefetch для внешних ресурсов -->
+        <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+        
+        <!-- Стили подключаются напрямую для лучшей производительности -->
+        <link rel="stylesheet" href="css/reset.css" />
+        <link rel="stylesheet" href="fonts/fontstyle.css" />
+        <link rel="stylesheet" href="css/headline.css" />
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
 
-<!-- Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://esscale.ru/">
-<meta property="og:title" content="Esscale — консалтинговое агентство">
-<meta property="og:description" content="Аналитика, ML, оптимизация процессов, веб и мобильные решения.">
-<meta property="og:image" content="https://esscale.ru/images/logo.svg">
+        <!-- SEO базовое -->
+        <link rel="canonical" href="https://esscale.ru/" />
+        <meta
+            name="description"
+            content="Esscale — инновационное консалтинговое агентство. Аналитика, бизнес-процессы, машинное обучение, IT-разработка и математические модели для бизнеса."
+        />
+        <meta name="robots" content="index, follow" />
+        <meta name="keywords" content="консалтинг, аналитика данных, машинное обучение, IT-разработка, бизнес-процессы, Python, Django, React, ML, AI" />
+        <meta name="author" content="Esscale" />
+        <meta name="theme-color" content="#4ADBC8" />
 
-<!-- Schema.org: инфа о компании -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Esscale",
-  "url": "https://esscale.ru/",
-  "logo": "https://esscale.ru/images/logo.svg",
-  "contactPoint": [{
-    "@type": "ContactPoint",
-    "telephone": "+7-911-950-9944",
-    "contactType": "customer service",
-    "areaServed": "RU",
-    "availableLanguage": ["ru"]
-  }],
-  "sameAs": [
-    "https://vk.com/esscalegroup",
-    "https://t.me/esscalegroup",
-    "https://www.instagram.com/esscalegroup"
-  ]
-}
-</script>
+        <!-- Open Graph -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://esscale.ru/" />
+        <meta
+            property="og:title"
+            content="Esscale — консалтинговое агентство"
+        />
+        <meta
+            property="og:description"
+            content="Аналитика, ML, оптимизация процессов, веб и мобильные решения."
+        />
+        <meta
+            property="og:image"
+            content="https://esscale.ru/images/logo.svg"
+        />
 
-<!-- Schema.org: навигация (чтобы Яндекс понял разделы) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  "name": "Разделы сайта Esscale",
-  "itemListElement": [
-    { "@type": "SiteNavigationElement", "position": 1, "name": "О компании", "url": "https://esscale.ru/#aboutus" },
-    { "@type": "SiteNavigationElement", "position": 2, "name": "Направления деятельности", "url": "https://esscale.ru/#interests" },
-    { "@type": "SiteNavigationElement", "position": 3, "name": "Разработки", "url": "https://esscale.ru/#developments" },
-    { "@type": "SiteNavigationElement", "position": 4, "name": "Контакты", "url": "https://esscale.ru/#contact" }
-  ]
-}
-</script>
-</head>
-<body>
+        <!-- Schema.org: инфа о компании -->
+        <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Esscale",
+              "url": "https://esscale.ru/",
+              "logo": "https://esscale.ru/images/logo.svg",
+              "contactPoint": [{
+                "@type": "ContactPoint",
+                "telephone": "+7-911-950-9944",
+                "contactType": "customer service",
+                "areaServed": "RU",
+                "availableLanguage": ["ru"]
+              }],
+              "sameAs": [
+                "https://vk.com/esscalegroup",
+                "https://t.me/esscalegroup",
+                "https://www.instagram.com/esscalegroup"
+              ]
+            }
+        </script>
 
-    <div id="particles-js"></div>
-    
-    <header class="header">
-        <div class="container">
-            <div class="header__iner">
-                <a href="/" class="logo">
-                    <img src="images/logo.svg" alt="Esscale Logo">
-                </a>
-                <nav class="menu">
-                    <a href="https://t.me/EsscaleBot" target="_blank" class="menu__workwith">Работа с нами</a>
-                    <ul class="menu__list">
-                        <li class="menu__item"><a href="#interests" class="menu__link">Направления деятельности</a></li> 
-                        <li class="menu__item"><a href="#aboutus" class="menu__link">О компании</a></li>
-                        <li class="menu__item"><a href="#developments" class="menu__link">Разработки</a></li>
-                        <li class="menu__item"><a href="#contact" class="menu__link">Контакты</a></li>
-                    </ul>
-                </nav>
-                <a href="https://t.me/esscalechat" target="_blank" class="header__workwith">Работа с нами</a> 
-                <div class="menu-btn" type="button" tabindex="0" aria-label="Открыть меню">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-        </div>
-    </header>
+        <!-- Schema.org: навигация (чтобы Яндекс понял разделы) -->
+        <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "ItemList",
+              "name": "Разделы сайта Esscale",
+              "itemListElement": [
+                { "@type": "SiteNavigationElement", "position": 1, "name": "О компании", "url": "https://esscale.ru/#aboutus" },
+                { "@type": "SiteNavigationElement", "position": 2, "name": "Направления деятельности", "url": "https://esscale.ru/#interests" },
+                { "@type": "SiteNavigationElement", "position": 3, "name": "Разработки", "url": "https://esscale.ru/#developments" },
+                { "@type": "SiteNavigationElement", "position": 4, "name": "Контакты", "url": "https://esscale.ru/#contact" }
+              ]
+            }
+        </script>
+    </head>
+    <body>
+        <div id="particles-js"></div>
 
-    <main class="main">
-        <section class="hero">
-            <div class="container-big">
-                <div class="hero__content">
-                    <h1 class="title__company" data-text="Esscale">Esscale</h1>
-                    <p class="title__accent" data-text="Инновационное консалтинговое агентство">Инновационное консалтинговое агентство</p>
-                    
-                    <a href="#interests" class="hero__scroll-down" aria-label="Прокрутить вниз">
-                        <span></span>
+        <header class="header">
+            <div class="container">
+                <div class="header__iner">
+                    <a href="/" class="logo">
+                        <img src="images/logo.svg" alt="Esscale Logo" />
                     </a>
-                     
-                </div>
-            </div>
-        </section>
-
-        <!-- ======================================================= -->
-        <!-- === СЕКЦИЯ "ИНТЕРЕСЫ" С ИЗМЕНЕННОЙ СТРУКТУРОЙ === -->
-        <!-- ======================================================= -->
-        <section id="interests" class="facts">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Направления деятельности</h2>
-                    <p>то, чем занимаемся</p>
-                </div>
-                <div class="facts__grid">
-                    <article class="facts__item accordion-item">
-                        <div class="facts__item-header accordion-header"> 
-                            <span class="facts__item-number">1</span>
-                            <h3 class="facts__item-title">Обработка данных</h3>
-                        </div>
-                        <div class="accordion-content">
-                            <p class="facts__item-text">В современном бизнесе огромные объемы неструктурированных данных, и отсутствие единой системы затрудняют развитие любой компании. Используя методы сбора, восстановления, прогнозирования, аналитики и шифрования данных, мы превращаем информационный хаос в ваш мощный инструмент для принятия оптимальных решений.</p>
-                        </div>
-                    </article>
-                    <article class="facts__item accordion-item">
-                        <div class="facts__item-header accordion-header">
-                            <span class="facts__item-number">2</span>
-                            <h3 class="facts__item-title">Налаживание бизнес-процессов</h3>
-                        </div>
-                        <div class="accordion-content">
-                            <p class="facts__item-text">Минимизируем убытки путем оценки эффективности бизнес-процессов. С помощью системного решения, основанного на анализе «узких мест» и математическом моделировании, мы повышаем экономическую эффективность бизнеса, делая процессы прозрачными, управляемыми и менее зависимыми от человеческого фактора.</p>
-                        </div>
-                    </article>
-                    <article class="facts__item accordion-item">
-                        <div class="facts__item-header accordion-header">
-                            <span class="facts__item-number">3</span>
-                            <h3 class="facts__item-title">Использование физико-математического подхода</h3>
-                        </div>
-                        <div class="accordion-content">
-                            <p class="facts__item-text">Наша специализация – прикладная физика. Сочетая методы современного анализа данных и глубокое понимание физических процессов, мы создаем  эффективное решение сложных бизнес-задач. Данный подход актуален для сложных систем, в которых нужно учитывать нетривиальные зависимости.</p>
-                        </div>
-                    </article>
-                    <article class="facts__item accordion-item">
-                        <div class="facts__item-header accordion-header">
-                            <span class="facts__item-number">4</span>
-                            <h3 class="facts__item-title">Сетевое программирование</h3>
-                        </div>
-                        <div class="accordion-content">
-                            <p class="facts__item-text">В цифровом мире эффективность вашего сервиса определяется его взаимодействием с другими системами (серверами, мобильными устройствами, базами данных и др.). Мы создаем надежную IT-архитектуру, которая связывает все компоненты вашего проекта в единый механизм, обеспечивая бесперебойность и высокую скорость работы.</p>
-                        </div>
-                    </article>
-                    <article class="facts__item accordion-item">
-                        <div class="facts__item-header accordion-header">
-                            <span class="facts__item-number">5</span>
-                            <h3 class="facts__item-title">Разработка машинных моделей</h3>
-                        </div>
-                        <div class="accordion-content">
-                            <p class="facts__item-text">Для нестандартных задач в стремительно развивающемся бизнесе классическое программирование неэффективно. Поэтому мы используем новый подход –  машинное обучение. Мы обучаем алгоритмы на реальных примерах, превращая ваш уникальный опыт, накопленный в данных, в мощное конкурентное преимущество.</p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- ======================================================= -->
-        <!-- === СЕКЦИЯ "О КОМПАНИИ" С ИЗМЕНЕННОЙ СТРУКТУРОЙ === -->
-        <!-- ======================================================= -->
-        <section id="aboutus" class="about-timeline">
-            <div class="container">
-                <div class="section-title">
-                    <h2>О компании</h2>
-                    <p>то, что полезно знать</p>
-                </div>
-                <div class="about-timeline__wrapper">
-                    <div class="about-timeline__line">
-                        <article class="about-timeline__item accordion-item">
-                            <div class="about-timeline__item-header accordion-header">
-                                <span class="about-timeline__item-number">1</span>
-                                <h3 class="about-timeline__item-title">Esscale</h3>
-                            </div>
-                            <div class="accordion-content">
-                                <p class="about-timeline__item-text">Это инновационное консалтинговое агентство нового поколения, деятельность которого направлена на решение нетривиальных бизнес-задач с помощью прикладной науки. Объединяя современные методы аналитики, программирования, математического моделирования и машинного обучения, мы создаем мощные конкурентные преимущества для развития вашего бизнеса.</p>
-                            </div>
-                        </article>
-
-                        <article class="about-timeline__item accordion-item">
-                            <div class="about-timeline__item-header accordion-header">
-                                <span class="about-timeline__item-number">2</span>
-                                <h3 class="about-timeline__item-title">Наша миссия</h3>
-                            </div>
-                            <div class="accordion-content">
-                                <p class="about-timeline__item-text">Находить эффективные решения для сложных задач вашего бизнеса с помощью проверенных стратегий и свежих идей.</p>
-                            </div>
-                        </article>
-
-                        <article class="about-timeline__item accordion-item">
-                            <div class="about-timeline__item-header accordion-header">
-                                <span class="about-timeline__item-number">3</span>
-                                <h3 class="about-timeline__item-title">Наш подход</h3>
-                            </div>
-                            <div class="accordion-content">
-                                <p class="about-timeline__item-text">Наш подход основан на междисциплинарных знаниях, научной строгости и глубокой аналитике. Рассматривая технологии как инструмент устойчивого прогресса, мы не просто даем советы, мы работаем с каждым клиентом для достижения реальных результатов, создавая уникальные истории успеха.</p>
-                            </div>
-                        </article>
-
-                        <article class="about-timeline__item accordion-item">
-                            <div class="about-timeline__item-header accordion-header">
-                                <span class="about-timeline__item-number">4</span>
-                                <h3 class="about-timeline__item-title">Наша команда</h3>
-                            </div>
-                            <div class="accordion-content">
-                                <p class="about-timeline__item-text">Наша сила – в людях. Команда Esscale – это начинающие и амбициозные ученые из разных областей современной физики, математики и аналитики. Наша общая цель – создать надежные решения и сделать передовые технологии доступными и прикладными для любого современного бизнеса.</p>
-                            </div>
-                        </article>
-
-                        <article class="about-timeline__item accordion-item">
-                            <div class="about-timeline__item-header accordion-header">
-                                <span class="about-timeline__item-number">5</span>
-                                <h3 class="about-timeline__item-title">Кому будем полезны</h3>
-                            </div>
-                            <div class="accordion-content">
-                                <p class="about-timeline__item-text">Наш опыт ценен для компаний, которые столкнулись с задачами, не имеющими готовых решений. Каждое сотрудничество уникально, нашими клиентами являются обычные пользователи, компании различного масштаба и профиля.</p>
-                            </div>
-                        </article>
-
+                    <nav class="menu">
+                        <a
+                            href="https://t.me/EsscaleBot"
+                            target="_blank"
+                            class="menu__workwith"
+                            >Работа с нами</a
+                        >
+                        <ul class="menu__list">
+                            <li class="menu__item">
+                                <a href="#interests" class="menu__link"
+                                    >Направления деятельности</a
+                                >
+                            </li>
+                            <li class="menu__item">
+                                <a href="#aboutus" class="menu__link"
+                                    >О компании</a
+                                >
+                            </li>
+                            <li class="menu__item">
+                                <a href="#services" class="menu__link"
+                                    >Услуги и прайс</a
+                                >
+                            </li>
+                            <li class="menu__item">
+                                <a href="#developments" class="menu__link"
+                                    >Разработки</a
+                                >
+                            </li>
+                            <li class="menu__item">
+                                <a href="#contact" class="menu__link"
+                                    >Контакты</a
+                                >
+                            </li>
+                        </ul>
+                    </nav>
+                    <a
+                        href="https://t.me/esscalechat"
+                        target="_blank"
+                        class="header__workwith"
+                        >Работа с нами</a
+                    >
+                    <div
+                        class="menu-btn"
+                        type="button"
+                        tabindex="0"
+                        aria-label="Открыть меню"
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
                 </div>
             </div>
-        </section>
+        </header>
 
-        <section id="developments" class="portfolio"> 
-            <div class="container"> 
-                <div class="section-title">
-                    <h2>Разработки</h2>
-                    <p>то, что мы создали</p>
-                </div>
-                
-                <div class="portfolio__filters">
-                    <button class="portfolio__filter-btn active" type="button" data-filter="all">Все проекты</button>
-                    <button class="portfolio__filter-btn" type="button" data-filter="mobile">Мобильные приложения</button>
-                    <button class="portfolio__filter-btn" type="button" data-filter="app">Веб-приложения</button>
-                    <button class="portfolio__filter-btn" type="button" data-filter="software">Сайты</button>
-                </div>
+        <main class="main">
+            <section class="hero">
+                <div class="container-big">
+                    <div class="hero__content">
+                        <h1 class="title__company" data-text="Esscale">
+                            Esscale
+                        </h1>
+                        <p
+                            class="title__accent"
+                            data-text="Инновационное консалтинговое агентство"
+                        >
+                            Инновационное консалтинговое агентство
+                        </p>
 
-                                    <article class="portfolio__item portfolio__item--reverse" data-category="mobile">
-                        <div class="portfolio__item-img">
-                            <img src="images/mobile.png" alt="Сайт 'Esscale group'">
-                        </div>
-                        <div class="portfolio__item-content">
-                            <h3 class="portfolio__item-title">Финансовый учет "scandere"</h3>
-                            <p class="portfolio__item-text">Удобный финансовый учет и математическая модель формирующая KPI. Подробная аналитика помогает принимать правильные решение и иметь полный контроль над вашим бизнесом.</p>
-                            <a href="https://www.instagram.com/p/DNySMyQWPzy/" class="portfolio__item-btn">Узнать больше</a>
-                        </div>
-                    </article>
-
-                <div class="portfolio__list">
-                    <article class="portfolio__item" data-category="app">
-                        <div class="portfolio__item-img">
-                            <img src="images/school.jpg" alt="Онлайн школа 'Школград'"> 
-                        </div>
-                        <div class="portfolio__item-content">
-                            <h3 class="portfolio__item-title">Онлайн школа "ШколГрад"</h3>
-                            <p class="portfolio__item-text">Новые методы обучения, разработанные недавними выпускниками.</p>
-                            <a href="https://t.me/Anvarian" class="portfolio__item-btn">Узнать больше</a>
-                        </div>
-                    </article>
-
-                    <article class="portfolio__item portfolio__item--reverse" data-category="software">
-                        <div class="portfolio__item-img">
-                            <img src="images/sait.png" alt="Сайт 'Esscale group'">
-                        </div>
-                        <div class="portfolio__item-content">
-                            <h3 class="portfolio__item-title">Сайт "Esscale Group"</h3>
-                            <p class="portfolio__item-text">Написан нами, для нас.</p>
-                            <a href="https://github.com/anton228krutoy/esscalesite2.git" class="portfolio__item-btn">Узнать больше</a>
-                        </div>
-                    </article>
-
-                    
-
-                    
-
-                </div>
-            </div>
-        </section>
-
-        <section id="contact" class="contact">
-            <div class="container">
-                <div class="section-title">
-                    <h2>Контакты</h2>
-                    <p>свяжитесь с нами</p>
-                </div>
-                <div class="contact__wrapper">
-                    <div class="contact__socials">
-                        <a href="https://vk.com/esscalegroup" target="_blank" class="contact__social-link" aria-label="VK">
-                            <svg viewBox="-2.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M16.563 15.75c-0.5-0.188-0.5-0.906-0.531-1.406-0.125-1.781 0.5-4.5-0.25-5.656-0.531-0.688-3.094-0.625-4.656-0.531-0.438 0.063-0.969 0.156-1.344 0.344s-0.75 0.5-0.75 0.781c0 0.406 0.938 0.344 1.281 0.875 0.375 0.563 0.375 1.781 0.375 2.781 0 1.156-0.188 2.688-0.656 2.75-0.719 0.031-1.125-0.688-1.5-1.219-0.75-1.031-1.5-2.313-2.063-3.563-0.281-0.656-0.438-1.375-0.844-1.656-0.625-0.438-1.75-0.469-2.844-0.438-1 0.031-2.438-0.094-2.719 0.5-0.219 0.656 0.25 1.281 0.5 1.813 1.281 2.781 2.656 5.219 4.344 7.531 1.563 2.156 3.031 3.875 5.906 4.781 0.813 0.25 4.375 0.969 5.094 0 0.25-0.375 0.188-1.219 0.313-1.844s0.281-1.25 0.875-1.281c0.5-0.031 0.781 0.406 1.094 0.719 0.344 0.344 0.625 0.625 0.875 0.938 0.594 0.594 1.219 1.406 1.969 1.719 1.031 0.438 2.625 0.313 4.125 0.25 1.219-0.031 2.094-0.281 2.188-1 0.063-0.563-0.563-1.375-0.938-1.844-0.938-1.156-1.375-1.5-2.438-2.563-0.469-0.469-1.063-0.969-1.063-1.531-0.031-0.344 0.25-0.656 0.5-1 1.094-1.625 2.188-2.781 3.188-4.469 0.281-0.5 0.938-1.656 0.688-2.219-0.281-0.625-1.844-0.438-2.813-0.438-1.25 0-2.875-0.094-3.188 0.156-0.594 0.406-0.844 1.063-1.125 1.688-0.625 1.438-1.469 2.906-2.344 4-0.313 0.375-0.906 1.156-1.25 1.031z"></path></svg>
-                        </a>
-    
-                        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="contact__social-link" aria-label="YouTube">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.49614 7.13176C9.18664 6.9549 8.80639 6.95617 8.49807 7.13509C8.18976 7.31401 8 7.64353 8 8V16C8 16.3565 8.18976 16.686 8.49807 16.8649C8.80639 17.0438 9.18664 17.0451 9.49614 16.8682L16.4961 12.8682C16.8077 12.6902 17 12.3589 17 12C17 11.6411 16.8077 11.3098 16.4961 11.1318L9.49614 7.13176ZM13.9844 12L10 14.2768V9.72318L13.9844 12Z"/>
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12C0 8.25027 0 6.3754 0.954915 5.06107C1.26331 4.6366 1.6366 4.26331 2.06107 3.95491C3.3754 3 5.25027 3 9 3H15C18.7497 3 20.6246 3 21.9389 3.95491C22.3634 4.26331 22.7367 4.6366 23.0451 5.06107C24 6.3754 24 8.25027 24 12C24 15.7497 24 17.6246 23.0451 18.9389C22.7367 19.3634 22.3634 19.7367 21.9389 20.0451C20.6246 21 18.7497 21 15 21H9C5.25027 21 3.3754 21 2.06107 20.0451C1.6366 19.7367 1.26331 19.3634 0.954915 18.9389C0 17.6246 0 15.7497 0 12ZM9 5H15C16.9194 5 18.1983 5.00275 19.1673 5.10773C20.0989 5.20866 20.504 5.38448 20.7634 5.57295C21.018 5.75799 21.242 5.98196 21.4271 6.23664C21.6155 6.49605 21.7913 6.90113 21.8923 7.83269C21.9973 8.80167 22 10.0806 22 12C22 13.9194 21.9973 15.1983 21.8923 16.1673C21.7913 17.0989 21.6155 17.504 21.4271 17.7634C21.242 18.018 21.018 18.242 20.7634 18.4271C20.504 18.6155 20.0989 18.7913 19.1673 18.8923C18.1983 18.9973 16.9194 19 15 19H9C7.08058 19 5.80167 18.9973 4.83269 18.8923C3.90113 18.7913 3.49605 18.6155 3.23664 18.4271C2.98196 18.242 2.75799 18.018 2.57295 17.7634C2.38448 17.504 2.20866 17.0989 2.10773 16.1673C2.00275 15.1983 2 13.9194 2 12C2 10.0806 2.00275 8.80167 2.10773 7.83269C2.20866 6.90113 2.38448 6.49605 2.57295 6.23664C2.75799 5.98196 2.98196 5.75799 3.23664 5.57295C3.49605 5.38448 3.90113 5.20866 4.83269 5.10773C5.80167 5.00275 7.08058 5 9 5Z"/>
-                            </svg>
-                        </a>
-
-                        <a href="https://t.me/esscalegroup" target="_blank" class="contact__social-link" aria-label="Telegram">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142.3 89.4-61.2-19.1c-13.3-4.2-13.5-13.3 2.8-19.7l239.1-92.2c11.1-4.2 20.8 2.7 17.2 19.5z"/></svg>
-                        </a>
-                        <a href="https://www.instagram.com/esscalegroup?igsh=MXRldW5mOGdwOTZ2dA%3D%3D&utm_source=qr" target="_blank" class="contact__social-link" aria-label="Instagram">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9 26.3 26.2 58 34.4 93.9 36.2 37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-                        </a>
-                        <a href="mailto:esscale@mail.ru?subject=Сотрудничество%20с%20Esscale&body=Здравствуйте,%20меня%20интересует%20сотрудничество." class="contact__social-link" aria-label="Email">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm0 48h416v41.4c-21.9 18.5-53.2 44.1-154.6 127.1-17 14.2-38.6 25.8-63.4 25.8s-46.4-11.6-63.4-25.8C101.2 197.5 69.9 171.9 48 153.4V112zm0 288V206.5c23.2 18 56.6 45.4 158.4 128.8 18.2 14.9 40.3 23.8 63.6 23.8s45.4-8.8 63.6-23.8C407.4 251.9 440.8 224.5 464 206.5V400H48z"/></svg>
+                        <a
+                            href="#interests"
+                            class="hero__scroll-down"
+                            aria-label="Прокрутить вниз"
+                        >
+                            <span></span>
                         </a>
                     </div>
-
-                    <div class="contact__details">
-                        <p>Юр. адрес: г. Москва, ул. Инноваторов, д. 1, оф. 404</p>
-                        <p>Email: <a href="mailto:esscale@mail.ru">esscale@mail.ru</a></p>
-                        <p>Телефон: <a href="tel:+79119509944">+7 (911) 950-99-44</a></p>
-                    </div>
-                    
-
                 </div>
-                
+            </section>
+
+            <!-- ======================================================= -->
+            <!-- === СЕКЦИЯ "ИНТЕРЕСЫ" С ИЗМЕНЕННОЙ СТРУКТУРОЙ === -->
+            <!-- ======================================================= -->
+            <section id="interests" class="facts">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Направления деятельности</h2>
+                        <p>то, чем занимаемся</p>
+                    </div>
+                    <div class="facts__grid">
+                        <article class="facts__item accordion-item">
+                            <div class="facts__item-header accordion-header">
+                                <span class="facts__item-number">1</span>
+                                <h3 class="facts__item-title">
+                                    Обработка данных
+                                </h3>
+                            </div>
+                            <div class="accordion-content">
+                                <p class="facts__item-text">
+                                    В современном бизнесе огромные объемы
+                                    неструктурированных данных, и отсутствие
+                                    единой системы затрудняют развитие любой
+                                    компании. Используя методы сбора,
+                                    восстановления, прогнозирования, аналитики и
+                                    шифрования данных, мы превращаем
+                                    информационный хаос в ваш мощный инструмент
+                                    для принятия оптимальных решений.
+                                </p>
+                            </div>
+                        </article>
+                        <article class="facts__item accordion-item">
+                            <div class="facts__item-header accordion-header">
+                                <span class="facts__item-number">2</span>
+                                <h3 class="facts__item-title">
+                                    Налаживание бизнес-процессов
+                                </h3>
+                            </div>
+                            <div class="accordion-content">
+                                <p class="facts__item-text">
+                                    Минимизируем убытки путем оценки
+                                    эффективности бизнес-процессов. С помощью
+                                    системного решения, основанного на анализе
+                                    «узких мест» и математическом моделировании,
+                                    мы повышаем экономическую эффективность
+                                    бизнеса, делая процессы прозрачными,
+                                    управляемыми и менее зависимыми от
+                                    человеческого фактора.
+                                </p>
+                            </div>
+                        </article>
+                        <article class="facts__item accordion-item">
+                            <div class="facts__item-header accordion-header">
+                                <span class="facts__item-number">3</span>
+                                <h3 class="facts__item-title">
+                                    Использование физико-математического подхода
+                                </h3>
+                            </div>
+                            <div class="accordion-content">
+                                <p class="facts__item-text">
+                                    Наша специализация – прикладная физика.
+                                    Сочетая методы современного анализа данных и
+                                    глубокое понимание физических процессов, мы
+                                    создаем эффективное решение сложных
+                                    бизнес-задач. Данный подход актуален для
+                                    сложных систем, в которых нужно учитывать
+                                    нетривиальные зависимости.
+                                </p>
+                            </div>
+                        </article>
+                        <article class="facts__item accordion-item">
+                            <div class="facts__item-header accordion-header">
+                                <span class="facts__item-number">4</span>
+                                <h3 class="facts__item-title">
+                                    Сетевое программирование
+                                </h3>
+                            </div>
+                            <div class="accordion-content">
+                                <p class="facts__item-text">
+                                    В цифровом мире эффективность вашего сервиса
+                                    определяется его взаимодействием с другими
+                                    системами (серверами, мобильными
+                                    устройствами, базами данных и др.). Мы
+                                    создаем надежную IT-архитектуру, которая
+                                    связывает все компоненты вашего проекта в
+                                    единый механизм, обеспечивая бесперебойность
+                                    и высокую скорость работы.
+                                </p>
+                            </div>
+                        </article>
+                        <article class="facts__item accordion-item">
+                            <div class="facts__item-header accordion-header">
+                                <span class="facts__item-number">5</span>
+                                <h3 class="facts__item-title">
+                                    Разработка машинных моделей
+                                </h3>
+                            </div>
+                            <div class="accordion-content">
+                                <p class="facts__item-text">
+                                    Для нестандартных задач в стремительно
+                                    развивающемся бизнесе классическое
+                                    программирование неэффективно. Поэтому мы
+                                    используем новый подход – машинное обучение.
+                                    Мы обучаем алгоритмы на реальных примерах,
+                                    превращая ваш уникальный опыт, накопленный в
+                                    данных, в мощное конкурентное преимущество.
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================= -->
+            <!-- === СЕКЦИЯ "О КОМПАНИИ" С ИЗМЕНЕННОЙ СТРУКТУРОЙ === -->
+            <!-- ======================================================= -->
+            <section id="aboutus" class="about-timeline">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>О компании</h2>
+                        <p>то, что полезно знать</p>
+                    </div>
+                    <div class="about-timeline__wrapper">
+                        <div class="about-timeline__line">
+                            <article
+                                class="about-timeline__item accordion-item"
+                            >
+                                <div
+                                    class="about-timeline__item-header accordion-header"
+                                >
+                                    <span class="about-timeline__item-number"
+                                        >1</span
+                                    >
+                                    <h3 class="about-timeline__item-title">
+                                        Esscale
+                                    </h3>
+                                </div>
+                                <div class="accordion-content">
+                                    <p class="about-timeline__item-text">
+                                        Это инновационное консалтинговое
+                                        агентство нового поколения, деятельность
+                                        которого направлена на решение
+                                        нетривиальных бизнес-задач с помощью
+                                        прикладной науки. Объединяя современные
+                                        методы аналитики, программирования,
+                                        математического моделирования и
+                                        машинного обучения, мы создаем мощные
+                                        конкурентные преимущества для развития
+                                        вашего бизнеса.
+                                    </p>
+                                </div>
+                            </article>
+
+                            <article
+                                class="about-timeline__item accordion-item"
+                            >
+                                <div
+                                    class="about-timeline__item-header accordion-header"
+                                >
+                                    <span class="about-timeline__item-number"
+                                        >2</span
+                                    >
+                                    <h3 class="about-timeline__item-title">
+                                        Наша миссия
+                                    </h3>
+                                </div>
+                                <div class="accordion-content">
+                                    <p class="about-timeline__item-text">
+                                        Находить эффективные решения для сложных
+                                        задач вашего бизнеса с помощью
+                                        проверенных стратегий и свежих идей.
+                                    </p>
+                                </div>
+                            </article>
+
+                            <article
+                                class="about-timeline__item accordion-item"
+                            >
+                                <div
+                                    class="about-timeline__item-header accordion-header"
+                                >
+                                    <span class="about-timeline__item-number"
+                                        >3</span
+                                    >
+                                    <h3 class="about-timeline__item-title">
+                                        Наш подход
+                                    </h3>
+                                </div>
+                                <div class="accordion-content">
+                                    <p class="about-timeline__item-text">
+                                        Наш подход основан на междисциплинарных
+                                        знаниях, научной строгости и глубокой
+                                        аналитике. Рассматривая технологии как
+                                        инструмент устойчивого прогресса, мы не
+                                        просто даем советы, мы работаем с каждым
+                                        клиентом для достижения реальных
+                                        результатов, создавая уникальные истории
+                                        успеха.
+                                    </p>
+                                </div>
+                            </article>
+
+                            <article
+                                class="about-timeline__item accordion-item"
+                            >
+                                <div
+                                    class="about-timeline__item-header accordion-header"
+                                >
+                                    <span class="about-timeline__item-number"
+                                        >4</span
+                                    >
+                                    <h3 class="about-timeline__item-title">
+                                        Наша команда
+                                    </h3>
+                                </div>
+                                <div class="accordion-content">
+                                    <p class="about-timeline__item-text">
+                                        Наша сила – в людях. Команда Esscale –
+                                        это начинающие и амбициозные ученые из
+                                        разных областей современной физики,
+                                        математики и аналитики. Наша общая цель
+                                        – создать надежные решения и сделать
+                                        передовые технологии доступными и
+                                        прикладными для любого современного
+                                        бизнеса.
+                                    </p>
+                                </div>
+                            </article>
+
+                            <article
+                                class="about-timeline__item accordion-item"
+                            >
+                                <div
+                                    class="about-timeline__item-header accordion-header"
+                                >
+                                    <span class="about-timeline__item-number"
+                                        >5</span
+                                    >
+                                    <h3 class="about-timeline__item-title">
+                                        Кому будем полезны
+                                    </h3>
+                                </div>
+                                <div class="accordion-content">
+                                    <p class="about-timeline__item-text">
+                                        Наш опыт ценен для компаний, которые
+                                        столкнулись с задачами, не имеющими
+                                        готовых решений. Каждое сотрудничество
+                                        уникально, нашими клиентами являются
+                                        обычные пользователи, компании
+                                        различного масштаба и профиля.
+                                    </p>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ======================================================= -->
+            <!-- === СЕКЦИЯ "УСЛУГИ И ПРАЙС" === -->
+            <!-- ======================================================= -->
+            <section id="services" class="services">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Услуги и прайс</h2>
+                        <p>
+                            Реализуем сложные IT-проекты, <br />требующие
+                            глубоких научных и инженерных знаний.
+                        </p>
+                    </div>
+
+                    <div class="services__grid">
+                        <!-- Кружок 1 - Верхний левый -->
+                        <div
+                            class="services__circle services__circle--top-left"
+                            data-service="analytics"
+                        >
+                            <div class="services__circle-image">
+                                <img
+                                    src="images/Наукоемкое ПО и R&D.png"
+                                    alt="Аналитика данных"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- Кружок 2 - Верхний правый -->
+                        <div
+                            class="services__circle services__circle--top-right"
+                            data-service="ml"
+                        >
+                            <div class="services__circle-image">
+                                <img
+                                    src="images/Data Science и Machine Learning.png"
+                                    alt="Машинное обучение"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- Кружок 3 - Центральный -->
+                        <div
+                            class="services__circle services__circle--center"
+                            data-service="consulting"
+                        >
+                            <div class="services__circle-image">
+                                <img
+                                    src="images/Консалтинг и Аудит.png"
+                                    alt="Консалтинг"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- Кружок 4 - Нижний левый -->
+                        <div
+                            class="services__circle services__circle--bottom-left"
+                            data-service="development"
+                        >
+                            <div class="services__circle-image">
+                                <img
+                                    src="images/Сложная веб-разработка.png"
+                                    alt="Разработка"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- Кружок 5 - Нижний правый -->
+                        <div
+                            class="services__circle services__circle--bottom-right"
+                            data-service="optimization"
+                        >
+                            <div class="services__circle-image">
+                                <img
+                                    src="images/мобильная.png"
+                                    alt="Оптимизация"
+                                />
+                            </div>
+                        </div>
+
+                        <!-- Кнопка PDF -->
+                        <button
+                            class="services__pdf-button"
+                            onclick="window.open('esscale_pricelist.pdf', '_blank')"
+                        >
+                            Прайс-лист
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Модальные окна для услуг -->
+            <div class="modal-overlay" id="modalOverlay">
+                <div class="modal" id="modal">
+                    <button class="modal__close" id="modalClose">
+                        <span></span>
+                        <span></span>
+                    </button>
+                    <div class="modal__content" id="modalContent">
+                        <!-- Контент будет загружаться динамически -->
+                    </div>
+                </div>
             </div>
-        </section>
-    </main>
 
-    <!-- Подключение библиотеки для частиц -->
-    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
-    <!-- Скрипт инициализации частиц -->
-    <script src="js/particles-init.js"></script>
-    <!-- Единый главный скрипт со всей логикой -->
-    <script src="js/main.js"></script>
+            <section id="developments" class="portfolio">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Разработки</h2>
+                        <p>то, что мы создали</p>
+                    </div>
 
-</body>
+                    <div class="portfolio__filters">
+                        <button
+                            class="portfolio__filter-btn active"
+                            type="button"
+                            data-filter="all"
+                        >
+                            Все проекты
+                        </button>
+                        <button
+                            class="portfolio__filter-btn"
+                            type="button"
+                            data-filter="mobile"
+                        >
+                            Мобильные приложения
+                        </button>
+                        <button
+                            class="portfolio__filter-btn"
+                            type="button"
+                            data-filter="app"
+                        >
+                            Веб-приложения
+                        </button>
+                        <button
+                            class="portfolio__filter-btn"
+                            type="button"
+                            data-filter="software"
+                        >
+                            Сайты
+                        </button>
+                    </div>
+
+                    <article
+                        class="portfolio__item portfolio__item--reverse"
+                        data-category="mobile"
+                    >
+                        <div class="portfolio__item-img">
+                            <img
+                                src="images/mobile.png"
+                                alt="Сайт 'Esscale group'"
+                            />
+                        </div>
+                        <div class="portfolio__item-content">
+                            <h3 class="portfolio__item-title">
+                                Финансовый учет "scandere"
+                            </h3>
+                            <p class="portfolio__item-text">
+                                Удобный финансовый учет и математическая модель
+                                формирующая KPI. Подробная аналитика помогает
+                                принимать правильные решение и иметь полный
+                                контроль над вашим бизнесом.
+                            </p>
+                            <a
+                                href="https://www.instagram.com/p/DNySMyQWPzy/"
+                                class="portfolio__item-btn"
+                                >Узнать больше</a
+                            >
+                        </div>
+                    </article>
+
+                    <div class="portfolio__list">
+                        <article class="portfolio__item" data-category="app">
+                            <div class="portfolio__item-img">
+                                <img
+                                    src="images/school.jpg"
+                                    alt="Онлайн школа 'Школград'"
+                                />
+                            </div>
+                            <div class="portfolio__item-content">
+                                <h3 class="portfolio__item-title">
+                                    Онлайн школа "ШколГрад"
+                                </h3>
+                                <p class="portfolio__item-text">
+                                    Новые методы обучения, разработанные
+                                    недавними выпускниками.
+                                </p>
+                                <a
+                                    href="https://t.me/Anvarian"
+                                    class="portfolio__item-btn"
+                                    >Узнать больше</a
+                                >
+                            </div>
+                        </article>
+
+                        <article
+                            class="portfolio__item portfolio__item--reverse"
+                            data-category="software"
+                        >
+                            <div class="portfolio__item-img">
+                                <img
+                                    src="images/sait.png"
+                                    alt="Сайт 'Esscale group'"
+                                />
+                            </div>
+                            <div class="portfolio__item-content">
+                                <h3 class="portfolio__item-title">
+                                    Сайт "Esscale Group"
+                                </h3>
+                                <p class="portfolio__item-text">
+                                    Написан нами, для нас.
+                                </p>
+                                <a
+                                    href="https://github.com/anton228krutoy/esscalesite2.git"
+                                    class="portfolio__item-btn"
+                                    >Узнать больше</a
+                                >
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact" class="contact">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Контакты</h2>
+                        <p>свяжитесь с нами</p>
+                    </div>
+                    <div class="contact__wrapper">
+                        <div class="contact__socials">
+                            <a
+                                href="https://vk.com/esscalegroup"
+                                target="_blank"
+                                class="contact__social-link"
+                                aria-label="VK"
+                            >
+                                <svg
+                                    viewBox="-2.5 0 32 32"
+                                    version="1.1"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M16.563 15.75c-0.5-0.188-0.5-0.906-0.531-1.406-0.125-1.781 0.5-4.5-0.25-5.656-0.531-0.688-3.094-0.625-4.656-0.531-0.438 0.063-0.969 0.156-1.344 0.344s-0.75 0.5-0.75 0.781c0 0.406 0.938 0.344 1.281 0.875 0.375 0.563 0.375 1.781 0.375 2.781 0 1.156-0.188 2.688-0.656 2.75-0.719 0.031-1.125-0.688-1.5-1.219-0.75-1.031-1.5-2.313-2.063-3.563-0.281-0.656-0.438-1.375-0.844-1.656-0.625-0.438-1.75-0.469-2.844-0.438-1 0.031-2.438-0.094-2.719 0.5-0.219 0.656 0.25 1.281 0.5 1.813 1.281 2.781 2.656 5.219 4.344 7.531 1.563 2.156 3.031 3.875 5.906 4.781 0.813 0.25 4.375 0.969 5.094 0 0.25-0.375 0.188-1.219 0.313-1.844s0.281-1.25 0.875-1.281c0.5-0.031 0.781 0.406 1.094 0.719 0.344 0.344 0.625 0.625 0.875 0.938 0.594 0.594 1.219 1.406 1.969 1.719 1.031 0.438 2.625 0.313 4.125 0.25 1.219-0.031 2.094-0.281 2.188-1 0.063-0.563-0.563-1.375-0.938-1.844-0.938-1.156-1.375-1.5-2.438-2.563-0.469-0.469-1.063-0.969-1.063-1.531-0.031-0.344 0.25-0.656 0.5-1 1.094-1.625 2.188-2.781 3.188-4.469 0.281-0.5 0.938-1.656 0.688-2.219-0.281-0.625-1.844-0.438-2.813-0.438-1.25 0-2.875-0.094-3.188 0.156-0.594 0.406-0.844 1.063-1.125 1.688-0.625 1.438-1.469 2.906-2.344 4-0.313 0.375-0.906 1.156-1.25 1.031z"
+                                    ></path>
+                                </svg>
+                            </a>
+
+                            <a
+                                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                                target="_blank"
+                                class="contact__social-link"
+                                aria-label="YouTube"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        fill-rule="evenodd"
+                                        clip-rule="evenodd"
+                                        d="M9.49614 7.13176C9.18664 6.9549 8.80639 6.95617 8.49807 7.13509C8.18976 7.31401 8 7.64353 8 8V16C8 16.3565 8.18976 16.686 8.49807 16.8649C8.80639 17.0438 9.18664 17.0451 9.49614 16.8682L16.4961 12.8682C16.8077 12.6902 17 12.3589 17 12C17 11.6411 16.8077 11.3098 16.4961 11.1318L9.49614 7.13176ZM13.9844 12L10 14.2768V9.72318L13.9844 12Z"
+                                    />
+                                    <path
+                                        fill-rule="evenodd"
+                                        clip-rule="evenodd"
+                                        d="M0 12C0 8.25027 0 6.3754 0.954915 5.06107C1.26331 4.6366 1.6366 4.26331 2.06107 3.95491C3.3754 3 5.25027 3 9 3H15C18.7497 3 20.6246 3 21.9389 3.95491C22.3634 4.26331 22.7367 4.6366 23.0451 5.06107C24 6.3754 24 8.25027 24 12C24 15.7497 24 17.6246 23.0451 18.9389C22.7367 19.3634 22.3634 19.7367 21.9389 20.0451C20.6246 21 18.7497 21 15 21H9C5.25027 21 3.3754 21 2.06107 20.0451C1.6366 19.7367 1.26331 19.3634 0.954915 18.9389C0 17.6246 0 15.7497 0 12ZM9 5H15C16.9194 5 18.1983 5.00275 19.1673 5.10773C20.0989 5.20866 20.504 5.38448 20.7634 5.57295C21.018 5.75799 21.242 5.98196 21.4271 6.23664C21.6155 6.49605 21.7913 6.90113 21.8923 7.83269C21.9973 8.80167 22 10.0806 22 12C22 13.9194 21.9973 15.1983 21.8923 16.1673C21.7913 17.0989 21.6155 17.504 21.4271 17.7634C21.242 18.018 21.018 18.242 20.7634 18.4271C20.504 18.6155 20.0989 18.7913 19.1673 18.8923C18.1983 18.9973 16.9194 19 15 19H9C7.08058 19 5.80167 18.9973 4.83269 18.8923C3.90113 18.7913 3.49605 18.6155 3.23664 18.4271C2.98196 18.242 2.75799 18.018 2.57295 17.7634C2.38448 17.504 2.20866 17.0989 2.10773 16.1673C2.00275 15.1983 2 13.9194 2 12C2 10.0806 2.00275 8.80167 2.10773 7.83269C2.20866 6.90113 2.38448 6.49605 2.57295 6.23664C2.75799 5.98196 2.98196 5.75799 3.23664 5.57295C3.49605 5.38448 3.90113 5.20866 4.83269 5.10773C5.80167 5.00275 7.08058 5 9 5Z"
+                                    />
+                                </svg>
+                            </a>
+
+                            <a
+                                href="https://t.me/esscalegroup"
+                                target="_blank"
+                                class="contact__social-link"
+                                aria-label="Telegram"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 496 512"
+                                >
+                                    <path
+                                        d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142.3 89.4-61.2-19.1c-13.3-4.2-13.5-13.3 2.8-19.7l239.1-92.2c11.1-4.2 20.8 2.7 17.2 19.5z"
+                                    />
+                                </svg>
+                            </a>
+                            <a
+                                href="https://www.instagram.com/esscalegroup?igsh=MXRldW5mOGdwOTZ2dA%3D%3D&utm_source=qr"
+                                target="_blank"
+                                class="contact__social-link"
+                                aria-label="Instagram"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 448 512"
+                                >
+                                    <path
+                                        d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9 26.3 26.2 58 34.4 93.9 36.2 37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
+                                    />
+                                </svg>
+                            </a>
+                            <a
+                                href="mailto:esscale@mail.ru?subject=Сотрудничество%20с%20Esscale&body=Здравствуйте,%20меня%20интересует%20сотрудничество."
+                                class="contact__social-link"
+                                aria-label="Email"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 512 512"
+                                >
+                                    <path
+                                        d="M48 64C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm0 48h416v41.4c-21.9 18.5-53.2 44.1-154.6 127.1-17 14.2-38.6 25.8-63.4 25.8s-46.4-11.6-63.4-25.8C101.2 197.5 69.9 171.9 48 153.4V112zm0 288V206.5c23.2 18 56.6 45.4 158.4 128.8 18.2 14.9 40.3 23.8 63.6 23.8s45.4-8.8 63.6-23.8C407.4 251.9 440.8 224.5 464 206.5V400H48z"
+                                    />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="contact__details">
+                            <p>
+                                Юр. адрес: г. Москва, ул. Инноваторов, д. 1, оф.
+                                404
+                            </p>
+                            <p>
+                                Email:
+                                <a href="mailto:esscale@mail.ru"
+                                    >esscale@mail.ru</a
+                                >
+                            </p>
+                            <p>
+                                Телефон:
+                                <a href="tel:+79119509944"
+                                    >+7 (911) 950-99-44</a
+                                >
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Подключение библиотеки для частиц -->
+        <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+        <!-- Скрипт инициализации частиц -->
+        <script src="js/particles-init.js"></script>
+        <!-- Единый главный скрипт со всей логикой -->
+        <script src="js/main.js"></script>
+    </body>
 </html>
