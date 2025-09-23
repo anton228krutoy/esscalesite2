@@ -1,0 +1,509 @@
+/* sections/services/services.css */
+/* Стили для секции "Услуги и Прайс" */
+
+.services {
+  padding: 6rem 2rem;
+  background: transparent;
+  width: 100%;
+}
+
+.services__header {
+  text-align: left;
+  margin-bottom: 4rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.services__title {
+  font-size: clamp(3rem, 2rem + 4vw, 6rem);
+  font-variation-settings: "wght" var(--main-font-wght-accent, 700);
+  color: var(--font-main-color, #fff);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+}
+
+/* Горизонтальный список услуг */
+.services__carousel {
+  position: relative;
+  margin-bottom: 6rem;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  overflow: hidden;
+}
+
+.services__track {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  padding: 4rem 2rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+  max-width: 100%;
+}
+
+.service-card {
+  flex: 1 1 280px;
+  min-width: 280px;
+  max-width: 350px;
+  height: 400px; /* Фиксированная высота для всех карточек */
+  background: rgba(255, 255, 255, 0.06); /* Мутное стекло */
+  backdrop-filter: blur(20px) saturate(150%); /* Эффект мутного стекла */
+  border: 1px solid rgba(255, 255, 255, 0.12); /* Тонкая светлая граница */
+  border-radius: 20px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.7;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Мягкая тень */
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(77, 225, 205, 0.1) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.service-card:hover::before {
+  opacity: 1;
+}
+
+/* Стили для активной карточки удалены - теперь все карточки одинаковые */
+
+/* Hover эффект для всех карточек */
+.service-card:hover {
+  opacity: 1;
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.12); /* Более яркое мутное стекло при hover */
+  backdrop-filter: blur(25px) saturate(180%); /* Усиленный эффект */
+  border-color: rgba(77, 225, 205, 0.4); /* Светящаяся граница */
+  box-shadow: 0 20px 40px rgba(77, 225, 205, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.service-card__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.service-card__title {
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem);
+  font-variation-settings: "wght" var(--main-font-wght-accent, 600);
+  color: var(--font-main-color, #fff);
+  margin: 0 0 1rem 0;
+  line-height: 1.3;
+}
+
+.service-card__description {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+  flex: 1; /* Занимает доступное пространство */
+  display: flex;
+  align-items: flex-start;
+}
+
+.service-card__button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--font-main-color, #fff);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-variation-settings: "wght" var(--main-font-wght, 500);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+  margin-top: auto; /* Прижимает кнопку к низу */
+}
+
+.service-card__button:hover {
+  background: var(--font-highlight-color, #4de1cd);
+  color: var(--font-main-color, #fff);
+  border-color: var(--font-highlight-color, #4de1cd);
+  transform: translateX(4px);
+}
+
+.service-card__button svg {
+  transition: transform 0.3s ease;
+}
+
+.service-card__button:hover svg {
+  transform: translateX(4px);
+}
+
+
+/* Нижняя секция с прайс-листом */
+.services__bottom {
+  text-align: center;
+  margin-top: 4rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 2rem;
+}
+
+.services__bottom-title {
+  font-size: clamp(2.5rem, 1.5rem + 4vw, 4rem);
+  font-variation-settings: "wght" var(--main-font-wght-accent, 700);
+  color: var(--font-main-color, #fff);
+  margin: 0 0 2rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.services__pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  color: var(--font-main-color, #fff);
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-variation-settings: "wght" var(--main-font-wght, 500);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.services__pdf-btn:hover {
+  background: var(--font-highlight-color, #4de1cd);
+  color: var(--font-main-color, #fff);
+  border-color: var(--font-highlight-color, #4de1cd);
+  transform: translateY(-2px);
+}
+
+.services__pdf-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.services__pdf-btn:hover svg {
+  transform: translateX(4px);
+}
+
+/* Отключаем hover эффекты на сенсорных устройствах */
+@media (hover: none) and (pointer: coarse) {
+  .service-card:hover,
+  .service-card:hover::before,
+  .service-card__button:hover,
+  .service-card__button:hover svg,
+  .services__pdf-btn:hover,
+  .services__pdf-btn:hover svg {
+    transform: none;
+    opacity: inherit;
+    background: inherit;
+    border-color: inherit;
+    color: inherit;
+  }
+}
+
+/* Стили для модальных окон услуг */
+.services_dialog:not([open]) {
+  display: none;
+}
+
+.services_dialog {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  width: min(90vw, 700px);
+  max-width: min(90vw, 700px);
+  background-color: var(--dialog-card-color, rgb(26, 26, 26, 0.95));
+  border: 2px solid var(--card-border-color, rgba(255, 255, 255, 0.1));
+  border-radius: 20px;
+  padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  max-height: min(90vh, calc(100vh - 2rem));
+  overflow-y: auto;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.services_dialog::backdrop {
+  background-color: rgb(0, 0, 0, 0.4);
+  animation: backdrop-fade-in 0.3s ease-out forwards;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.services_dialog[open] {
+  animation: dialog-fade-in 0.3s ease-out forwards;
+}
+
+.services_dialog[open].closing {
+  animation: dialog-fade-out 0.3s ease-out forwards;
+}
+
+.services_dialog[open].closing .services_close-button {
+  transition: none !important;
+  transform: none !important;
+}
+
+.dialog_title {
+  font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.2rem);
+  font-variation-settings: "wght" var(--main-font-wght-accent, 700);
+  color: var(--font-highlight-color, #4de1cd);
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--font-highlight-color, #4de1cd);
+}
+
+.dialog_text {
+  font-size: clamp(1rem, 0.9rem + 0.5vw, 1.2rem);
+  line-height: 1.6;
+  color: var(--font-main-color, #ddd);
+  margin-bottom: 2rem;
+}
+
+.dialog_services {
+  margin-top: 1.5rem;
+}
+
+.dialog_services h4 {
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.4rem);
+  color: var(--font-highlight-color, #4de1cd);
+  margin: 0 0 1rem 0;
+  font-variation-settings: "wght" var(--main-font-wght-accent, 600);
+}
+
+.dialog_services ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dialog_services li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-size: clamp(0.95rem, 0.9rem + 0.3vw, 1.1rem);
+  line-height: 1.5;
+  color: var(--font-main-color, #ddd);
+}
+
+.dialog_services li::before {
+  content: "▶";
+  position: absolute;
+  left: 0;
+  color: var(--font-highlight-color, #4de1cd);
+  font-size: 0.8rem;
+}
+
+.services_close-button {
+  grid-row: 1;
+  justify-self: end;
+  align-self: start;
+  position: relative;
+  background: transparent;
+  border: none;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1001;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.services_close-button:hover {
+  transform: scale(1.2) rotate(90deg);
+}
+
+.services_close-button:active {
+  transform: scale(0.9) rotate(90deg);
+  transition: all 0.1s ease;
+}
+
+.services_close-button::after,
+.services_close-button::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 2px;
+  background: var(--font-main-color, #fff);
+  border-radius: 1px;
+}
+
+.services_close-button::after {
+  transform: rotate(45deg);
+}
+
+.services_close-button::before {
+  transform: rotate(-45deg);
+}
+
+.services_close-button:hover::after,
+.services_close-button:hover::before {
+  background: var(--font-highlight-color, #4de1cd);
+  width: 20px;
+  height: 2.5px;
+}
+
+@media (max-width: 1200px) {
+  .services__track {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .services {
+    padding: 4rem 1rem;
+  }
+  
+  .services__carousel {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .services__track {
+    padding: 4rem 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .services__header {
+    text-align: center;
+  }
+  
+  .service-card {
+    height: 400px; /* Увеличиваем высоту для мобильных */
+    min-width: 250px;
+    max-width: 300px;
+    flex: 1 1 250px;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.08); /* Мутное стекло */
+    backdrop-filter: blur(25px) saturate(180%); /* Эффект мутного стекла */
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Тонкая светлая граница */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Мягкая тень */
+  }
+  
+  .service-card__description {
+    color: rgba(255, 255, 255, 0.95); /* Более яркий текст */
+    font-size: 0.9rem;
+    line-height: 1.5; /* Уменьшаем межстрочный интервал */
+    margin-bottom: 1rem; /* Уменьшаем отступ снизу */
+  }
+  
+  .service-card__title {
+    color: #ffffff; /* Чисто белый цвет для заголовка */
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem; /* Уменьшаем отступ */
+  }
+  
+  .service-card__button {
+    padding: 0.6rem 1.2rem; /* Уменьшаем отступы кнопки */
+    font-size: 0.85rem; /* Уменьшаем размер шрифта */
+    margin-top: 0.5rem; /* Уменьшаем отступ сверху */
+  }
+}
+
+@media (max-width: 480px) {
+  .service-card {
+    height: 380px; /* Увеличиваем высоту для очень маленьких экранов */
+    min-width: 200px;
+    max-width: 280px;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.1); /* Мутное стекло для маленьких экранов */
+    backdrop-filter: blur(30px) saturate(200%); /* Усиленный эффект мутного стекла */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Более заметная граница */
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4); /* Более глубокая тень */
+  }
+  
+  .service-card__title {
+    font-size: 1rem;
+    color: #ffffff; /* Чисто белый цвет */
+    margin-bottom: 0.7rem; /* Уменьшаем отступ */
+  }
+  
+  .service-card__description {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.98); /* Почти белый текст */
+    line-height: 1.4; /* Компактный межстрочный интервал */
+    margin-bottom: 0.8rem; /* Уменьшаем отступ */
+  }
+  
+  .service-card__button {
+    padding: 0.5rem 1rem; /* Еще более компактные отступы */
+    font-size: 0.8rem; /* Еще меньший размер шрифта */
+    margin-top: 0.3rem; /* Минимальный отступ сверху */
+  }
+  
+  /* Адаптация модальных окон для мобильных */
+  .services_dialog {
+    width: min(95vw, calc(100vw - 1rem)) !important;
+    max-width: min(95vw, calc(100vw - 1rem)) !important;
+    padding: 1.5rem;
+    border-radius: 15px;
+    max-height: min(85vh, calc(100vh - 2rem));
+    margin: 0.5rem !important;
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+  }
+  
+  .dialog_title {
+    font-size: clamp(1.2rem, 1.5rem + 1vw, 1.8rem);
+    padding-bottom: 1rem;
+  }
+  
+  .dialog_text {
+    font-size: clamp(0.9rem, 1rem + 0.5vw, 1.2rem);
+    line-height: 1.5;
+  }
+  
+  .dialog_services h4 {
+    font-size: clamp(1rem, 1.1rem + 0.5vw, 1.3rem);
+  }
+  
+  .dialog_services li {
+    font-size: clamp(0.85rem, 0.9rem + 0.3vw, 1rem);
+  }
+  
+  .services_close-button {
+    width: 45px;
+    height: 45px;
+    margin: 0;
+  }
+  
+  .services_close-button::after,
+  .services_close-button::before {
+    width: 24px;
+    height: 3px;
+  }
+}

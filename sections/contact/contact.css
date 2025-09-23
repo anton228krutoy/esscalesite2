@@ -1,0 +1,171 @@
+/* sections/contact/contact.css */
+/* Стили для секции "Контакты" */
+
+.contact {
+  padding: 6rem 0;
+  background: transparent; /* Убираем фон, чтобы видеть частицы */
+}
+
+.contact__wrapper {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact__socials {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 1rem);
+  margin-bottom: 2rem;
+  flex-wrap: wrap; /* Разрешаем перенос иконок на новую строку */
+  max-width: 100%;
+}
+
+.contact__social-link {
+  width: clamp(45px, 12vw, 60px);
+  height: clamp(45px, 12vw, 60px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  text-decoration: none;
+  flex-shrink: 1; /* Позволяем немного сжиматься при необходимости */
+  min-width: 40px; /* Минимальный размер для сохранения кликабельности */
+  min-height: 40px;
+}
+
+.contact__social-link svg {
+  width: clamp(20px, 6vw, 24px);
+  height: clamp(20px, 6vw, 24px);
+  fill: currentColor;
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* Не позволяем сжиматься */
+}
+
+.contact__social-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--font-main-color, #fff);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.social-icon--active {
+  background: var(--font-highlight-color, #4de1cd);
+  color: var(--font-main-color, #fff);
+  border-color: var(--font-highlight-color, #4de1cd);
+}
+
+.social-icon--active img {
+  filter: brightness(0) opacity(1);
+}
+
+.social-icon--active:hover {
+  background: #45c7b5;
+  color: var(--font-main-color, #fff);
+}
+
+.social-icon--active:hover img {
+  filter: brightness(0) opacity(1);
+}
+
+.contact__details {
+  margin-top: 2rem;
+}
+
+.contact__details p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  margin: 0.75rem 0;
+  line-height: 1.6;
+}
+
+.contact__details a {
+  color: var(--font-highlight-color, #4de1cd);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact__details a:hover {
+  color: #45c7b5;
+  text-decoration: underline;
+}
+
+.contact__address {
+  font-variation-settings: "wght" var(--main-font-wght, 500);
+}
+
+/* Отключаем hover эффекты на сенсорных устройствах */
+@media (hover: none) and (pointer: coarse) {
+  .contact__social-link:hover,
+  .social-icon--active:hover,
+  .contact__details a:hover {
+    transform: none;
+    background: inherit;
+    border-color: inherit;
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact {
+    padding: 4rem 0;
+  }
+  
+  .contact__wrapper {
+    padding: clamp(1.5rem, 5vw, 2rem);
+    margin: 0 1rem;
+  }
+  
+  .contact__socials {
+    gap: clamp(0.5rem, 2vw, 0.75rem);
+  }
+  
+  /* Размеры иконок теперь управляются через clamp() в основных стилях */
+  
+  .contact__details p {
+    font-size: clamp(0.9rem, 4vw, 1rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .contact__wrapper {
+    padding: 1.5rem;
+    margin: 0 0.5rem;
+  }
+  
+  .contact__socials {
+    gap: 0.5rem;
+    /* На очень маленьких экранах переносим иконки */
+    justify-content: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .contact__socials {
+    gap: 0.4rem;
+    /* Принудительный перенос на 2 строки для очень узких экранов */
+    max-width: 280px;
+    margin: 0 auto 2rem auto;
+  }
+  
+  .contact__social-link {
+    min-width: 35px;
+    min-height: 35px;
+  }
+  
+  .contact__details p {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+}

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://esscale.ru/sitemap.xml

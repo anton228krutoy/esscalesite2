@@ -1,0 +1,29 @@
+{
+  "name": "Esscale - Инновационное консалтинговое агентство",
+  "short_name": "Esscale",
+  "description": "Инновационное консалтинговое агентство. Аналитика, бизнес-процессы, машинное обучение, IT-разработка и математические модели для бизнеса.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#4ADBC8",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "images/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity", "technology"],
+  "screenshots": [
+    {
+      "src": "images/sait.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}
