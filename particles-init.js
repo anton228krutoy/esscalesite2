@@ -8,7 +8,7 @@ const particlesConfig = {
 
     particles: {
         number: {
-            value: 100, // Количество точек
+            value: 80, // Уменьшаем базовое количество точек
             density: {
                 enable: true,
                 value_area: 800
@@ -43,12 +43,15 @@ const particlesConfig = {
         },
         move: {
             enable: true,
-            speed: 2, // Скорость движения точек
+            speed: 1.5, // Немного уменьшаем скорость для более плавного движения
             direction: "none",
-            random: false,
+            random: true, // Включаем случайность для более естественного движения
             straight: false,
             out_mode: "out",
             bounce: false,
+            attract: {
+                enable: false
+            }
         }
     },
     interactivity: {
@@ -59,25 +62,44 @@ const particlesConfig = {
                 mode: "grab"
             },
             onclick: {
-                enable: true,
-                mode: "push"
+                enable: false
             },
             resize: true
         },
         modes: {
+            connect: {
+                distance: 200,
+                radius: 200,
+                links: {
+                    opacity: 0.8,
+                    color: "#4ADBC8"
+                }
+            },
             grab: {
-                distance: 140,
+                distance: 200,
                 line_linked: {
                     opacity: 1
                 }
             },
-            push: {
-                particles_nb: 3
+            repulse: {
+                distance: 250,
+                duration: 0.6,
+                speed: 2
             }
         }
     },
     retina_detect: true
 };
 
-// Инициализируем анимацию
-tsParticles.load("particles-js", particlesConfig);
+// Инициализируем анимацию с проверкой загрузки библиотеки
+function initParticlesBackground() {
+    if (typeof tsParticles !== 'undefined') {
+        tsParticles.load("particles-js", particlesConfig);
+    } else {
+        // Если библиотека еще не загружена, ждем и пытаемся снова
+        setTimeout(initParticlesBackground, 100);
+    }
+}
+
+// Запускаем инициализацию
+initParticlesBackground();

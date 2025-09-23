@@ -1,0 +1,114 @@
+/* sections/about-us/about-us.css */
+/* Стили для секции "О нас" */
+
+.section_about-us {
+  padding: 4rem 0;
+  display: grid;
+  gap: 4rem;
+}
+
+/* Верхний ряд - две колонки с разделителем */
+.about-us_top-row {
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* Разделительная линия между блоками */
+.about-us_divider {
+  width: 2px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  justify-self: center;
+}
+
+.about-us_card {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.about-us_card-title {
+  font-size: clamp(2.5rem, 2rem + 2vw, 4rem);
+  font-variation-settings: "wght" var(--main-font-wght-accent, 700);
+  color: var(--font-main-color, #fff);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+.about-us_card-text {
+  font-size: clamp(0.9rem, 0.8rem + 0.5vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Блок "Наш подход" */
+.about-us_text {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 3rem;
+  text-align: center;
+}
+
+.about-us_text p {
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.3rem);
+  color: var(--font-main-color, #fff);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Нижний ряд - две колонки с разделителем */
+.about-us_bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+/* Акцентный цвет */
+.accent-colored {
+  color: var(--font-highlight-color, #4de1cd);
+}
+
+@media (width <= 768px) {
+  .section_about-us {
+    gap: 3rem;
+    padding: 3rem 0;
+  }
+
+  .about-us_top-row,
+  .about-us_bottom-row {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .about-us_divider {
+    display: none;
+  }
+
+  .about-us_card {
+    gap: 1.5rem;
+  }
+
+  .about-us_card-title {
+    font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+  }
+
+  .about-us_card-text {
+    font-size: clamp(0.85rem, 0.8rem + 0.25vw, 1rem);
+  }
+
+  .about-us_text {
+    padding: 2rem;
+  }
+
+  .about-us_text p {
+    font-size: clamp(1rem, 0.9rem + 0.5vw, 1.2rem);
+  }
+}

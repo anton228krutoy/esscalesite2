@@ -1,14 +1,15 @@
-html {
-    box-sizing: border-box;
-}
+/* Сброс браузерных стилей */
 
 *,
-*::before,
-*::after {
-    box-sizing: inherit;
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
-body,
+body {
+  margin: 0;
+}
+
 h1,
 h2,
 h3,
@@ -16,42 +17,16 @@ h4,
 h5,
 h6,
 p,
+ul,
+ol,
+li,
 figure,
 picture {
-    margin: 0;
+  margin: 0;
+  padding: 0;
 }
 
-img,
-picture {
-    max-width: 100%;
-    display: block;
-}
-
-ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-input,
-button,
-textarea,
-select {
-    font: inherit;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
+ul,
+ol {
+  list-style: none;
 }

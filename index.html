@@ -1,782 +1,1155 @@
 <!DOCTYPE html>
 <html lang="ru">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>
-            Esscale — Инновационное консалтинговое агентство: аналитика, ML,
-            IT-разработка
-        </title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Esscale — Инновационное консалтинговое агентство: аналитика, ML,
+      IT-разработка
+    </title>
 
-        <!-- Preload критических ресурсов -->
-        <link rel="preload" href="fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
-        <link rel="preload" href="fonts/SpaceGrotesk-Medium.woff2" as="font" type="font/woff2" crossorigin>
-        <link rel="preload" href="images/logo.svg" as="image">
-        
-        <!-- DNS prefetch для внешних ресурсов -->
-        <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-        
-        <!-- Стили подключаются напрямую для лучшей производительности -->
-        <link rel="stylesheet" href="css/reset.css" />
-        <link rel="stylesheet" href="fonts/fontstyle.css" />
-        <link rel="stylesheet" href="css/headline.css" />
-        <link rel="stylesheet" href="css/style.css" />
-        <link rel="icon" href="/images/logo.svg" type="image/svg+xml" />
+    <!-- Подключение иконки сайта -->
+    <link rel="icon" href="./images/favicon.ico" sizes="any" />
+    <link rel="icon" href="./svg/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./images/favicon.png" />
 
-        <!-- SEO базовое -->
-        <link rel="canonical" href="https://esscale.ru/" />
-        <meta
-            name="description"
-            content="Esscale — инновационное консалтинговое агентство. Аналитика, бизнес-процессы, машинное обучение, IT-разработка и математические модели для бизнеса."
-        />
-        <meta name="robots" content="index, follow" />
-        <meta name="keywords" content="консалтинг, аналитика данных, машинное обучение, IT-разработка, бизнес-процессы, Python, Django, React, ML, AI" />
-        <meta name="author" content="Esscale" />
-        <meta name="theme-color" content="#4ADBC8" />
+    <!-- Подключение основных стилей -->
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/variables.css" />
+    <link rel="stylesheet" href="./fonts/fonts.css" />
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/headline.css" />
 
-        <!-- Open Graph -->
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://esscale.ru/" />
-        <meta
-            property="og:title"
-            content="Esscale — консалтинговое агентство"
-        />
-        <meta
-            property="og:description"
-            content="Аналитика, ML, оптимизация процессов, веб и мобильные решения."
-        />
-        <meta
-            property="og:image"
-            content="https://esscale.ru/images/logo.svg"
-        />
+    <!-- Подключение стилей секций-->
+    <link rel="stylesheet" href="./sections/about-us/about-us.css" />
+    <link rel="stylesheet" href="./sections/contact/contact.css" />
+    <link rel="stylesheet" href="./sections/interests/interests.css" />
+    <link rel="stylesheet" href="./sections/portfolio/portfolio.css?v=1.2" />
+    <link rel="stylesheet" href="./sections/services/services.css" />
 
-        <!-- Schema.org: инфа о компании -->
-        <script type="application/ld+json">
-            {
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              "name": "Esscale",
-              "url": "https://esscale.ru/",
-              "logo": "https://esscale.ru/images/logo.svg",
-              "contactPoint": [{
-                "@type": "ContactPoint",
-                "telephone": "+7-911-950-9944",
-                "contactType": "customer service",
-                "areaServed": "RU",
-                "availableLanguage": ["ru"]
-              }],
-              "sameAs": [
-                "https://vk.com/esscalegroup",
-                "https://t.me/esscalegroup",
-                "https://www.instagram.com/esscalegroup"
-              ]
-            }
-        </script>
-
-        <!-- Schema.org: навигация (чтобы Яндекс понял разделы) -->
-        <script type="application/ld+json">
-            {
-              "@context": "https://schema.org",
-              "@type": "ItemList",
-              "name": "Разделы сайта Esscale",
-              "itemListElement": [
-                { "@type": "SiteNavigationElement", "position": 1, "name": "О компании", "url": "https://esscale.ru/#aboutus" },
-                { "@type": "SiteNavigationElement", "position": 2, "name": "Направления деятельности", "url": "https://esscale.ru/#interests" },
-                { "@type": "SiteNavigationElement", "position": 3, "name": "Разработки", "url": "https://esscale.ru/#developments" },
-                { "@type": "SiteNavigationElement", "position": 4, "name": "Контакты", "url": "https://esscale.ru/#contact" }
-              ]
-            }
-        </script>
-    </head>
-    <body>
-        <div id="particles-js"></div>
-
-        <header class="header">
-            <div class="container">
-                <div class="header__iner">
-                    <a href="/" class="logo">
-                        <img src="images/logo.svg" alt="Esscale Logo" />
-                    </a>
-                    <nav class="menu">
-                        <a
-                            href="https://t.me/EsscaleBot"
-                            target="_blank"
-                            class="menu__workwith"
-                            >Работа с нами</a
-                        >
-                        <ul class="menu__list">
-                            <li class="menu__item">
-                                <a href="#interests" class="menu__link"
-                                    >Направления деятельности</a
-                                >
-                            </li>
-                            <li class="menu__item">
-                                <a href="#aboutus" class="menu__link"
-                                    >О компании</a
-                                >
-                            </li>
-                            <li class="menu__item">
-                                <a href="#services" class="menu__link"
-                                    >Услуги и прайс</a
-                                >
-                            </li>
-                            <li class="menu__item">
-                                <a href="#developments" class="menu__link"
-                                    >Разработки</a
-                                >
-                            </li>
-                            <li class="menu__item">
-                                <a href="#contact" class="menu__link"
-                                    >Контакты</a
-                                >
-                            </li>
-                        </ul>
-                    </nav>
-                    <a
-                        href="https://t.me/esscalechat"
-                        target="_blank"
-                        class="header__workwith"
-                        >Работа с нами</a
-                    >
-                    <div
-                        class="menu-btn"
-                        type="button"
-                        tabindex="0"
-                        aria-label="Открыть меню"
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <main class="main">
-            <section class="hero">
-                <div class="container-big">
-                    <div class="hero__content">
-                        <h1 class="title__company" data-text="Esscale">
-                            Esscale
-                        </h1>
-                        <p
-                            class="title__accent"
-                            data-text="Инновационное консалтинговое агентство"
-                        >
-                            Инновационное консалтинговое агентство
-                        </p>
-
-                        <a
-                            href="#interests"
-                            class="hero__scroll-down"
-                            aria-label="Прокрутить вниз"
-                        >
-                            <span></span>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======================================================= -->
-            <!-- === СЕКЦИЯ "ИНТЕРЕСЫ" С ИЗМЕНЕННОЙ СТРУКТУРОЙ === -->
-            <!-- ======================================================= -->
-            <section id="interests" class="facts">
-                <div class="container">
-                    <div class="section-title">
-                        <h2>Направления деятельности</h2>
-                        <p>то, чем занимаемся</p>
-                    </div>
-                    <div class="facts__grid">
-                        <article class="facts__item accordion-item">
-                            <div class="facts__item-header accordion-header">
-                                <span class="facts__item-number">1</span>
-                                <h3 class="facts__item-title">
-                                    Обработка данных
-                                </h3>
-                            </div>
-                            <div class="accordion-content">
-                                <p class="facts__item-text">
-                                    В современном бизнесе огромные объемы
-                                    неструктурированных данных, и отсутствие
-                                    единой системы затрудняют развитие любой
-                                    компании. Используя методы сбора,
-                                    восстановления, прогнозирования, аналитики и
-                                    шифрования данных, мы превращаем
-                                    информационный хаос в ваш мощный инструмент
-                                    для принятия оптимальных решений.
-                                </p>
-                            </div>
-                        </article>
-                        <article class="facts__item accordion-item">
-                            <div class="facts__item-header accordion-header">
-                                <span class="facts__item-number">2</span>
-                                <h3 class="facts__item-title">
-                                    Налаживание бизнес-процессов
-                                </h3>
-                            </div>
-                            <div class="accordion-content">
-                                <p class="facts__item-text">
-                                    Минимизируем убытки путем оценки
-                                    эффективности бизнес-процессов. С помощью
-                                    системного решения, основанного на анализе
-                                    «узких мест» и математическом моделировании,
-                                    мы повышаем экономическую эффективность
-                                    бизнеса, делая процессы прозрачными,
-                                    управляемыми и менее зависимыми от
-                                    человеческого фактора.
-                                </p>
-                            </div>
-                        </article>
-                        <article class="facts__item accordion-item">
-                            <div class="facts__item-header accordion-header">
-                                <span class="facts__item-number">3</span>
-                                <h3 class="facts__item-title">
-                                    Использование физико-математического подхода
-                                </h3>
-                            </div>
-                            <div class="accordion-content">
-                                <p class="facts__item-text">
-                                    Наша специализация – прикладная физика.
-                                    Сочетая методы современного анализа данных и
-                                    глубокое понимание физических процессов, мы
-                                    создаем эффективное решение сложных
-                                    бизнес-задач. Данный подход актуален для
-                                    сложных систем, в которых нужно учитывать
-                                    нетривиальные зависимости.
-                                </p>
-                            </div>
-                        </article>
-                        <article class="facts__item accordion-item">
-                            <div class="facts__item-header accordion-header">
-                                <span class="facts__item-number">4</span>
-                                <h3 class="facts__item-title">
-                                    Сетевое программирование
-                                </h3>
-                            </div>
-                            <div class="accordion-content">
-                                <p class="facts__item-text">
-                                    В цифровом мире эффективность вашего сервиса
-                                    определяется его взаимодействием с другими
-                                    системами (серверами, мобильными
-                                    устройствами, базами данных и др.). Мы
-                                    создаем надежную IT-архитектуру, которая
-                                    связывает все компоненты вашего проекта в
-                                    единый механизм, обеспечивая бесперебойность
-                                    и высокую скорость работы.
-                                </p>
-                            </div>
-                        </article>
-                        <article class="facts__item accordion-item">
-                            <div class="facts__item-header accordion-header">
-                                <span class="facts__item-number">5</span>
-                                <h3 class="facts__item-title">
-                                    Разработка машинных моделей
-                                </h3>
-                            </div>
-                            <div class="accordion-content">
-                                <p class="facts__item-text">
-                                    Для нестандартных задач в стремительно
-                                    развивающемся бизнесе классическое
-                                    программирование неэффективно. Поэтому мы
-                                    используем новый подход – машинное обучение.
-                                    Мы обучаем алгоритмы на реальных примерах,
-                                    превращая ваш уникальный опыт, накопленный в
-                                    данных, в мощное конкурентное преимущество.
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======================================================= -->
-            <!-- === СЕКЦИЯ "О КОМПАНИИ" С ИЗМЕНЕННОЙ СТРУКТУРОЙ === -->
-            <!-- ======================================================= -->
-            <section id="aboutus" class="about-timeline">
-                <div class="container">
-                    <div class="section-title">
-                        <h2>О компании</h2>
-                        <p>то, что полезно знать</p>
-                    </div>
-                    <div class="about-timeline__wrapper">
-                        <div class="about-timeline__line">
-                            <article
-                                class="about-timeline__item accordion-item"
-                            >
-                                <div
-                                    class="about-timeline__item-header accordion-header"
-                                >
-                                    <span class="about-timeline__item-number"
-                                        >1</span
-                                    >
-                                    <h3 class="about-timeline__item-title">
-                                        Esscale
-                                    </h3>
-                                </div>
-                                <div class="accordion-content">
-                                    <p class="about-timeline__item-text">
-                                        Это инновационное консалтинговое
-                                        агентство нового поколения, деятельность
-                                        которого направлена на решение
-                                        нетривиальных бизнес-задач с помощью
-                                        прикладной науки. Объединяя современные
-                                        методы аналитики, программирования,
-                                        математического моделирования и
-                                        машинного обучения, мы создаем мощные
-                                        конкурентные преимущества для развития
-                                        вашего бизнеса.
-                                    </p>
-                                </div>
-                            </article>
-
-                            <article
-                                class="about-timeline__item accordion-item"
-                            >
-                                <div
-                                    class="about-timeline__item-header accordion-header"
-                                >
-                                    <span class="about-timeline__item-number"
-                                        >2</span
-                                    >
-                                    <h3 class="about-timeline__item-title">
-                                        Наша миссия
-                                    </h3>
-                                </div>
-                                <div class="accordion-content">
-                                    <p class="about-timeline__item-text">
-                                        Находить эффективные решения для сложных
-                                        задач вашего бизнеса с помощью
-                                        проверенных стратегий и свежих идей.
-                                    </p>
-                                </div>
-                            </article>
-
-                            <article
-                                class="about-timeline__item accordion-item"
-                            >
-                                <div
-                                    class="about-timeline__item-header accordion-header"
-                                >
-                                    <span class="about-timeline__item-number"
-                                        >3</span
-                                    >
-                                    <h3 class="about-timeline__item-title">
-                                        Наш подход
-                                    </h3>
-                                </div>
-                                <div class="accordion-content">
-                                    <p class="about-timeline__item-text">
-                                        Наш подход основан на междисциплинарных
-                                        знаниях, научной строгости и глубокой
-                                        аналитике. Рассматривая технологии как
-                                        инструмент устойчивого прогресса, мы не
-                                        просто даем советы, мы работаем с каждым
-                                        клиентом для достижения реальных
-                                        результатов, создавая уникальные истории
-                                        успеха.
-                                    </p>
-                                </div>
-                            </article>
-
-                            <article
-                                class="about-timeline__item accordion-item"
-                            >
-                                <div
-                                    class="about-timeline__item-header accordion-header"
-                                >
-                                    <span class="about-timeline__item-number"
-                                        >4</span
-                                    >
-                                    <h3 class="about-timeline__item-title">
-                                        Наша команда
-                                    </h3>
-                                </div>
-                                <div class="accordion-content">
-                                    <p class="about-timeline__item-text">
-                                        Наша сила – в людях. Команда Esscale –
-                                        это начинающие и амбициозные ученые из
-                                        разных областей современной физики,
-                                        математики и аналитики. Наша общая цель
-                                        – создать надежные решения и сделать
-                                        передовые технологии доступными и
-                                        прикладными для любого современного
-                                        бизнеса.
-                                    </p>
-                                </div>
-                            </article>
-
-                            <article
-                                class="about-timeline__item accordion-item"
-                            >
-                                <div
-                                    class="about-timeline__item-header accordion-header"
-                                >
-                                    <span class="about-timeline__item-number"
-                                        >5</span
-                                    >
-                                    <h3 class="about-timeline__item-title">
-                                        Кому будем полезны
-                                    </h3>
-                                </div>
-                                <div class="accordion-content">
-                                    <p class="about-timeline__item-text">
-                                        Наш опыт ценен для компаний, которые
-                                        столкнулись с задачами, не имеющими
-                                        готовых решений. Каждое сотрудничество
-                                        уникально, нашими клиентами являются
-                                        обычные пользователи, компании
-                                        различного масштаба и профиля.
-                                    </p>
-                                </div>
-                            </article>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ======================================================= -->
-            <!-- === СЕКЦИЯ "УСЛУГИ И ПРАЙС" === -->
-            <!-- ======================================================= -->
-            <section id="services" class="services">
-                <div class="container">
-                    <div class="section-title">
-                        <h2>Услуги и прайс</h2>
-                        <p>
-                            Реализуем сложные IT-проекты, <br />требующие
-                            глубоких научных и инженерных знаний.
-                        </p>
-                    </div>
-
-                    <div class="services__grid">
-                        <!-- Кружок 1 - Верхний левый -->
-                        <div
-                            class="services__circle services__circle--top-left"
-                            data-service="analytics"
-                        >
-                            <div class="services__circle-image">
-                                <img
-                                    src="images/Наукоемкое ПО и R&D.png"
-                                    alt="Аналитика данных"
-                                />
-                            </div>
-                        </div>
-
-                        <!-- Кружок 2 - Верхний правый -->
-                        <div
-                            class="services__circle services__circle--top-right"
-                            data-service="ml"
-                        >
-                            <div class="services__circle-image">
-                                <img
-                                    src="images/Data Science и Machine Learning.png"
-                                    alt="Машинное обучение"
-                                />
-                            </div>
-                        </div>
-
-                        <!-- Кружок 3 - Центральный -->
-                        <div
-                            class="services__circle services__circle--center"
-                            data-service="consulting"
-                        >
-                            <div class="services__circle-image">
-                                <img
-                                    src="images/Консалтинг и Аудит.png"
-                                    alt="Консалтинг"
-                                />
-                            </div>
-                        </div>
-
-                        <!-- Кружок 4 - Нижний левый -->
-                        <div
-                            class="services__circle services__circle--bottom-left"
-                            data-service="development"
-                        >
-                            <div class="services__circle-image">
-                                <img
-                                    src="images/Сложная веб-разработка.png"
-                                    alt="Разработка"
-                                />
-                            </div>
-                        </div>
-
-                        <!-- Кружок 5 - Нижний правый -->
-                        <div
-                            class="services__circle services__circle--bottom-right"
-                            data-service="optimization"
-                        >
-                            <div class="services__circle-image">
-                                <img
-                                    src="images/мобильная.png"
-                                    alt="Оптимизация"
-                                />
-                            </div>
-                        </div>
-
-                        <!-- Кнопка PDF -->
-                        <button
-                            class="services__pdf-button"
-                            onclick="window.open('esscale_pricelist.pdf', '_blank')"
-                        >
-                            Прайс-лист
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Модальные окна для услуг -->
-            <div class="modal-overlay" id="modalOverlay">
-                <div class="modal" id="modal">
-                    <button class="modal__close" id="modalClose">
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <div class="modal__content" id="modalContent">
-                        <!-- Контент будет загружаться динамически -->
-                    </div>
-                </div>
+    <!-- Подключение стилей анимаций -->
+    <link rel="stylesheet" href="./css/animations.css" />
+  </head>
+  <body>
+    <!-- Контейнер для частиц на заднем плане -->
+    <div id="particles-js"></div>
+    
+    <header class="header">
+      <nav class="nav">
+        <div class="nav__brand">
+          <a href="#" class="nav__logo">
+            <svg width="32" height="39" viewBox="0 0 261 318" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M244.871 0C255.623 1.8251e-05 260.999 5.39467 260.999 16.1836V154.513C260.999 155.815 260.921 157.039 260.764 158.184C260.523 159.94 260.352 161.715 260.352 163.487V301.816C260.352 312.605 254.975 318 244.224 318H16.1279C5.37594 318 0 312.605 0 301.816V163.487C0 162.184 0.078158 160.96 0.234761 159.814C0.474721 158.058 0.647461 156.285 0.647461 154.513V16.1836C0.647461 5.39465 6.0234 0 16.7754 0H244.871ZM41.209 60.418C37.5696 60.418 34.2484 62.7138 33.591 66.2933C33.5066 66.7529 33.4688 67.227 33.4688 67.6943V87.335C33.4688 117.158 57.6454 141.335 87.4688 141.335H109.885C120.637 141.335 126.013 146.73 126.013 157.519C126.013 168.307 120.637 173.702 109.885 173.702H87.4688C57.6454 173.702 33.4688 197.879 33.4688 227.702V254.898C33.4688 255.072 33.49 255.246 33.5335 255.414C33.7676 256.32 34.5982 256.931 35.5333 256.931H99.4103C106.405 256.931 112.895 252.308 112.896 245.313V208.955C112.896 198.166 118.271 192.771 129.023 192.771C139.775 192.771 145.151 198.166 145.151 208.955V244.161C145.151 245.829 145.25 247.474 145.442 249.09C146.007 253.848 150.404 256.931 155.196 256.931C159.245 256.931 163.286 257.64 167.335 257.64H217.234C222.391 257.64 227.156 254.373 227.783 249.255V230.723C227.783 200.899 203.607 176.723 173.783 176.723H151.367C140.615 176.723 135.239 171.328 135.239 160.539C135.239 149.75 140.616 144.356 151.367 144.355H173.783C203.607 144.355 227.783 120.179 227.783 90.3555V64.2825C227.783 64.037 227.757 63.7905 227.701 63.5513C227.365 62.1003 226.038 61.127 224.549 61.127H161.511C154.555 61.127 148.104 65.7302 148.104 72.6865V109.045C148.104 119.834 142.727 125.228 131.976 125.229C121.224 125.229 115.847 119.834 115.847 109.045V73.8389C115.847 72.1113 115.741 70.4086 115.535 68.7367C114.967 64.121 110.706 61.127 106.056 61.127C102.007 61.127 97.9657 60.418 93.9172 60.418H41.209Z" fill="currentColor"/>
+            </svg>
+          </a>
+        </div>
+        <ul class="nav__menu">
+          <li class="nav__item">
+            <a href="#about" class="nav__link">О нас</a>
+          </li>
+          <li class="nav__item">
+            <a href="#interests" class="nav__link">Интересы</a>
+          </li>
+          <li class="nav__item">
+            <a href="#services" class="nav__link">Услуги</a>
+          </li>
+          <li class="nav__item">
+            <a href="#developments" class="nav__link">Портфолио</a>
+          </li>
+          <li class="nav__item">
+            <a href="#contact" class="nav__link">Контакты</a>
+          </li>
+          <li class="nav__item nav__item--mobile-cta">
+            <a href="#contact" class="nav__cta-button nav__cta-button--mobile">Работа с нами</a>
+          </li>
+        </ul>
+        <div class="nav__actions">
+          <a href="#contact" class="nav__cta-button">Работа с нами</a>
+          <div class="nav__toggle" id="nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main class="main">
+      <!-- Главная секция с заголовком -->
+      <section class="hero">
+        <div class="container">
+          <div class="hero__content">
+            <h1 class="hero__title title__company" data-text="Esscale">Esscale</h1>
+            <p class="hero__subtitle title__accent" data-text="Инновационное консалтинговое агентство">Инновационное консалтинговое агентство</p>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Секция "О нас" -->
+      <section id="about" class="about-us">
+        <div class="container">
+          <div class="section-title">
+            <h2>О нас</h2>
+            <p>инновационное консалтинговое агентство</p>
+          </div>
+          
+          <!-- Контент из about-us.html -->
+          <section class="section_about-us">
+            <!-- Верхний ряд: Кто мы? | Наша миссия -->
+            <div class="about-us_top-row">
+              <article class="about-us_card">
+                <h2 class="about-us_card-title">
+                  кто <span class="accent-colored">мы</span>?
+                </h2>
+                <p class="about-us_card-text">
+                  ESSCALE - это инновационное консалтинговое агентство нового поколения,
+                  деятельность которого направлена на решение нетривиальных бизнес-задач
+                  с помощью прикладной науки. Объединяя современные методы аналитики,
+                  программирования, математического моделирования и машинного обучения, мы
+                  создаем мощные конкурентные преимущества для развития вашего бизнеса.
+                </p>
+              </article>
+              
+              <div class="about-us_divider"></div>
+              
+              <article class="about-us_card">
+                <h2 class="about-us_card-title">
+                  наша <span class="accent-colored">миссия</span>
+                </h2>
+                <p class="about-us_card-text">
+                  Находить эффективные решения для сложных задач вашего бизнеса с помощью
+                  проверенных стратегий и свежих идей.
+                </p>
+              </article>
             </div>
 
-            <section id="developments" class="portfolio">
-                <div class="container">
-                    <div class="section-title">
-                        <h2>Разработки</h2>
-                        <p>то, что мы создали</p>
+            <!-- Блок "Наш подход" -->
+            <div class="about-us_text">
+              <p>
+                <span class="accent-colored">Наш подход</span> основан на
+                междисциплинарных знаниях, научной строгости и глубокой аналитике.
+                Рассматривая технологии как инструмент устойчивого прогресса, мы не просто
+                даем советы, мы работаем с каждым клиентом для достижения реальных
+                результатов, создавая уникальные истории
+                <span class="accent-colored">успеха</span>.
+              </p>
+            </div>
+
+            <!-- Нижний ряд: Команда | Кому будем полезны -->
+            <div class="about-us_bottom-row">
+              <article class="about-us_card">
+                <h2 class="about-us_card-title">
+                  <span class="accent-colored">к</span>оманда
+                </h2>
+                <p class="about-us_card-text">
+                  Наша сила – в людях.<br />
+                  Команда Esscale – это начинающие и амбициозные ученые из разных областей
+                  современной физики, математики и аналитики. Наша общая цель – создать
+                  надежные решения и сделать передовые технологии доступными и прикладными
+                  для любого современного бизнеса.
+                </p>
+              </article>
+              
+              <div class="about-us_divider"></div>
+              
+              <article class="about-us_card">
+                <h2 class="about-us_card-title">
+                  кому будем <span class="accent-colored">полезны</span>
+                </h2>
+                <p class="about-us_card-text">
+                  Наш опыт ценен для компаний, которые столкнулись с задачами, не имеющими
+                  готовых решений. Каждое сотрудничество уникально, нашими клиентами
+                  являются обычные пользователи, компании различного масштаба и профиля.
+                </p>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+      <!-- Секция "Интересы" -->
+      <section id="interests" class="interests">
+        <!-- Контент из interests.html -->
+        <section class="section_interests">
+            <h2 class="card-title interests_card-title">
+              чем <span class="accent-colored">мы</span> <br>занимаемся?
+            </h2>
+            <ul class="interests_card-list">
+              <li>
+                <div class="interests_card-item" onclick="document.getElementById('dialog-data').showModal()">
+                  <h3 class="interests_card-item-title">Обработка данных</h3>
+                  <button
+                    class="interests_open-button"
+                    type="button"
+                    onclick="document.getElementById('dialog-data').showModal()"
+                    aria-controls="dialog-data"
+                  >
+                    <div class="interests_button-container">
+                      <span class="interests_button-text">Подробнее</span>
                     </div>
-
-                    <div class="portfolio__filters">
-                        <button
-                            class="portfolio__filter-btn active"
-                            type="button"
-                            data-filter="all"
-                        >
-                            Все проекты
-                        </button>
-                        <button
-                            class="portfolio__filter-btn"
-                            type="button"
-                            data-filter="mobile"
-                        >
-                            Мобильные приложения
-                        </button>
-                        <button
-                            class="portfolio__filter-btn"
-                            type="button"
-                            data-filter="app"
-                        >
-                            Веб-приложения
-                        </button>
-                        <button
-                            class="portfolio__filter-btn"
-                            type="button"
-                            data-filter="software"
-                        >
-                            Сайты
-                        </button>
-                    </div>
-
-                    <article
-                        class="portfolio__item portfolio__item--reverse"
-                        data-category="mobile"
-                    >
-                        <div class="portfolio__item-img">
-                            <img
-                                src="images/mobile.png"
-                                alt="Сайт 'Esscale group'"
-                            />
-                        </div>
-                        <div class="portfolio__item-content">
-                            <h3 class="portfolio__item-title">
-                                Финансовый учет "scandere"
-                            </h3>
-                            <p class="portfolio__item-text">
-                                Удобный финансовый учет и математическая модель
-                                формирующая KPI. Подробная аналитика помогает
-                                принимать правильные решение и иметь полный
-                                контроль над вашим бизнесом.
-                            </p>
-                            <a
-                                href="https://www.instagram.com/p/DNySMyQWPzy/"
-                                class="portfolio__item-btn"
-                                >Узнать больше</a
-                            >
-                        </div>
-                    </article>
-
-                    <div class="portfolio__list">
-                        <article class="portfolio__item" data-category="app">
-                            <div class="portfolio__item-img">
-                                <img
-                                    src="images/school.jpg"
-                                    alt="Онлайн школа 'Школград'"
-                                />
-                            </div>
-                            <div class="portfolio__item-content">
-                                <h3 class="portfolio__item-title">
-                                    Онлайн школа "ШколГрад"
-                                </h3>
-                                <p class="portfolio__item-text">
-                                    Новые методы обучения, разработанные
-                                    недавними выпускниками.
-                                </p>
-                                <a
-                                    href="https://t.me/Anvarian"
-                                    class="portfolio__item-btn"
-                                    >Узнать больше</a
-                                >
-                            </div>
-                        </article>
-
-                        <article
-                            class="portfolio__item portfolio__item--reverse"
-                            data-category="software"
-                        >
-                            <div class="portfolio__item-img">
-                                <img
-                                    src="images/sait.png"
-                                    alt="Сайт 'Esscale group'"
-                                />
-                            </div>
-                            <div class="portfolio__item-content">
-                                <h3 class="portfolio__item-title">
-                                    Сайт "Esscale Group"
-                                </h3>
-                                <p class="portfolio__item-text">
-                                    Написан нами, для нас.
-                                </p>
-                                <a
-                                    href="https://github.com/anton228krutoy/esscalesite2.git"
-                                    class="portfolio__item-btn"
-                                    >Узнать больше</a
-                                >
-                            </div>
-                        </article>
-                    </div>
+                  </button>
                 </div>
-            </section>
-
-            <section id="contact" class="contact">
-                <div class="container">
-                    <div class="section-title">
-                        <h2>Контакты</h2>
-                        <p>свяжитесь с нами</p>
+                <dialog id="dialog-data" class="interests_dialog" tabindex="-1">
+                  <h3 class="dialog_title">Обработка данных</h3>
+                  <div class="dialog_text">
+                    <p>
+                      В современном бизнесе огромные объемы неструктурированных данных, и 
+                      отсутствие единой системы затрудняют развитие любой компании. 
+                      Используя методы сбора, восстановления, прогнозирования, аналитики и 
+                      шифрования данных, мы превращаем информационный хаос в ваш мощный 
+                      инструмент для принятия оптимальных решений.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    class="interests_close-button"
+                    aria-label="Закрыть диалог"
+                    tabindex="0"
+                  ></button>
+                </dialog>
+              </li>
+              <li>
+                <div class="interests_card-item" onclick="document.getElementById('dialog-physics').showModal()">
+                  <h3 class="interests_card-item-title">Использование физико математического подхода</h3>
+                  <button
+                    class="interests_open-button"
+                    type="button"
+                    onclick="document.getElementById('dialog-physics').showModal()"
+                    aria-controls="dialog-physics"
+                  >
+                    <div class="interests_button-container">
+                      <span class="interests_button-text">Подробнее</span>
                     </div>
-                    <div class="contact__wrapper">
-                        <div class="contact__socials">
-                            <a
-                                href="https://vk.com/esscalegroup"
-                                target="_blank"
-                                class="contact__social-link"
-                                aria-label="VK"
-                            >
-                                <svg
-                                    viewBox="-2.5 0 32 32"
-                                    version="1.1"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M16.563 15.75c-0.5-0.188-0.5-0.906-0.531-1.406-0.125-1.781 0.5-4.5-0.25-5.656-0.531-0.688-3.094-0.625-4.656-0.531-0.438 0.063-0.969 0.156-1.344 0.344s-0.75 0.5-0.75 0.781c0 0.406 0.938 0.344 1.281 0.875 0.375 0.563 0.375 1.781 0.375 2.781 0 1.156-0.188 2.688-0.656 2.75-0.719 0.031-1.125-0.688-1.5-1.219-0.75-1.031-1.5-2.313-2.063-3.563-0.281-0.656-0.438-1.375-0.844-1.656-0.625-0.438-1.75-0.469-2.844-0.438-1 0.031-2.438-0.094-2.719 0.5-0.219 0.656 0.25 1.281 0.5 1.813 1.281 2.781 2.656 5.219 4.344 7.531 1.563 2.156 3.031 3.875 5.906 4.781 0.813 0.25 4.375 0.969 5.094 0 0.25-0.375 0.188-1.219 0.313-1.844s0.281-1.25 0.875-1.281c0.5-0.031 0.781 0.406 1.094 0.719 0.344 0.344 0.625 0.625 0.875 0.938 0.594 0.594 1.219 1.406 1.969 1.719 1.031 0.438 2.625 0.313 4.125 0.25 1.219-0.031 2.094-0.281 2.188-1 0.063-0.563-0.563-1.375-0.938-1.844-0.938-1.156-1.375-1.5-2.438-2.563-0.469-0.469-1.063-0.969-1.063-1.531-0.031-0.344 0.25-0.656 0.5-1 1.094-1.625 2.188-2.781 3.188-4.469 0.281-0.5 0.938-1.656 0.688-2.219-0.281-0.625-1.844-0.438-2.813-0.438-1.25 0-2.875-0.094-3.188 0.156-0.594 0.406-0.844 1.063-1.125 1.688-0.625 1.438-1.469 2.906-2.344 4-0.313 0.375-0.906 1.156-1.25 1.031z"
-                                    ></path>
-                                </svg>
-                            </a>
-
-                            <a
-                                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                                target="_blank"
-                                class="contact__social-link"
-                                aria-label="YouTube"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
-                                        d="M9.49614 7.13176C9.18664 6.9549 8.80639 6.95617 8.49807 7.13509C8.18976 7.31401 8 7.64353 8 8V16C8 16.3565 8.18976 16.686 8.49807 16.8649C8.80639 17.0438 9.18664 17.0451 9.49614 16.8682L16.4961 12.8682C16.8077 12.6902 17 12.3589 17 12C17 11.6411 16.8077 11.3098 16.4961 11.1318L9.49614 7.13176ZM13.9844 12L10 14.2768V9.72318L13.9844 12Z"
-                                    />
-                                    <path
-                                        fill-rule="evenodd"
-                                        clip-rule="evenodd"
-                                        d="M0 12C0 8.25027 0 6.3754 0.954915 5.06107C1.26331 4.6366 1.6366 4.26331 2.06107 3.95491C3.3754 3 5.25027 3 9 3H15C18.7497 3 20.6246 3 21.9389 3.95491C22.3634 4.26331 22.7367 4.6366 23.0451 5.06107C24 6.3754 24 8.25027 24 12C24 15.7497 24 17.6246 23.0451 18.9389C22.7367 19.3634 22.3634 19.7367 21.9389 20.0451C20.6246 21 18.7497 21 15 21H9C5.25027 21 3.3754 21 2.06107 20.0451C1.6366 19.7367 1.26331 19.3634 0.954915 18.9389C0 17.6246 0 15.7497 0 12ZM9 5H15C16.9194 5 18.1983 5.00275 19.1673 5.10773C20.0989 5.20866 20.504 5.38448 20.7634 5.57295C21.018 5.75799 21.242 5.98196 21.4271 6.23664C21.6155 6.49605 21.7913 6.90113 21.8923 7.83269C21.9973 8.80167 22 10.0806 22 12C22 13.9194 21.9973 15.1983 21.8923 16.1673C21.7913 17.0989 21.6155 17.504 21.4271 17.7634C21.242 18.018 21.018 18.242 20.7634 18.4271C20.504 18.6155 20.0989 18.7913 19.1673 18.8923C18.1983 18.9973 16.9194 19 15 19H9C7.08058 19 5.80167 18.9973 4.83269 18.8923C3.90113 18.7913 3.49605 18.6155 3.23664 18.4271C2.98196 18.242 2.75799 18.018 2.57295 17.7634C2.38448 17.504 2.20866 17.0989 2.10773 16.1673C2.00275 15.1983 2 13.9194 2 12C2 10.0806 2.00275 8.80167 2.10773 7.83269C2.20866 6.90113 2.38448 6.49605 2.57295 6.23664C2.75799 5.98196 2.98196 5.75799 3.23664 5.57295C3.49605 5.38448 3.90113 5.20866 4.83269 5.10773C5.80167 5.00275 7.08058 5 9 5Z"
-                                    />
-                                </svg>
-                            </a>
-
-                            <a
-                                href="https://t.me/esscalegroup"
-                                target="_blank"
-                                class="contact__social-link"
-                                aria-label="Telegram"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 496 512"
-                                >
-                                    <path
-                                        d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142.3 89.4-61.2-19.1c-13.3-4.2-13.5-13.3 2.8-19.7l239.1-92.2c11.1-4.2 20.8 2.7 17.2 19.5z"
-                                    />
-                                </svg>
-                            </a>
-                            <a
-                                href="https://www.instagram.com/esscalegroup?igsh=MXRldW5mOGdwOTZ2dA%3D%3D&utm_source=qr"
-                                target="_blank"
-                                class="contact__social-link"
-                                aria-label="Instagram"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 448 512"
-                                >
-                                    <path
-                                        d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9 26.3 26.2 58 34.4 93.9 36.2 37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"
-                                    />
-                                </svg>
-                            </a>
-                            <a
-                                href="mailto:esscale@mail.ru?subject=Сотрудничество%20с%20Esscale&body=Здравствуйте,%20меня%20интересует%20сотрудничество."
-                                class="contact__social-link"
-                                aria-label="Email"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 512 512"
-                                >
-                                    <path
-                                        d="M48 64C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm0 48h416v41.4c-21.9 18.5-53.2 44.1-154.6 127.1-17 14.2-38.6 25.8-63.4 25.8s-46.4-11.6-63.4-25.8C101.2 197.5 69.9 171.9 48 153.4V112zm0 288V206.5c23.2 18 56.6 45.4 158.4 128.8 18.2 14.9 40.3 23.8 63.6 23.8s45.4-8.8 63.6-23.8C407.4 251.9 440.8 224.5 464 206.5V400H48z"
-                                    />
-                                </svg>
-                            </a>
-                        </div>
-
-                        <div class="contact__details">
-                            <p>
-                                Юр. адрес: г. Москва, ул. Инноваторов, д. 1, оф.
-                                404
-                            </p>
-                            <p>
-                                Email:
-                                <a href="mailto:esscale@mail.ru"
-                                    >esscale@mail.ru</a
-                                >
-                            </p>
-                            <p>
-                                Телефон:
-                                <a href="tel:+79119509944"
-                                    >+7 (911) 950-99-44</a
-                                >
-                            </p>
-                        </div>
-                    </div>
+                  </button>
                 </div>
-            </section>
-        </main>
+                <dialog id="dialog-physics" class="interests_dialog" tabindex="-1">
+                  <h3 class="dialog_title">Использование физико математического подхода</h3>
+                  <div class="dialog_text">
+                    <p>
+                      Применяем фундаментальные принципы физики и математики для решения 
+                      сложных бизнес-задач. Используем математическое моделирование, 
+                      численные методы и физические законы для создания точных и 
+                      эффективных решений в различных областях деятельности.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    class="interests_close-button"
+                    aria-label="Закрыть диалог"
+                    tabindex="0"
+                  ></button>
+                </dialog>
+              </li>
+              <li>
+                <div class="interests_card-item" onclick="document.getElementById('dialog-network').showModal()">
+                  <h3 class="interests_card-item-title">Сетевое программирование</h3>
+                  <button
+                    class="interests_open-button"
+                    type="button"
+                    onclick="document.getElementById('dialog-network').showModal()"
+                    aria-controls="dialog-network"
+                  >
+                    <div class="interests_button-container">
+                      <span class="interests_button-text">Подробнее</span>
+                    </div>
+                  </button>
+                </div>
+                <dialog id="dialog-network" class="interests_dialog" tabindex="-1">
+                  <h3 class="dialog_title">Сетевое программирование</h3>
+                  <div class="dialog_text">
+                    <p>
+                      Разрабатываем сложные сетевые решения, распределенные системы и 
+                      высоконагруженные приложения. Создаем архитектуры, способные 
+                      обрабатывать большие объемы данных и обеспечивать стабильную 
+                      работу в условиях высоких нагрузок.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    class="interests_close-button"
+                    aria-label="Закрыть диалог"
+                    tabindex="0"
+                  ></button>
+                </dialog>
+              </li>
+              <li>
+                <div class="interests_card-item" onclick="document.getElementById('dialog-business').showModal()">
+                  <h3 class="interests_card-item-title">Налаживание бизнес-процессов</h3>
+                  <button
+                    class="interests_open-button"
+                    type="button"
+                    onclick="document.getElementById('dialog-business').showModal()"
+                    aria-controls="dialog-business"
+                  >
+                    <div class="interests_button-container">
+                      <span class="interests_button-text">Подробнее</span>
+                    </div>
+                  </button>
+                </div>
+                <dialog id="dialog-business" class="interests_dialog" tabindex="-1">
+                  <h3 class="dialog_title">Налаживание бизнес-процессов</h3>
+                  <div class="dialog_text">
+                    <p>
+                      Оптимизируем и автоматизируем бизнес-процессы компаний, повышая 
+                      их эффективность и снижая операционные расходы. Анализируем 
+                      существующие процессы, выявляем узкие места и предлагаем 
+                      технологические решения для их устранения.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    class="interests_close-button"
+                    aria-label="Закрыть диалог"
+                    tabindex="0"
+                  ></button>
+                </dialog>
+              </li>
+              <li>
+                <div class="interests_card-item" onclick="document.getElementById('dialog-ml').showModal()">
+                  <h3 class="interests_card-item-title">Разработка машинных моделей</h3>
+                  <button
+                    class="interests_open-button"
+                    type="button"
+                    onclick="document.getElementById('dialog-ml').showModal()"
+                    aria-controls="dialog-ml"
+                  >
+                    <div class="interests_button-container">
+                      <span class="interests_button-text">Подробнее</span>
+                    </div>
+                  </button>
+                </div>
+                <dialog id="dialog-ml" class="interests_dialog" tabindex="-1">
+                  <h3 class="dialog_title">Разработка машинных моделей</h3>
+                  <div class="dialog_text">
+                    <p>
+                      Создаем интеллектуальные системы на базе машинного обучения и 
+                      искусственного интеллекта. Разрабатываем предиктивные модели, 
+                      системы рекомендаций, алгоритмы классификации и кластеризации 
+                      для решения специфических задач вашего бизнеса.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    class="interests_close-button"
+                    aria-label="Закрыть диалог"
+                    tabindex="0"
+                  ></button>
+                </dialog>
+              </li>
+            </ul>
+          </section>
+      </section>
+      <!-- Секция "Услуги и Прайс" -->
+      <section id="services" class="services">
+        <div class="services__header">
+          <h2 class="services__title">
+            <span class="accent-text">У</span>СЛУГИ<br>
+            И<br>
+            <span class="accent-text">ПРАЙС</span>
+          </h2>
+        </div>
+        
+        <div class="services__carousel">
+            <div class="services__track">
+              <div class="service-card">
+                <div class="service-card__content">
+                  <h3 class="service-card__title">Консалтинг и Аудит</h3>
+                  <p class="service-card__description">Предоставляем экспертизу для существующих проектов и команд. Помогаем решать сложные технические challenges, проводим аудит и оптимизацию.</p>
+                  <button class="service-card__button" onclick="openServiceDialog('dialog-services-consulting')">
+                    <span>Узнать больше</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
 
-        <!-- Подключение библиотеки для частиц -->
-        <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
-        <!-- Скрипт инициализации частиц -->
-        <script src="js/particles-init.js"></script>
-        <!-- Единый главный скрипт со всей логикой -->
-        <script src="js/main.js"></script>
-    </body>
+              <div class="service-card">
+                <div class="service-card__content">
+                  <h3 class="service-card__title">Сложная веб-разработка</h3>
+                  <p class="service-card__description">Создаем высоконагруженные и функционально богатые веб-системы для решения бизнес-задач. Мы специализируемся на сложных проектах, где важны производительность, масштабируемость и уникальная логика.</p>
+                  <button class="service-card__button" onclick="openServiceDialog('dialog-services-webdev')">
+                    <span>Узнать больше</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="service-card">
+                <div class="service-card__content">
+                  <h3 class="service-card__title">Наукоемкое ПО и R&D</h3>
+                  <p class="service-card__description">Разработка сложного программного обеспечения для научных исследований, инженерного анализа и моделирования физических процессов. Полный цикл: от постановки задачи до внедрения.</p>
+                  <button class="service-card__button" onclick="openServiceDialog('dialog-services-rd')">
+                    <span>Узнать больше</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="service-card">
+                <div class="service-card__content">
+                  <h3 class="service-card__title">Data Science и Machine Learning</h3>
+                  <p class="service-card__description">Превращаем данные в работающие бизнес-решения с помощью ИИ. Специализируемся на сложных проектах, где важна точность прогнозов.</p>
+                  <button class="service-card__button" onclick="openServiceDialog('dialog-services-ml')">
+                    <span>Узнать больше</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <div class="service-card">
+                <div class="service-card__content">
+                  <h3 class="service-card__title">Мобильная разработка</h3>
+                  <p class="service-card__description">Создаем мобильные приложения с комплексной логикой и интеграцией передовых технологий. Специализируемся на нетривиальных проектах.</p>
+                  <button class="service-card__button" onclick="openServiceDialog('dialog-services-mobile')">
+                    <span>Узнать больше</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+             </div>
+           </div>
+          
+          <div class="services__bottom">
+            <h2 class="services__bottom-title">
+              <span class="accent-text">О</span>ЗНАКОМЬСЯ<br>
+              С <span class="accent-text">ПРАЙС-ЛИСТОМ</span>
+            </h2>
+            <a href="./esscale_pricelist.pdf" target="_blank" class="services__pdf-btn">
+              Прайс-лист
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+      </section>
+
+      <!-- Модальные окна для услуг -->
+      <!-- Модальное окно: Консалтинг и Аудит -->
+      <dialog id="dialog-services-consulting" class="services_dialog" tabindex="-1">
+        <h3 class="dialog_title">Консалтинг и Аудит</h3>
+        <div class="dialog_text">
+          <p>Предоставляем экспертизу для существующих проектов и команд. Помогаем решать сложные технические challenges, проводим аудит и оптимизацию.</p>
+          <div class="dialog_services">
+            <h4>Наши услуги:</h4>
+            <ul>
+              <li>IT-консалтинг и технологический консалтинг </li>
+                <li>Аудит кода / code review</li>
+                  <li>Аудит архитектуры программного обеспечения </li>
+                    <li>Оптимизация производительности ПО</li>
+                      <li>Проектирование архитектуры IT-решений </li>
+                        <li>Усиление команды разработки / выделенная команда разработчиков</li>
+
+            </ul>
+          </div>
+        </div>
+        <button class="services_close-button" type="button" aria-label="Закрыть диалог" tabindex="0"></button>
+      </dialog>
+
+      <!-- Модальное окно: Сложная веб-разработка -->
+      <dialog id="dialog-services-webdev" class="services_dialog" tabindex="-1">
+        <h3 class="dialog_title">Сложная веб-разработка</h3>
+        <div class="dialog_text">
+          <p>Создаем высоконагруженные и функционально богатые веб-системы для решения бизнес-задач. Мы специализируемся на сложных проектах, где важны производительность, масштабируемость и уникальная логика.</p>
+          <div class="dialog_services">
+            <h4>Наши услуги:</h4>
+            <ul>
+              <li>Разработка сложных веб-приложений </li>
+                <li>Создание Highload-систем </li>
+                  <li>Создание маркетплейсов под ключ </li>
+                    <li>Разработка SaaS-платформ</li>
+                      <li>Создание API для сервисов </li>
+                        <li> Backend-разработка на Python / Django / Fastapi / C++ </li>
+                          <li>Frontend-разработка на React / Vue / Angular </li>
+                            <li>Full-stack разработка на заказ</li>
+            </ul>
+          </div>
+        </div>
+        <button class="services_close-button" type="button" aria-label="Закрыть диалог" tabindex="0"></button>
+      </dialog>
+
+      <!-- Модальное окно: Наукоемкое ПО и R&D -->
+      <dialog id="dialog-services-rd" class="services_dialog" tabindex="-1">
+        <h3 class="dialog_title">Наукоемкое ПО и R&D</h3>
+        <div class="dialog_text">
+          <p>Разработка сложного программного обеспечения для научных исследований, инженерного анализа и моделирования физических процессов. Полный цикл: от постановки задачи до внедрения.</p>
+          <div class="dialog_services">
+            <h4>Наши услуги:</h4>
+            <ul>
+              <li>Разработка наукоемкого ПО</li>
+              <li>R&D аутсорсинг / R&D as a service</li>
+              <li>Разработка сложного программного обеспечения</li>
+              <li>Разработка наукоемкого софта</li>
+              <li>Разработка ПО для моделирования физических процессов</li>
+              <li>Создание ПО для обработки экспериментальных данных</li>
+              <li>Софт для статистического анализа данных</li>
+              <li>Разработка ПО для обработки сигналов</li>
+
+            </ul>
+          </div>
+        </div>
+        <button class="services_close-button" type="button" aria-label="Закрыть диалог" tabindex="0"></button>
+      </dialog>
+
+      <!-- Модальное окно: Data Science и Machine Learning -->
+      <dialog id="dialog-services-ml" class="services_dialog" tabindex="-1">
+        <h3 class="dialog_title">Data Science и Machine Learning</h3>
+        <div class="dialog_text">
+          <p>Превращаем данные в работающие бизнес-решения с помощью ИИ. Специализируемся на сложных проектах, где важна точность прогнозов.</p>
+          <div class="dialog_services">
+            <h4>Наши услуги:</h4>
+            <ul>
+              <li>Разработка Machine Learning моделей</li>
+              <li>Внедрение машинного обучения в бизнес</li>
+              <li>Разработка систем предиктивной аналитики / прогнозных моделей </li>
+              <li>Анализ Big Data</li>
+              <li>Разработка систем компьютерного зрения (Computer Vision) </li>
+              <li>Разработка алгоритмов распознавания образов / объектов </li>
+              <li>Обработка естественного языка (NLP) на заказ </li>
+              <li>Разработка чат-ботов и голосовых ассистентов</li>
+            </ul>
+          </div>
+        </div>
+        <button class="services_close-button" type="button" aria-label="Закрыть диалог" tabindex="0"></button>
+      </dialog>
+
+      <!-- Модальное окно: Мобильная разработка -->
+      <dialog id="dialog-services-mobile" class="services_dialog" tabindex="-1">
+        <h3 class="dialog_title">Мобильная разработка</h3>
+        <div class="dialog_text">
+          <p>Создаем мобильные приложения с комплексной логикой и интеграцией передовых технологий. Специализируемся на нетривиальных проектах.</p>
+          <div class="dialog_services">
+            <h4>Наши услуги:</h4>
+            <ul>
+              <li>Разработка мобильных приложений под ключ </li>
+                <li>Разработка приложений для IOS/ Android </li>
+                  <li>Кроссплатформенная разработка на Flutter / React Native </li>
+                    <li>Backend-разработка для мобильных приложений </li>
+                      <li>Разработка мобильных приложений с AI/ML</li>
+                        <li>Создание IoT-приложений </li>
+                          <li>Разработка финтех-приложений</li>
+                            <li>Разработка геолокационных сервисов</li>
+            </ul>
+          </div>
+        </div>
+        <button class="services_close-button" type="button" aria-label="Закрыть диалог" tabindex="0"></button>
+      </dialog>
+      
+      <!-- Секция "Портфолио" -->
+      <section id="developments" class="portfolio">
+        <div class="section-title">
+          <h2>Портфолио</h2>
+          <p>наши работы</p>
+        </div>
+
+        <div class="portfolio__filters">
+          <button class="portfolio__filter-btn active" type="button" data-filter="all">
+            Все проекты
+          </button>
+          <button class="portfolio__filter-btn" type="button" data-filter="mobile">
+            Мобильные приложения
+          </button>
+          <button class="portfolio__filter-btn" type="button" data-filter="app">
+            Веб-приложения
+          </button>
+          <button class="portfolio__filter-btn" type="button" data-filter="software">
+            Сайты
+          </button>
+        </div>
+
+        <div class="portfolio__list">
+          <!-- Карточка 1: изображение слева, текст справа -->
+          <article class="portfolio__item" data-category="mobile">
+            <div class="portfolio__item-img">
+              <img src="images/scandere.png" alt="Финансовый учет 'scandere'" />
+            </div>
+            <div class="portfolio__item-content">
+              <h3 class="portfolio__item-title">
+                Финансовый учет "scandere"
+              </h3>
+              <p class="portfolio__item-text">
+                Удобный финансовый учет и математическая модель
+                формирующая KPI. Подробная аналитика помогает
+                принимать правильные решение и иметь полный
+                контроль над вашим бизнесом.
+              </p>
+              <a href="https://www.instagram.com/p/DNySMyQWPzy/" class="portfolio__item-btn">Узнать больше</a>
+            </div>
+          </article>
+          
+          <!-- Карточка 2: изображение слева, текст справа -->
+          <article class="portfolio__item" data-category="app">
+            <div class="portfolio__item-img">
+              <img src="images/school.jpg" alt="Онлайн школа 'Школград'" />
+            </div>
+            <div class="portfolio__item-content">
+              <div class="portfolio__item-status">
+                <span class="status-badge">Проект в разработке</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Карточка 3: изображение слева, текст справа -->
+          <article class="portfolio__item" data-category="software">
+            <div class="portfolio__item-img">
+              <img src="images/sait.png" alt="Сайт 'Esscale group'" />
+            </div>
+            <div class="portfolio__item-content">
+              <h3 class="portfolio__item-title">
+                Сайт "Esscale Group"
+              </h3>
+              <p class="portfolio__item-text">
+                Написан нами, для нас.
+              </p>
+              <a href="https://github.com/anton228krutoy/esscalesite2.git" class="portfolio__item-btn">Узнать больше</a>
+            </div>
+          </article>
+        </div>
+      </section>
+      
+      <!-- Секция "Контакты" -->
+      <section id="contact" class="contact">
+        <div class="container">
+          <div class="section-title">
+            <h2>Контакты</h2>
+            <p>свяжитесь с нами</p>
+          </div>
+          <div class="contact__wrapper">
+            <div class="contact__socials">
+              <a href="https://vk.com/esscalegroup" target="_blank" class="contact__social-link" aria-label="VK">
+                <svg viewBox="-2.5 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.563 15.75c-0.5-0.188-0.5-0.906-0.531-1.406-0.125-1.781 0.5-4.5-0.25-5.656-0.531-0.688-3.094-0.625-4.656-0.531-0.438 0.063-0.969 0.156-1.344 0.344s-0.75 0.5-0.75 0.781c0 0.406 0.938 0.344 1.281 0.875 0.375 0.563 0.375 1.781 0.375 2.781 0 1.156-0.188 2.688-0.656 2.75-0.719 0.031-1.125-0.688-1.5-1.219-0.75-1.031-1.5-2.313-2.063-3.563-0.281-0.656-0.438-1.375-0.844-1.656-0.625-0.438-1.75-0.469-2.844-0.438-1 0.031-2.438-0.094-2.719 0.5-0.219 0.656 0.25 1.281 0.5 1.813 1.281 2.781 2.656 5.219 4.344 7.531 1.563 2.156 3.031 3.875 5.906 4.781 0.813 0.25 4.375 0.969 5.094 0 0.25-0.375 0.188-1.219 0.313-1.844s0.281-1.25 0.875-1.281c0.5-0.031 0.781 0.406 1.094 0.719 0.344 0.344 0.625 0.625 0.875 0.938 0.594 0.594 1.219 1.406 1.969 1.719 1.031 0.438 2.625 0.313 4.125 0.25 1.219-0.031 2.094-0.281 2.188-1 0.063-0.563-0.563-1.375-0.938-1.844-0.938-1.156-1.375-1.5-2.438-2.563-0.469-0.469-1.063-0.969-1.063-1.531-0.031-0.344 0.25-0.656 0.5-1 1.094-1.625 2.188-2.781 3.188-4.469 0.281-0.5 0.938-1.656 0.688-2.219-0.281-0.625-1.844-0.438-2.813-0.438-1.25 0-2.875-0.094-3.188 0.156-0.594 0.406-0.844 1.063-1.125 1.688-0.625 1.438-1.469 2.906-2.344 4-0.313 0.375-0.906 1.156-1.25 1.031z"/>
+                </svg>
+              </a>
+
+              <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank" class="contact__social-link" aria-label="YouTube">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M9.49614 7.13176C9.18664 6.9549 8.80639 6.95617 8.49807 7.13509C8.18976 7.31401 8 7.64353 8 8V16C8 16.3565 8.18976 16.686 8.49807 16.8649C8.80639 17.0438 9.18664 17.0451 9.49614 16.8682L16.4961 12.8682C16.8077 12.6902 17 12.3589 17 12C17 11.6411 16.8077 11.3098 16.4961 11.1318L9.49614 7.13176ZM13.9844 12L10 14.2768V9.72318L13.9844 12Z"/>
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M0 12C0 8.25027 0 6.3754 0.954915 5.06107C1.26331 4.6366 1.6366 4.26331 2.06107 3.95491C3.3754 3 5.25027 3 9 3H15C18.7497 3 20.6246 3 21.9389 3.95491C22.3634 4.26331 22.7367 4.6366 23.0451 5.06107C24 6.3754 24 8.25027 24 12C24 15.7497 24 17.6246 23.0451 18.9389C22.7367 19.3634 22.3634 19.7367 21.9389 20.0451C20.6246 21 18.7497 21 15 21H9C5.25027 21 3.3754 21 2.06107 20.0451C1.6366 19.7367 1.26331 19.3634 0.954915 18.9389C0 17.6246 0 15.7497 0 12ZM9 5H15C16.9194 5 18.1983 5.00275 19.1673 5.10773C20.0989 5.20866 20.504 5.38448 20.7634 5.57295C21.018 5.75799 21.242 5.98196 21.4271 6.23664C21.6155 6.49605 21.7913 6.90113 21.8923 7.83269C21.9973 8.80167 22 10.0806 22 12C22 13.9194 21.9973 15.1983 21.8923 16.1673C21.7913 17.0989 21.6155 17.504 21.4271 17.7634C21.242 18.018 21.018 18.242 20.7634 18.4271C20.504 18.6155 20.0989 18.7913 19.1673 18.8923C18.1983 18.9973 16.9194 19 15 19H9C7.08058 19 5.80167 18.9973 4.83269 18.8923C3.90113 18.7913 3.49605 18.6155 3.23664 18.4271C2.98196 18.242 2.75799 18.018 2.57295 17.7634C2.38448 17.504 2.20866 17.0989 2.10773 16.1673C2.00275 15.1983 2 13.9194 2 12C2 10.0806 2.00275 8.80167 2.10773 7.83269C2.20866 6.90113 2.38448 6.49605 2.57295 6.23664C2.75799 5.98196 2.98196 5.75799 3.23664 5.57295C3.49605 5.38448 3.90113 5.20866 4.83269 5.10773C5.80167 5.00275 7.08058 5 9 5Z"/>
+                </svg>
+              </a>
+
+              <a href="https://t.me/esscalegroup" target="_blank" class="contact__social-link" aria-label="Telegram">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                  <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142.3 89.4-61.2-19.1c-13.3-4.2-13.5-13.3 2.8-19.7l239.1-92.2c11.1-4.2 20.8 2.7 17.2 19.5z"/>
+                </svg>
+              </a>
+              
+              <a href="https://www.instagram.com/esscalegroup?igsh=MXRldW5mOGdwOTZ2dA%3D%3D&utm_source=qr" target="_blank" class="contact__social-link" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                  <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9 26.3 26.2 58 34.4 93.9 36.2 37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+                </svg>
+              </a>
+              
+              <a href="mailto:esscale@mail.ru?subject=Сотрудничество%20с%20Esscale&body=Здравствуйте,%20меня%20интересует%20сотрудничество." class="contact__social-link" aria-label="Email">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                  <path d="M48 64C21.5 64 0 85.5 0 112v288c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V112c0-26.5-21.5-48-48-48H48zm0 48h416v41.4c-21.9 18.5-53.2 44.1-154.6 127.1-17 14.2-38.6 25.8-63.4 25.8s-46.4-11.6-63.4-25.8C101.2 197.5 69.9 171.9 48 153.4V112zm0 288V206.5c23.2 18 56.6 45.4 158.4 128.8 18.2 14.9 40.3 23.8 63.6 23.8s45.4-8.8 63.6-23.8C407.4 251.9 440.8 224.5 464 206.5V400H48z"/>
+                </svg>
+              </a>
+            </div>
+
+            <div class="contact__details">
+              <p>Юр. адрес: г. Москва, ул. Инноваторов, д. 1, оф. 404</p>
+              <p>Email: <a href="mailto:esscale@mail.ru">esscale@mail.ru</a></p>
+              <p>Телефон: <a href="tel:+79119509944">+7 (911) 950-99-44</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Подключение библиотеки для частиц -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    
+    <!-- Подключение скриптов секций -->
+    <script src="./sections/interests/interests.js"></script>
+    <script src="./sections/services/services.js"></script>
+    <script src="./sections/portfolio/portfolio.js?v=1.2"></script>
+    <script src="./particles-init.js"></script>
+
+    <!-- Встроенные скрипты -->
+    <script>
+      // Функция для подключения HTML файлов (по методу с msiter.ru)
+      function includeHTML() {
+        var z, i, elmnt, file, xhttp;
+        console.log('includeHTML: Начинаем загрузку HTML секций...');
+        
+        /* Проходим по всем HTML элементам: */
+        z = document.getElementsByTagName("*");
+        for (i = 0; i < z.length; i++) {
+          elmnt = z[i];
+          /* ищем элементы с определенным атрибутом: */
+          file = elmnt.getAttribute("include-html");
+          if (file) {
+            console.log('includeHTML: Загружаем файл:', file);
+            /* Делаем HTTP запрос, используя значение атрибута в качестве имени файла: */
+            xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+              if (this.readyState == 4) {
+                if (this.status == 200) {
+                  console.log('includeHTML: Успешно загружен:', file);
+                  elmnt.innerHTML = this.responseText;
+                  // Инициализируем функциональность после загрузки
+                  initDynamicContent();
+                }
+                if (this.status == 404) {
+                  console.error('includeHTML: Файл не найден:', file);
+                  elmnt.innerHTML = "Страница не найдена.";
+                }
+                /* Удаляем атрибут и вызываем функцию еще раз: */
+                elmnt.removeAttribute("include-html");
+                includeHTML();
+              }
+            }
+            xhttp.open("GET", file, true);
+            xhttp.send();
+            /* Выходим из функции: */
+            return;
+          }
+        }
+        console.log('includeHTML: Все HTML секции загружены!');
+      }
+      
+       // Инициализация динамически загруженного контента
+       function initDynamicContent() {
+         // Инициализируем кнопки interests, если они появились
+         const serviceButtons = document.querySelectorAll('.service-card__button');
+         if (serviceButtons.length > 0) {
+           console.log('Найдены кнопки service-card, инициализируем...');
+           initInterestsButtons();
+         }
+         
+         // НЕ вызываем инициализацию модальных окон здесь - это делается в DOMContentLoaded
+         // чтобы избежать множественных вызовов
+         
+         // Портфолио заменено на заглушку - инициализация не нужна
+       }
+      
+      // Функция initServicesCircles удалена - теперь используются модальные окна
+      
+      // Функция инициализации модальных окон интересов - теперь в отдельном файле
+      function initInterestsDialogsLocal() {
+        // Проверяем, что функция определена в interests.js
+        if (typeof window.initInterestsDialogs === 'function') {
+          console.log('Вызываем window.initInterestsDialogs()');
+          window.initInterestsDialogs();
+        } else {
+          console.log('initInterestsDialogs: Функция не найдена в interests.js');
+        }
+      }
+      
+      // Функция инициализации модальных окон услуг - теперь в отдельном файле
+      function initServicesDialogsLocal() {
+        // Проверяем, что функция определена в services.js
+        if (typeof window.initServicesDialogs === 'function') {
+          console.log('Вызываем window.initServicesDialogs()');
+          window.initServicesDialogs();
+        } else {
+          console.log('initServicesDialogs: Функция не найдена в services.js');
+        }
+      }
+      
+      // Функция для портфолио удалена - используется заглушка
+
+      // Функция анимации печатания
+      function initHeadlineAnimation() {
+        const mainTitle = document.querySelector('.title__company');
+        const subTitle = document.querySelector('.title__accent');
+
+        function typeWriter(element, text, speed) {
+          return new Promise((resolve) => {
+            element.style.visibility = 'visible';
+            element.textContent = '';
+            element.classList.add('typing-cursor');
+            
+            let i = 0;
+            function type() {
+              if (i < text.length) {
+                element.textContent += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+              } else {
+                element.classList.remove('typing-cursor');
+                resolve();
+              }
+            }
+            type();
+          });
+        }
+
+        async function startHeroAnimation() {
+          const mainTitleText = mainTitle.getAttribute('data-text') || mainTitle.textContent;
+          const subTitleText = subTitle.getAttribute('data-text') || subTitle.textContent;
+          
+          mainTitle.textContent = '';
+          subTitle.textContent = '';
+
+          await typeWriter(mainTitle, mainTitleText, 150);
+          await new Promise(resolve => setTimeout(resolve, 300));
+          await typeWriter(subTitle, subTitleText, 50);
+        }
+
+        setTimeout(startHeroAnimation, 500);
+      }
+
+
+      // Инициализация кнопок interests (пустая функция - кнопок нет)
+      function initInterestsButtons() {
+        // Кнопки убраны из секции interests
+      }
+
+      // Мобильное меню
+      function initMobileMenu() {
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.querySelector('.nav__menu');
+        const navLinks = document.querySelectorAll('.nav__link');
+
+        if (navToggle) {
+          navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            navToggle.classList.toggle('active'); // Анимация бургера
+          });
+        }
+
+        navLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active'); // Возвращаем бургер в исходное состояние
+          });
+        });
+
+        navLinks.forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            
+            if (targetId.startsWith('#')) {
+              const targetSection = document.querySelector(targetId);
+              if (targetSection) {
+                const headerHeight = document.querySelector('.header').offsetHeight;
+                const targetPosition = targetSection.offsetTop - headerHeight;
+                
+                window.scrollTo({
+                  top: targetPosition,
+                  behavior: 'smooth'
+                });
+              }
+            }
+          });
+        });
+
+        window.addEventListener('scroll', function() {
+          const header = document.querySelector('.header');
+          if (window.scrollY > 100) {
+            header.style.background = 'rgba(18, 17, 22, 0.98)';
+            header.style.boxShadow = '0 2px 30px rgba(0, 0, 0, 0.5)';
+          } else {
+            header.style.background = 'rgba(18, 17, 22, 0.95)';
+            header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+          }
+        });
+      }
+
+      // Защита от копирования
+      function initCopyProtection() {
+        // Запрещаем контекстное меню (правый клик)
+        document.addEventListener('contextmenu', function(e) {
+          // Разрешаем контекстное меню для модальных окон
+          if (e.target.closest('dialog')) {
+            return;
+          }
+          e.preventDefault();
+          return false;
+        });
+        
+        // Запрещаем горячие клавиши копирования
+        document.addEventListener('keydown', function(e) {
+          // Разрешаем все клавиши для модальных окон
+          if (e.target.closest('dialog')) {
+            return;
+          }
+          
+          // Ctrl+A (выделить всё)
+          if (e.ctrlKey && e.keyCode === 65) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+C (копировать)
+          if (e.ctrlKey && e.keyCode === 67) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+V (вставить)
+          if (e.ctrlKey && e.keyCode === 86) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+X (вырезать)
+          if (e.ctrlKey && e.keyCode === 88) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+S (сохранить)
+          if (e.ctrlKey && e.keyCode === 83) {
+            e.preventDefault();
+            return false;
+          }
+          // F12 и Ctrl+Shift+I разрешены для разработки
+          // Ctrl+U (исходный код)
+          if (e.ctrlKey && e.keyCode === 85) {
+            e.preventDefault();
+            return false;
+          }
+        });
+        
+        // Запрещаем выделение текста мышью
+        document.addEventListener('selectstart', function(e) {
+          // Разрешаем выделение текста в модальных окнах
+          if (e.target.closest('dialog')) {
+            return;
+          }
+          e.preventDefault();
+          return false;
+        });
+        
+        // Запрещаем drag & drop
+        document.addEventListener('dragstart', function(e) {
+          // Разрешаем drag & drop в модальных окнах
+          if (e.target.closest('dialog')) {
+            return;
+          }
+          e.preventDefault();
+          return false;
+        });
+      }
+
+      // Инициализация всего
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM загружен, запускаем инициализацию...');
+        initCopyProtection();
+        initHeadlineAnimation();
+        initMobileMenu();
+        initPortfolioFilters();
+        // initServicesCircles(); // Функция удалена - используются модальные окна
+      });
+      
+      // Функция инициализации портфолио
+      function initPortfolioFilters() {
+        const filterButtons = document.querySelectorAll('.portfolio__filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio__item');
+        
+        // Функция фильтрации проектов
+        function filterProjects(filter) {
+          portfolioItems.forEach((item, index) => {
+            const category = item.getAttribute('data-category');
+            
+            if (filter === 'all' || category === filter) {
+              // Показываем элемент
+              item.style.display = 'grid';
+              item.style.opacity = '0';
+              item.style.transform = 'translateY(40px) scale(0.95)';
+              item.style.transition = 'all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+              
+              // Анимация появления с задержкой для каждого элемента
+              setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0) scale(1)';
+              }, 150 + (index * 100)); // Увеличиваем задержку для каждого элемента
+            } else {
+              // Скрываем элемент
+              item.style.opacity = '0';
+              item.style.transform = 'translateY(-40px) scale(0.95)';
+              item.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+              
+              setTimeout(() => {
+                item.style.display = 'none';
+              }, 600); // Увеличиваем время скрытия
+            }
+          });
+        }
+        
+        // Обработчики событий для кнопок фильтрации
+        filterButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            // Добавляем небольшую задержку для плавности
+            setTimeout(() => {
+              // Убираем активный класс со всех кнопок
+              filterButtons.forEach(btn => btn.classList.remove('active'));
+              
+              // Добавляем активный класс к нажатой кнопке
+              this.classList.add('active');
+              
+              // Получаем фильтр из data-атрибута
+              const filter = this.getAttribute('data-filter');
+              
+              // Применяем фильтрацию
+              filterProjects(filter);
+            }, 50); // Небольшая задержка для плавности
+          });
+        });
+      }
+
+      // Немедленно закрываем все модальные окна при загрузке скрипта
+      (function() {
+        // Закрываем все диалоги интересов
+        const interestsDialogs = document.querySelectorAll('.interests_dialog[open]');
+        interestsDialogs.forEach(dialog => {
+          dialog.close();
+          dialog.classList.remove('closing');
+        });
+        
+        // Закрываем все диалоги услуг
+        const servicesDialogs = document.querySelectorAll('.services_dialog[open]');
+        servicesDialogs.forEach(dialog => {
+          dialog.close();
+          dialog.classList.remove('closing');
+        });
+        
+        // Восстанавливаем скролл
+        document.body.style.overflow = '';
+        
+        console.log('Модальные окна закрыты при загрузке скрипта');
+      })();
+
+      // Вызываем includeHTML() в конце страницы, как рекомендует msiter.ru
+      includeHTML();
+      
+      // Функция для закрытия всех модальных окон при загрузке
+      function closeAllModals() {
+        // Закрываем все диалоги интересов
+        const interestsDialogs = document.querySelectorAll('.interests_dialog[open]');
+        interestsDialogs.forEach(dialog => {
+          dialog.close();
+          dialog.classList.remove('closing');
+        });
+        
+        // Закрываем все диалоги услуг
+        const servicesDialogs = document.querySelectorAll('.services_dialog[open]');
+        servicesDialogs.forEach(dialog => {
+          dialog.close();
+          dialog.classList.remove('closing');
+        });
+        
+        // Восстанавливаем скролл
+        document.body.style.overflow = '';
+        
+        console.log('Все модальные окна закрыты при загрузке страницы');
+      }
+
+       // Инициализируем секции после загрузки страницы
+       document.addEventListener('DOMContentLoaded', function() {
+         // Предотвращаем множественные вызовы
+         if (window.mainInitialized) {
+           console.log('Основная инициализация уже выполнена, пропускаем...');
+           return;
+         }
+         
+         console.log('DOM загружен, запускаем основную инициализацию...');
+         
+         // Сначала закрываем все модальные окна
+         closeAllModals();
+         
+         setTimeout(() => {
+           console.log('Инициализация секций после загрузки DOM...');
+           
+           // Инициализируем модальные окна только один раз
+           if (!window.modalsInitialized) {
+             console.log('Инициализируем модальные окна...');
+             initInterestsDialogsLocal();
+             initServicesDialogsLocal();
+             window.modalsInitialized = true;
+           } else {
+             console.log('Модальные окна уже инициализированы, пропускаем...');
+           }
+           
+           // Тестируем, что обработчики работают
+           console.log('Тестирование модальных окон:');
+           const interestsDialogs = document.querySelectorAll('.interests_dialog');
+           const servicesDialogs = document.querySelectorAll('.services_dialog');
+           console.log('Найдено диалогов interests:', interestsDialogs.length);
+           console.log('Найдено диалогов services:', servicesDialogs.length);
+           
+           // Тестируем кнопки закрытия
+           const interestsCloseButtons = document.querySelectorAll('.interests_close-button');
+           const servicesCloseButtons = document.querySelectorAll('.services_close-button');
+           console.log('Найдено кнопок закрытия interests:', interestsCloseButtons.length);
+           console.log('Найдено кнопок закрытия services:', servicesCloseButtons.length);
+           
+           // Добавляем глобальные функции для тестирования
+           window.testModalClose = function(dialogId) {
+             const dialog = document.getElementById(dialogId);
+             if (dialog) {
+               console.log('Тестируем закрытие диалога:', dialogId);
+               dialog.showModal();
+               setTimeout(() => {
+                 console.log('Закрываем диалог через 2 секунды');
+                 dialog.close();
+               }, 2000);
+             } else {
+               console.error('Диалог не найден:', dialogId);
+             }
+           };
+           
+           // Функция для тестирования кнопок закрытия
+           window.testCloseButton = function(dialogId) {
+             const dialog = document.getElementById(dialogId);
+             if (dialog) {
+               console.log('🧪 Тестируем кнопку закрытия для диалога:', dialogId);
+               dialog.showModal();
+               
+               const closeButton = dialog.querySelector('.interests_close-button, .services_close-button');
+               if (closeButton) {
+                 console.log('✅ Кнопка закрытия найдена:', closeButton);
+                 console.log('🔍 Проверяем обработчики:', {
+                   hasClickHandler: !!closeButton._clickHandler,
+                   hasTouchendHandler: !!closeButton._touchendHandler,
+                   buttonClass: closeButton.className,
+                   buttonId: closeButton.id || 'no-id'
+                 });
+                 
+                 // Симулируем клик
+                 console.log('🖱️ Симулируем клик по кнопке...');
+                 closeButton.click();
+               } else {
+                 console.error('❌ Кнопка закрытия не найдена в диалоге:', dialogId);
+               }
+             } else {
+               console.error('❌ Диалог не найден:', dialogId);
+             }
+           };
+           
+           // Добавляем глобальный обработчик кликов для отладки
+           document.addEventListener('click', function(event) {
+             const target = event.target;
+             const isDialog = target.tagName === 'DIALOG';
+             const isCloseButton = target.classList.contains('interests_close-button') || 
+                                 target.classList.contains('services_close-button');
+             const isInDialog = target.closest('dialog');
+             
+             if (isDialog || isCloseButton || isInDialog) {
+               console.log('Клик в модальном окне:', {
+                 target: target,
+                 tagName: target.tagName,
+                 className: target.className,
+                 id: target.id,
+                 isDialog: isDialog,
+                 isCloseButton: isCloseButton,
+                 isInDialog: !!isInDialog,
+                 dialogId: isInDialog ? isInDialog.id : null
+               });
+             }
+           });
+           
+           // Помечаем как инициализированное
+           window.mainInitialized = true;
+         }, 100);
+       });
+    </script>
+  </body>
 </html>

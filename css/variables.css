@@ -1,0 +1,17 @@
+/* Глобальные переменные */
+
+:root {
+  --main-font: "Montserrat-VF";
+  --accent-font: "Jura";
+  --bg-color: #121116;
+  --font-main-color: #ddd;
+  --font-accent-color: #fff;
+  --font-highlight-color: #4de1cd;
+  --main-font-wght: 500;
+  --main-font-wght-accent: 700;
+  --card-color: rgba(255, 255, 255, 0.08);
+  --card-border-color: rgba(255, 255, 255, 0.01);
+  --button-text-color: #000;
+  --button-color: #d9d9d9;
+  --dialog-card-color: rgb(26, 26, 26, 0.85);
+}
