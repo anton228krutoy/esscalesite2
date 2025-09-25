@@ -228,7 +228,7 @@
   grid-template-rows: auto 1fr auto;
   width: min(90vw, 700px);
   max-width: min(90vw, 700px);
-  background-color: var(--dialog-card-color, rgb(26, 26, 26, 0.95));
+  background-color: var(--dialog-card-color, rgb(26, 26, 26, 0.98));
   border: 2px solid var(--card-border-color, rgba(255, 255, 255, 0.1));
   border-radius: 20px;
   padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
@@ -727,6 +727,17 @@
     font-size: 0.85rem; /* Уменьшаем размер шрифта */
     margin-top: 0.5rem; /* Уменьшаем отступ сверху */
   }
+  
+  /* Специальные стили для модальных окон услуг на мобильных */
+  .services_dialog {
+    background-color: rgb(26, 26, 26, 0.98) !important; /* Высокая непрозрачность */
+    backdrop-filter: blur(15px) !important; /* Дополнительное размытие */
+  }
+  
+  /* Отступ для заголовка диалога в мобильной версии */
+  .services_dialog .dialog_title {
+    margin-top: 2rem !important; /* Отступ сверху для заголовка */
+  }
 }
 
 @media (max-width: 480px) {
@@ -772,6 +783,8 @@
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
+    background-color: rgb(26, 26, 26, 0.99) !important; /* Максимальная непрозрачность для мобильных */
+    backdrop-filter: blur(10px) !important; /* Дополнительное размытие фона */
   }
   
   .dialog_title {
@@ -802,5 +815,10 @@
   .services_close-button::before {
     width: 24px;
     height: 3px;
+  }
+  
+  /* Дополнительный отступ для заголовка на очень маленьких экранах */
+  .services_dialog .dialog_title {
+    margin-top: 2.5rem !important; /* Больший отступ для очень маленьких экранов */
   }
 }
