@@ -60,11 +60,11 @@
             <a href="#contact" class="nav__link">Контакты</a>
           </li>
           <li class="nav__item nav__item--mobile-cta">
-            <a href="#contact" class="nav__cta-button nav__cta-button--mobile">Работа с нами</a>
+            <a href="https://t.me/esscalechat" class="nav__cta-button nav__cta-button--mobile" target="_blank" rel="noopener noreferrer">Работа с нами</a>
           </li>
         </ul>
         <div class="nav__actions">
-          <a href="#contact" class="nav__cta-button">Работа с нами</a>
+          <a href="https://t.me/esscalechat" class="nav__cta-button" target="_blank" rel="noopener noreferrer">Работа с нами</a>
           <div class="nav__toggle" id="nav-toggle">
             <span></span>
             <span></span>
@@ -809,6 +809,7 @@
         const navToggle = document.getElementById('nav-toggle');
         const navMenu = document.querySelector('.nav__menu');
         const navLinks = document.querySelectorAll('.nav__link');
+        const navCTAButton = document.querySelector('.nav__cta-button--mobile');
 
         if (navToggle) {
           navToggle.addEventListener('click', function() {
@@ -817,12 +818,21 @@
           });
         }
 
+        // Обработчик для всех ссылок меню (включая кнопку "Работа с нами")
         navLinks.forEach(link => {
           link.addEventListener('click', function() {
             navMenu.classList.remove('active');
             navToggle.classList.remove('active'); // Возвращаем бургер в исходное состояние
           });
         });
+
+        // Обработчик для кнопки "Работа с нами" в мобильном меню
+        if (navCTAButton) {
+          navCTAButton.addEventListener('click', function() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active'); // Возвращаем бургер в исходное состояние
+          });
+        }
 
         navLinks.forEach(link => {
           link.addEventListener('click', function(e) {
