@@ -335,6 +335,17 @@ section {
   padding: 0 2rem;
 }
 
+/* Стили для секции "Услуги" без контейнера - полная ширина */
+.services {
+  padding: 5rem 0;
+  width: 100%;
+}
+
+.services .services__header {
+  width: 100%;
+  padding: 0 2rem;
+}
+
 .section-title {
   text-align: center;
   margin-bottom: 3rem;
