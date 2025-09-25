@@ -16,9 +16,9 @@
     transition: color 0.2s ease !important;
   }
   
-  .interests_card-item:hover .interests_open-button {
-    background-color: rgba(77, 225, 205, 0.05) !important;
-    transition: background-color 0.2s ease !important;
+  .interests_card-item:hover .interests_button-container {
+    background-color: var(--button-color, #d9d9d9) !important;
+    transition: none !important;
   }
 }
 
@@ -35,14 +35,15 @@
   .interests_close-button:hover::after,
   .interests_close-button:hover::before {
     transform: none !important;
-    opacity: inherit !important;
-    background: inherit !important;
+    opacity: 1 !important;
+    background: rgba(217, 217, 217, 0.7) !important;
     border-color: inherit !important;
     color: inherit !important;
     box-shadow: none !important;
-    width: inherit !important;
-    height: inherit !important;
+    width: 100% !important;
+    height: 41px !important;
     text-shadow: none !important;
+    visibility: visible !important;
   }
 }
 /* Карточки с информацией*/
@@ -106,8 +107,6 @@
   width: 100%;
   position: relative;
   z-index: 2;
-  transition: none; /* Убираем анимации кнопки */
-  transform: none;
   border: none;
   outline: none;
   background: none;
@@ -145,21 +144,33 @@
   position: relative;
   border: none;
   outline: none;
-  transition: none; /* Убираем анимации контейнера кнопки */
   flex-shrink: 0; /* Предотвращаем сжатие кнопки */
   min-width: 0; /* Позволяем кнопке сжиматься по содержимому */
 }
 
 /* Псевдоэлементы для стрелок удалены, так как SVG стрелки убраны из HTML */
 
-/* Полностью отключаем все эффекты при взаимодействии */
+/* Стабильные стили для кнопки подробнее */
+.interests_open-button {
+  transition: none !important;
+  transform: none !important;
+}
+
 .interests_open-button:hover,
 .interests_open-button:active,
 .interests_open-button:focus {
   outline: none !important;
   border: none !important;
   box-shadow: none !important;
-  background: inherit !important;
+  background: none !important;
+  transform: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.interests_button-container {
+  transition: none !important;
   transform: none !important;
 }
 
@@ -168,12 +179,14 @@
 .interests_button-container:focus {
   outline: none !important;
   border: none !important;
-  background: inherit !important;
+  background: rgba(217, 217, 217, 0.7) !important;
   transform: none !important;
-  width: inherit !important;
-  height: inherit !important;
+  width: 100% !important;
+  height: 41px !important;
   flex-shrink: 0 !important;
-  padding: inherit !important;
+  padding: 10px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .interests_button-text {
