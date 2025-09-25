@@ -3,26 +3,47 @@
 
 /* Принудительное центрирование для мобильных устройств */
 
-/* Полностью отключаем все hover эффекты на всех устройствах */
-.interests_card-item:hover,
-.interests_card-item:hover::before,
-.interests_card-item:hover .interests_open-button,
-.interests_card-item:hover .interests_button-container,
-.interests_open-button:hover,
-.interests_button-container:hover,
-.interests_card-item:hover .interests_card-item-title,
-.interests_close-button:hover,
-.interests_close-button:hover::after,
-.interests_close-button:hover::before {
-  transform: none !important;
-  opacity: inherit !important;
-  background: inherit !important;
-  border-color: inherit !important;
-  color: inherit !important;
-  box-shadow: none !important;
-  width: inherit !important;
-  height: inherit !important;
-  text-shadow: none !important;
+/* Легкое подсвечивание для карточек только на больших экранах */
+@media (min-width: 1025px) {
+  .interests_card-item:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(77, 225, 205, 0.2) !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease !important;
+  }
+  
+  .interests_card-item:hover .interests_card-item-title {
+    color: #4de1cd !important;
+    transition: color 0.2s ease !important;
+  }
+  
+  .interests_card-item:hover .interests_open-button {
+    background-color: rgba(77, 225, 205, 0.05) !important;
+    transition: background-color 0.2s ease !important;
+  }
+}
+
+/* Отключаем hover эффекты на мобильных устройствах */
+@media (max-width: 1024px) {
+  .interests_card-item:hover,
+  .interests_card-item:hover::before,
+  .interests_card-item:hover .interests_open-button,
+  .interests_card-item:hover .interests_button-container,
+  .interests_open-button:hover,
+  .interests_button-container:hover,
+  .interests_card-item:hover .interests_card-item-title,
+  .interests_close-button:hover,
+  .interests_close-button:hover::after,
+  .interests_close-button:hover::before {
+    transform: none !important;
+    opacity: inherit !important;
+    background: inherit !important;
+    border-color: inherit !important;
+    color: inherit !important;
+    box-shadow: none !important;
+    width: inherit !important;
+    height: inherit !important;
+    text-shadow: none !important;
+  }
 }
 /* Карточки с информацией*/
 .section_interests {
@@ -68,29 +89,12 @@
   pointer-events: auto; /* Убеждаемся, что карточка кликабельна */
 }
 
-/* Полностью отключаем все hover эффекты */
-.interests_card-item:hover,
-.interests_card-item:active,
-.interests_card-item:focus {
-  transform: none !important;
-  border-color: inherit;
-  box-shadow: none;
-  background-color: inherit;
-  width: inherit !important;
-  height: inherit !important;
-  flex-shrink: 0 !important;
-  flex-grow: 0 !important;
-}
-
-.interests_card-item:hover .interests_open-button {
-  transform: none;
-  box-shadow: none;
-}
-
-.interests_card-item:hover .interests_card-item-title {
-  color: inherit;
-  transform: none;
-  text-shadow: none;
+/* Стабильные стили для карточек без конфликтов */
+.interests_card-item {
+  box-sizing: border-box;
+  flex-shrink: 0;
+  flex-grow: 0;
+  pointer-events: auto;
 }
 
 /* Убираем светящийся эффект движения */
@@ -338,15 +342,22 @@
   -ms-user-select: none;
 }
 
+/* Стабильные стили для кнопки закрытия */
+.interests_close-button {
+  transition: none !important;
+  transform: none !important;
+}
+
 .interests_close-button:hover {
-  transform: none;
-  background: inherit;
-  color: inherit;
+  transform: none !important;
+  background: transparent !important;
+  color: inherit !important;
+  transition: none !important;
 }
 
 .interests_close-button:active {
-  transform: none;
-  transition: none;
+  transform: none !important;
+  transition: none !important;
 }
 
 .interests_close-button::after,
@@ -357,22 +368,24 @@
   height: 2px;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 1px;
-  transition: none; /* Убираем анимацию элементов кнопки */
+  transition: none !important; /* Убираем анимацию элементов кнопки */
+  transform: none !important;
 }
 
 .interests_close-button::after {
-  transform: rotate(45deg);
+  transform: rotate(45deg) !important;
 }
 
 .interests_close-button::before {
-  transform: rotate(-45deg);
+  transform: rotate(-45deg) !important;
 }
 
 .interests_close-button:hover::after,
 .interests_close-button:hover::before {
-  background: inherit;
-  width: inherit;
-  height: inherit;
+  background: rgba(255, 255, 255, 0.8) !important;
+  width: 18px !important;
+  height: 2px !important;
+  transform: inherit !important;
 }
 
 /* Мобильные стили */
