@@ -1,17 +1,11 @@
 /* sections/services/services.css */
 /* Стили для секции "Услуги и Прайс" */
 
-.services {
-  padding: 6rem 2rem;
-  background: transparent;
-  width: 100%;
-}
-
 .services__header {
   text-align: left;
   margin-bottom: 4rem;
   max-width: 1200px;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
 }
 
@@ -40,7 +34,7 @@
   align-items: center;
   padding: 4rem 2rem;
   justify-content: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   max-width: 100%;
 }
 
@@ -48,7 +42,8 @@
   flex: 1 1 280px;
   min-width: 280px;
   max-width: 350px;
-  height: 400px; /* Фиксированная высота для всех карточек */
+  min-height: 400px; /* Минимальная высота вместо фиксированной */
+  height: auto; /* Автоматическая высота по содержимому */
   background: rgba(255, 255, 255, 0.06); /* Мутное стекло */
   backdrop-filter: blur(20px) saturate(150%); /* Эффект мутного стекла */
   border: 1px solid rgba(255, 255, 255, 0.12); /* Тонкая светлая граница */
@@ -56,12 +51,13 @@
   padding: 2rem;
   transition: all 0.3s ease;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* Позволяем контенту выходить за границы при необходимости */
   opacity: 0.7;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Мягкая тень */
+  box-sizing: border-box; /* Включаем padding в общий размер */
 }
 
 .service-card::before {
@@ -117,6 +113,8 @@
   flex: 1; /* Занимает доступное пространство */
   display: flex;
   align-items: flex-start;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .service-card__button {
@@ -134,6 +132,8 @@
   transition: all 0.3s ease;
   align-self: flex-start;
   margin-top: auto; /* Прижимает кнопку к низу */
+  min-height: 44px; /* Минимальная высота для кнопки */
+  white-space: nowrap; /* Предотвращаем перенос текста в кнопке */
 }
 
 .service-card__button:hover {
@@ -228,7 +228,7 @@
   grid-template-rows: auto 1fr auto;
   width: min(90vw, 700px);
   max-width: min(90vw, 700px);
-  background-color: var(--dialog-card-color, rgb(26, 26, 26, 0.95));
+  background-color: var(--dialog-card-color, rgb(26, 26, 26, 0.98));
   border: 2px solid var(--card-border-color, rgba(255, 255, 255, 0.1));
   border-radius: 20px;
   padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
@@ -372,12 +372,309 @@
   height: 2.5px;
 }
 
-@media (max-width: 1200px) {
+/* Стили для iPad Pro в портретной ориентации */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: portrait) {
+  .services__carousel {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .services__track {
+    flex-wrap: nowrap; /* Карточки в одну строку */
+    justify-content: center;
+    gap: 0.8rem; /* Уменьшаем отступы */
+    padding: 3rem 0.5rem; /* Уменьшаем боковые отступы */
+    max-width: 100%;
+  }
+  
+  .service-card {
+    flex: 1 1 200px; /* Уменьшаем базовый размер */
+    min-width: 180px; /* Уменьшаем минимальную ширину */
+    max-width: 220px; /* Уменьшаем максимальную ширину */
+    min-height: 380px;
+    height: auto;
+  }
+  
+  .service-card__description {
+    font-size: 0.8rem; /* Уменьшаем размер шрифта */
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
+  }
+  
+  .service-card__button {
+    padding: 0.6rem 1rem; /* Уменьшаем отступы кнопки */
+    font-size: 0.8rem;
+  }
+}
+
+/* Стили для iPad в альбомной ориентации */
+@media (min-width: 1024px) and (max-width: 1366px) and (orientation: landscape) {
+  .services__carousel {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .services__track {
+    flex-wrap: nowrap; /* Карточки в одну строку */
+    justify-content: center;
+    gap: 0.6rem; /* Уменьшаем отступы */
+    padding: 3rem 0.3rem; /* Уменьшаем боковые отступы */
+    max-width: 100%;
+  }
+  
+  .service-card {
+    flex: 1 1 180px; /* Уменьшаем базовый размер */
+    min-width: 160px; /* Уменьшаем минимальную ширину */
+    max-width: 200px; /* Уменьшаем максимальную ширину */
+    min-height: 350px;
+    height: auto;
+  }
+  
+  .service-card__description {
+    font-size: 0.75rem; /* Уменьшаем размер шрифта */
+    line-height: 1.2;
+    margin-bottom: 0.6rem;
+  }
+  
+  .service-card__button {
+    padding: 0.5rem 0.8rem; /* Уменьшаем отступы кнопки */
+    font-size: 0.75rem;
+  }
+}
+
+/* Специфичные стили для iPad Pro (1366x1024) */
+@media (min-width: 1366px) and (max-width: 1366px) and (min-height: 1024px) and (max-height: 1024px) {
+  .services__carousel {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .services__track {
+    flex-wrap: nowrap; /* Карточки в одну строку */
+    justify-content: center;
+    gap: 0.8rem; /* Уменьшаем отступы */
+    padding: 3rem 0.5rem; /* Уменьшаем боковые отступы */
+    max-width: 100%;
+  }
+  
+  .service-card {
+    flex: 1 1 200px; /* Уменьшаем базовый размер */
+    min-width: 180px; /* Уменьшаем минимальную ширину */
+    max-width: 220px; /* Уменьшаем максимальную ширину */
+    min-height: 380px;
+    height: auto;
+  }
+  
+  .service-card__description {
+    font-size: 0.8rem; /* Уменьшаем размер шрифта */
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
+  }
+  
+  .service-card__button {
+    padding: 0.6rem 1rem; /* Уменьшаем отступы кнопки */
+    font-size: 0.8rem;
+  }
+}
+
+/* Стили для экранов 1201-1299px */
+@media (min-width: 1201px) and (max-width: 1299px) {
+  .services__carousel {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .services__track {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 3.2rem 1.2rem;
+    max-width: 100%;
+  }
+  
+  .service-card {
+    flex: 1 1 240px;
+    min-width: 220px;
+    max-width: 260px;
+    min-height: 450px;
+    height: auto; /* Автоматическая высота по содержимому */
+  }
+  
+  .service-card__description {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 1.2rem;
+  }
+  
+  .service-card__button {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Стили для экранов 1300-1365px (исключаем iPad Pro 1366px) */
+@media (min-width: 1300px) and (max-width: 1365px) {
+  .services__carousel {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .services__track {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 3.5rem 1.5rem;
+    max-width: 100%;
+  }
+  
+  .service-card {
+    flex: 1 1 260px;
+    min-width: 240px;
+    max-width: 280px;
+    min-height: 460px;
+    height: auto; /* Автоматическая высота по содержимому */
+  }
+  
+  .service-card__description {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 1.3rem;
+  }
+  
+  .service-card__button {
+    padding: 0.8rem 1.6rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Стили для больших экранов (1401px - 1600px) */
+@media (min-width: 1401px) and (max-width: 1600px) {
+  .services__carousel {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .services__track {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 1.8rem;
+    padding: 4rem 2rem;
+    max-width: 100%;
+  }
+  
+  .service-card {
+    flex: 1 1 280px;
+    min-width: 260px;
+    max-width: 300px;
+    min-height: 480px;
+    height: auto; /* Автоматическая высота по содержимому */
+  }
+  
+  .service-card__description {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+  
+  .service-card__button {
+    padding: 0.9rem 1.8rem;
+    font-size: 1rem;
+  }
+}
+
+/* Стили для очень больших экранов (больше 1600px) */
+@media (min-width: 1601px) {
+  .services__carousel {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .services__track {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 2.5rem;
+    padding: 4rem 2.5rem;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+  
+  .service-card {
+    flex: 1 1 300px;
+    min-width: 280px;
+    max-width: 320px;
+    min-height: 500px;
+    height: auto; /* Автоматическая высота по содержимому */
+  }
+  
+  .service-card__description {
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+  
+  .service-card__button {
+    padding: 1rem 2rem;
+    font-size: 1.05rem;
+  }
+}
+
+/* Стили для экранов 966-1200px */
+@media (min-width: 966px) and (max-width: 1200px) {
   .services__track {
     flex-wrap: wrap;
     justify-content: center;
+    gap: 1.2rem;
+    padding: 3rem 1rem;
+  }
+  
+  .service-card {
+    flex: 1 1 280px;
+    min-width: 250px;
+    max-width: 300px;
+    height: 380px;
+  }
+  
+  .service-card__description {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  
+  .service-card__button {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.9rem;
   }
 }
+
+/* Стили для экранов 768-965px */
+@media (min-width: 768px) and (max-width: 965px) {
+  .services__track {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2.5rem 1rem;
+  }
+  
+  .service-card {
+    flex: 1 1 250px;
+    min-width: 220px;
+    max-width: 280px;
+    height: 360px;
+  }
+  
+  .service-card__description {
+    font-size: 0.85rem;
+    line-height: 1.3;
+    margin-bottom: 0.8rem;
+  }
+  
+  .service-card__button {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Удален конфликтующий медиа-запрос - теперь используются специфичные медиа-запросы выше */
 
 @media (max-width: 768px) {
   .services {
@@ -397,7 +694,7 @@
   }
   
   .services__header {
-    text-align: center;
+    text-align: left;
   }
   
   .service-card {
@@ -429,6 +726,17 @@
     padding: 0.6rem 1.2rem; /* Уменьшаем отступы кнопки */
     font-size: 0.85rem; /* Уменьшаем размер шрифта */
     margin-top: 0.5rem; /* Уменьшаем отступ сверху */
+  }
+  
+  /* Специальные стили для модальных окон услуг на мобильных */
+  .services_dialog {
+    background-color: rgb(26, 26, 26, 0.98) !important; /* Высокая непрозрачность */
+    backdrop-filter: blur(15px) !important; /* Дополнительное размытие */
+  }
+  
+  /* Отступ для заголовка диалога в мобильной версии */
+  .services_dialog .dialog_title {
+    margin-top: 2rem !important; /* Отступ сверху для заголовка */
   }
 }
 
@@ -475,6 +783,8 @@
     top: 50% !important;
     left: 50% !important;
     transform: translate(-50%, -50%) !important;
+    background-color: rgb(26, 26, 26, 0.99) !important; /* Максимальная непрозрачность для мобильных */
+    backdrop-filter: blur(10px) !important; /* Дополнительное размытие фона */
   }
   
   .dialog_title {
@@ -505,5 +815,10 @@
   .services_close-button::before {
     width: 24px;
     height: 3px;
+  }
+  
+  /* Дополнительный отступ для заголовка на очень маленьких экранах */
+  .services_dialog .dialog_title {
+    margin-top: 2.5rem !important; /* Больший отступ для очень маленьких экранов */
   }
 }
