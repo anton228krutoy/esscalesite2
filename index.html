@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      Esscale — Инновационное консалтинговое агентство: аналитика, ML,
+      Esscale — Инновационное техническое агентство: аналитика, ML,
       IT-разработка
     </title>
 
@@ -79,7 +79,7 @@
         <div class="container">
           <div class="hero__content">
             <h1 class="hero__title title__company" data-text="Esscale">Esscale</h1>
-            <p class="hero__subtitle title__accent" data-text="Инновационное консалтинговое агентство">Инновационное консалтинговое агентство</p>
+            <p class="hero__subtitle title__accent" data-text="Инновационное техническое агентство">Инновационное техническое агентство</p>
           </div>
         </div>
       </section>
@@ -101,7 +101,7 @@
                   кто <span class="accent-colored">мы</span>?
                 </h2>
                 <p class="about-us_card-text">
-                  ESSCALE - это инновационное консалтинговое агентство нового поколения,
+                  ESSCALE - это инновационное техническое агентство нового поколения,
                   деятельность которого направлена на решение нетривиальных бизнес-задач
                   с помощью прикладной науки. Объединяя современные методы аналитики,
                   программирования, математического моделирования и машинного обучения, мы
@@ -586,7 +586,7 @@
           <!-- Карточка 2: изображение слева, текст справа -->
           <article class="portfolio__item" data-category="app">
             <div class="portfolio__item-img">
-              <img src="images/school.png" alt="Онлайн школа 'Школград'" />
+              <img src="images/school.PNG" alt="Онлайн школа 'Школград'" />
             </div>
             <div class="portfolio__item-content">
               <div class="portfolio__item-status">
@@ -809,6 +809,7 @@
         const navToggle = document.getElementById('nav-toggle');
         const navMenu = document.querySelector('.nav__menu');
         const navLinks = document.querySelectorAll('.nav__link');
+        const navCTAButton = document.querySelector('.nav__cta-button--mobile');
 
         if (navToggle) {
           navToggle.addEventListener('click', function() {
@@ -817,12 +818,21 @@
           });
         }
 
+        // Обработчик для всех ссылок меню (включая кнопку "Работа с нами")
         navLinks.forEach(link => {
           link.addEventListener('click', function() {
             navMenu.classList.remove('active');
             navToggle.classList.remove('active'); // Возвращаем бургер в исходное состояние
           });
         });
+
+        // Обработчик для кнопки "Работа с нами" в мобильном меню
+        if (navCTAButton) {
+          navCTAButton.addEventListener('click', function() {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active'); // Возвращаем бургер в исходное состояние
+          });
+        }
 
         navLinks.forEach(link => {
           link.addEventListener('click', function(e) {
