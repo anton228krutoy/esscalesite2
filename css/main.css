@@ -128,6 +128,7 @@ input, textarea, [contenteditable="true"] {
   gap: 2rem;
   justify-content: center;
   flex: 2;
+  flex-wrap: nowrap;
 }
 
 .nav__link {
@@ -136,6 +137,7 @@ input, textarea, [contenteditable="true"] {
   font-variation-settings: "wght" var(--main-font-wght, 400);
   transition: color 0.3s ease;
   position: relative;
+  white-space: nowrap;
 }
 
 .nav__link:hover {
@@ -237,6 +239,28 @@ input, textarea, [contenteditable="true"] {
 /* Скрываем мобильную кнопку на десктопе */
 .nav__item--mobile-cta {
   display: none;
+}
+
+/* Стили для планшетов */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .nav__menu {
+    gap: 1.5rem !important;
+    flex-wrap: nowrap !important;
+  }
+  
+  .nav__link {
+    white-space: nowrap !important;
+    font-size: 0.9rem !important;
+  }
+  
+  .nav__actions {
+    flex-shrink: 0 !important;
+  }
+  
+  .nav__cta-button {
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.9rem !important;
+  }
 }
 
 @media (max-width: 768px) {
