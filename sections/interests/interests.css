@@ -23,14 +23,14 @@
   .interests_button-container:hover {
     background: transparent !important;
     border: 2px solid var(--font-highlight-color, #4de1cd) !important;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(77, 225, 205, 0.3);
-    transition: all 0.3s ease !important;
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(77, 225, 205, 0.4);
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
   }
   
   .interests_button-container:hover .interests_button-text {
     color: var(--font-highlight-color, #4de1cd) !important;
-    transition: color 0.3s ease !important;
+    transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
   }
 }
 
@@ -193,15 +193,13 @@
 }
 
 .interests_button-container {
-  transition: none !important;
-  transform: none !important;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform, background-color, border-color;
 }
 
 .interests_button-container:active,
 .interests_button-container:focus {
   outline: none !important;
-  border: none !important;
-  transform: none !important;
   width: 100% !important;
   height: 41px !important;
   flex-shrink: 0 !important;
