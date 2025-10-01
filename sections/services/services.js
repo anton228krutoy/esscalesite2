@@ -8,6 +8,16 @@ function closeServiceDialog(dialog) {
   // Предотвращаем множественные вызовы
   if (dialog.classList.contains('closing')) return;
   
+  // Сохраняем позицию прокрутки перед разблокировкой
+  const scrollPosition = parseInt(document.body.style.top || '0') * -1;
+  
+  // Разблокируем прокрутку
+  document.body.classList.remove('services-modal-open');
+  document.body.style.top = '';
+  
+  // Восстанавливаем позицию прокрутки
+  window.scrollTo(0, scrollPosition);
+  
   dialog.classList.add('closing');
   setTimeout(() => {
     dialog.close();
@@ -28,12 +38,24 @@ function openServiceDialog(dialogId) {
   // Открываем нужный диалог
   const dialog = document.getElementById(dialogId);
   if (dialog) {
+    // Сохраняем текущую позицию прокрутки
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Блокируем прокрутку
+    document.body.classList.add('services-modal-open');
+    document.body.style.top = `-${scrollPosition}px`;
+    
+    // Открываем модальное окно
     dialog.showModal();
   }
 }
 
 /* Функция для закрытия всех модальных окон при загрузке */
 function closeAllServiceDialogs() {
+  // Разблокируем прокрутку
+  document.body.classList.remove('services-modal-open');
+  document.body.style.top = '';
+  
   const dialogs = document.querySelectorAll('.services_dialog[open]');
   dialogs.forEach(dialog => {
     dialog.close();

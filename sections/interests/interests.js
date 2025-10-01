@@ -1,6 +1,21 @@
 // sections/interests/interests.js
 // JavaScript функциональность для секции "Интересы"
 
+/* Функция открытия модального окна с блокировкой прокрутки */
+function openInterestsDialog(dialog) {
+  if (!dialog) return;
+  
+  // Сохраняем текущую позицию прокрутки
+  const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+  
+  // Блокируем прокрутку
+  document.body.classList.add('interests-modal-open');
+  document.body.style.top = `-${scrollPosition}px`;
+  
+  // Открываем модальное окно
+  dialog.showModal();
+}
+
 /* Функция закрытия окна с анимацией */
 function closeDialog(dialog) {
   if (!dialog) return;
@@ -10,6 +25,16 @@ function closeDialog(dialog) {
   
   // Сбрасываем состояние всех карточек интересов
   resetAllInterestCards();
+  
+  // Сохраняем позицию прокрутки перед разблокировкой
+  const scrollPosition = parseInt(document.body.style.top || '0') * -1;
+  
+  // Разблокируем прокрутку
+  document.body.classList.remove('interests-modal-open');
+  document.body.style.top = '';
+  
+  // Восстанавливаем позицию прокрутки
+  window.scrollTo(0, scrollPosition);
   
   dialog.classList.add('closing');
   setTimeout(() => {
@@ -101,7 +126,7 @@ function initCardClicks() {
         const dialog = document.getElementById(dialogId);
         if (dialog) {
           console.log('✅ Открываем диалог по клику на карточку:', dialogId);
-          dialog.showModal();
+          openInterestsDialog(dialog);
         }
       }
     };
@@ -124,7 +149,7 @@ function initCardClicks() {
         const dialog = document.getElementById(dialogId);
         if (dialog) {
           console.log('✅ Открываем диалог по touch на карточку:', dialogId);
-          dialog.showModal();
+          openInterestsDialog(dialog);
         }
       }
     };
@@ -167,7 +192,7 @@ function initCardClicks() {
         const dialog = document.getElementById(dialogId);
         if (dialog) {
           console.log('✅ Открываем диалог по клику на кнопку:', dialogId);
-          dialog.showModal();
+          openInterestsDialog(dialog);
         }
       }
     };
@@ -190,7 +215,7 @@ function initCardClicks() {
         const dialog = document.getElementById(dialogId);
         if (dialog) {
           console.log('✅ Открываем диалог по touch на кнопку:', dialogId);
-          dialog.showModal();
+          openInterestsDialog(dialog);
         }
       }
     };
@@ -212,6 +237,10 @@ function initCardClicks() {
 function closeAllInterestsDialogs() {
   // Сбрасываем состояние всех карточек
   resetAllInterestCards();
+  
+  // Разблокируем прокрутку
+  document.body.classList.remove('interests-modal-open');
+  document.body.style.top = '';
   
   const dialogs = document.querySelectorAll('.interests_dialog[open]');
   dialogs.forEach(dialog => {

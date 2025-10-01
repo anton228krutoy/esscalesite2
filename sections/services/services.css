@@ -223,6 +223,16 @@
   display: none;
 }
 
+/* Блокируем прокрутку при открытом модальном окне услуг */
+body.services-modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
 .services_dialog {
   display: grid;
   grid-template-rows: auto 1fr auto;

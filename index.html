@@ -174,12 +174,12 @@
             </h2>
             <ul class="interests_card-list">
               <li>
-                <div class="interests_card-item" onclick="document.getElementById('dialog-data').showModal()">
+                <div class="interests_card-item">
                   <h3 class="interests_card-item-title">Обработка данных</h3>
                   <button
                     class="interests_open-button"
                     type="button"
-                    onclick="document.getElementById('dialog-data').showModal()"
+                     onclick="openInterestsDialog(document.getElementById('dialog-data'))"
                     aria-controls="dialog-data"
                   >
                     <div class="interests_button-container">
@@ -207,12 +207,12 @@
                 </dialog>
               </li>
               <li>
-                <div class="interests_card-item" onclick="document.getElementById('dialog-physics').showModal()">
+                <div class="interests_card-item">
                   <h3 class="interests_card-item-title">Использование физико математического подхода</h3>
                   <button
                     class="interests_open-button"
                     type="button"
-                    onclick="document.getElementById('dialog-physics').showModal()"
+                     onclick="openInterestsDialog(document.getElementById('dialog-physics'))"
                     aria-controls="dialog-physics"
                   >
                     <div class="interests_button-container">
@@ -239,12 +239,12 @@
                 </dialog>
               </li>
               <li>
-                <div class="interests_card-item" onclick="document.getElementById('dialog-network').showModal()">
+                <div class="interests_card-item">
                   <h3 class="interests_card-item-title">Сетевое программирование</h3>
                   <button
                     class="interests_open-button"
                     type="button"
-                    onclick="document.getElementById('dialog-network').showModal()"
+                     onclick="openInterestsDialog(document.getElementById('dialog-network'))"
                     aria-controls="dialog-network"
                   >
                     <div class="interests_button-container">
@@ -271,12 +271,12 @@
                 </dialog>
               </li>
               <li>
-                <div class="interests_card-item" onclick="document.getElementById('dialog-business').showModal()">
+                <div class="interests_card-item">
                   <h3 class="interests_card-item-title">Налаживание бизнес-процессов</h3>
                   <button
                     class="interests_open-button"
                     type="button"
-                    onclick="document.getElementById('dialog-business').showModal()"
+                     onclick="openInterestsDialog(document.getElementById('dialog-business'))"
                     aria-controls="dialog-business"
                   >
                     <div class="interests_button-container">
@@ -303,12 +303,12 @@
                 </dialog>
               </li>
               <li>
-                <div class="interests_card-item" onclick="document.getElementById('dialog-ml').showModal()">
+                <div class="interests_card-item">
                   <h3 class="interests_card-item-title">Разработка машинных моделей</h3>
                   <button
                     class="interests_open-button"
                     type="button"
-                    onclick="document.getElementById('dialog-ml').showModal()"
+                     onclick="openInterestsDialog(document.getElementById('dialog-ml'))"
                     aria-controls="dialog-ml"
                   >
                     <div class="interests_button-container">
@@ -803,11 +803,33 @@
         const navMenu = document.querySelector('.nav__menu');
         const navLinks = document.querySelectorAll('.nav__link');
         const navCTAButton = document.querySelector('.nav__cta-button--mobile');
+        
+        let scrollPosition = 0;
 
         if (navToggle) {
           navToggle.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active'); // Анимация бургера
+            const isMenuOpen = navMenu.classList.contains('active');
+            
+            if (isMenuOpen) {
+              // Закрываем меню
+              navMenu.classList.remove('active');
+              navToggle.classList.remove('active');
+              document.body.classList.remove('mobile-menu-open');
+              
+              // Восстанавливаем позицию прокрутки
+              window.scrollTo(0, scrollPosition);
+            } else {
+              // Сохраняем текущую позицию прокрутки
+              scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+              
+              // Открываем меню
+              navMenu.classList.add('active');
+              navToggle.classList.add('active');
+              document.body.classList.add('mobile-menu-open');
+              
+              // Фиксируем позицию прокрутки
+              document.body.style.top = `-${scrollPosition}px`;
+            }
           });
         }
 
@@ -816,6 +838,9 @@
           link.addEventListener('click', function() {
             navMenu.classList.remove('active');
             navToggle.classList.remove('active'); // Возвращаем бургер в исходное состояние
+            document.body.classList.remove('mobile-menu-open'); // Разблокируем прокрутку
+            document.body.style.top = ''; // Убираем фиксированную позицию
+            window.scrollTo(0, scrollPosition); // Восстанавливаем позицию прокрутки
           });
         });
 
@@ -824,6 +849,9 @@
           navCTAButton.addEventListener('click', function() {
             navMenu.classList.remove('active');
             navToggle.classList.remove('active'); // Возвращаем бургер в исходное состояние
+            document.body.classList.remove('mobile-menu-open'); // Разблокируем прокрутку
+            document.body.style.top = ''; // Убираем фиксированную позицию
+            window.scrollTo(0, scrollPosition); // Восстанавливаем позицию прокрутки
           });
         }
 
@@ -855,6 +883,30 @@
           } else {
             header.style.background = 'rgba(18, 17, 22, 0.95)';
             header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.3)';
+          }
+        });
+
+        // Закрываем меню при клике вне его области
+        document.addEventListener('click', function(e) {
+          if (navMenu.classList.contains('active') && 
+              !navMenu.contains(e.target) && 
+              !navToggle.contains(e.target)) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            document.body.classList.remove('mobile-menu-open');
+            document.body.style.top = ''; // Убираем фиксированную позицию
+            window.scrollTo(0, scrollPosition); // Восстанавливаем позицию прокрутки
+          }
+        });
+
+        // Закрываем меню при изменении размера окна (переход на десктоп)
+        window.addEventListener('resize', function() {
+          if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+            document.body.classList.remove('mobile-menu-open');
+            document.body.style.top = ''; // Убираем фиксированную позицию
+            window.scrollTo(0, scrollPosition); // Восстанавливаем позицию прокрутки
           }
         });
       }
