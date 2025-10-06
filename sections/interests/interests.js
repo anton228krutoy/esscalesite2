@@ -6,11 +6,14 @@ function openInterestsDialog(dialog) {
   if (!dialog) return;
   
   // Сохраняем текущую позицию прокрутки
-  const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+  const scrollPosition = window.pageYOffset;
   
   // Блокируем прокрутку
   document.body.classList.add('interests-modal-open');
-  document.body.style.top = `-${scrollPosition}px`;
+  // document.body.style.top = `-${scrollPosition}px`;
+
+  document.body.style.overflow = 'hidden';
+   document.body.style.top = `-${scrollPosition}px`;
   
   // Открываем модальное окно
   dialog.showModal();

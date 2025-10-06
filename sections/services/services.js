@@ -10,13 +10,23 @@ function closeServiceDialog(dialog) {
   
   // Сохраняем позицию прокрутки перед разблокировкой
   const scrollPosition = parseInt(document.body.style.top || '0') * -1;
+  //const scrollPosition = window.pageYOffset;
   
-  // Разблокируем прокрутку
   document.body.classList.remove('services-modal-open');
   document.body.style.top = '';
+
+  // Отключаем плавную прокрутку только на момент jump scroll
+  document.documentElement.style.scrollBehavior = 'auto';
+  window.scrollTo(0, scrollPosition);
+  document.documentElement.style.scrollBehavior = '';
+
+
+  // Разблокируем прокрутку
+  // document.body.classList.remove('services-modal-open');
+  // document.body.style.top = '';
   
   // Восстанавливаем позицию прокрутки
-  window.scrollTo(0, scrollPosition);
+  // window.scrollTo(0, scrollPosition);
   
   dialog.classList.add('closing');
   setTimeout(() => {
@@ -39,7 +49,7 @@ function openServiceDialog(dialogId) {
   const dialog = document.getElementById(dialogId);
   if (dialog) {
     // Сохраняем текущую позицию прокрутки
-    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollPosition = window.pageYOffset;
     
     // Блокируем прокрутку
     document.body.classList.add('services-modal-open');

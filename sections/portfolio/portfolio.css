@@ -103,13 +103,14 @@
   border-radius: 20px;
   backdrop-filter: blur(10.5px);
   display: grid;
-  grid-template-columns: 50% 50%; /* Четкое разделение пополам */
+  grid-template-columns: 50% 50%;
   gap: 0; /* Убираем промежуток между контейнерами */
-  align-items: stretch; /* Растягиваем на всю высоту */
+  align-items: center; /* Растягиваем на всю высоту */
   position: relative;
   overflow: hidden;
-  min-height: 400px; /* Увеличиваем высоту для лучшего восприятия */
-  max-height: 500px;
+  /* min-height: 400px; /* Увеличиваем высоту для лучшего восприятия */
+  /* max-height: 500px; */
+  /* height: auto; */
 }
 
 /* Убираем старый hover эффект, заменяем на класс */
@@ -267,15 +268,18 @@
 /* Изображения */
 .portfolio__item-img {
   width: 100%;
-  height: 100%;
+  height: auto;
   overflow: hidden;
   position: relative;
+  border-radius: 20px;         /* скругление углов */
+  /* position: relative; */
 }
 
 .portfolio__item-img img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
+  display: block;
   transition: all 0.3s ease;
 }
 
@@ -363,7 +367,7 @@
 }
 
 /* Адаптивность */
-@media (max-width: 768px) {
+@media (max-width: 750px) {
   .portfolio {
     padding: 4rem 1rem;
   }

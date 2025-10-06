@@ -15,7 +15,7 @@
 }
 
 .hero__title {
-  font-size: clamp(4rem, 2rem + 8vw, 8rem);
+  font-size: clamp(5rem, 8vw, 8rem);
   font-variation-settings: "wght" var(--main-font-wght-accent, 700);
   color: var(--font-main-color, #fff);
   margin: 0 0 1rem 0;
@@ -33,7 +33,7 @@
 .typing-cursor::after {
   content: '|';
   color: var(--font-highlight-color, #4de1cd);
-  animation: blink 1s infinite;
+  animation: blink 0.8s infinite;
   font-weight: normal;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .hero__subtitle {
-  font-size: clamp(1.2rem, 1rem + 1vw, 2rem);
+  font-size: clamp(1.2rem, 1.5vw, 2rem);
   font-variation-settings: "wght" var(--main-font-wght, 400);
   color: var(--font-main-color, #fff);
   margin: 0;
@@ -57,7 +57,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(1.5vw);
   }
   to {
     opacity: 0.9;
@@ -67,21 +67,8 @@
 
 /* Контейнер */
 .container {
-  max-width: 1200px;
+  max-width: 90vw;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
-@media (max-width: 768px) {
-  .hero__title {
-    font-size: clamp(3rem, 5vw, 5rem);
-  }
-  
-  .hero__subtitle {
-    font-size: clamp(1rem, 3vw, 1.5rem);
-  }
-  
-  .container {
-    padding: 0 1rem;
-  }
-}
