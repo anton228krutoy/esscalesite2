@@ -1,0 +1,148 @@
+.nav {
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.nav__brand {
+  flex: 1;
+}
+
+.nav__logo {
+  display: inline-flex;
+  align-items: center;
+  color: var(--font-highlight-color, #4de1cd);
+  transition: all 0.3s ease;
+}
+
+.nav__logo:hover {
+  transform: scale(1.05);
+}
+
+.nav__logo svg {
+  width: 32px;
+  height: 39px;
+}
+
+.nav__menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 2rem;
+  justify-content: center;
+  flex: 2;
+  flex-wrap: nowrap;
+}
+
+.nav__link {
+  color: var(--font-main-color, #ddd);
+  text-decoration: none;
+  font-variation-settings: "wght" var(--main-font-wght, 400);
+  transition: color 0.3s ease;
+  position: relative;
+  white-space: nowrap;
+}
+
+.nav__link:hover {
+  color: var(--font-highlight-color, #4de1cd);
+}
+
+.nav__link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: var(--font-highlight-color, #4de1cd);
+  transition: width 0.3s ease;
+}
+
+.nav__link:hover::after {
+  width: 100%;
+}
+
+.nav__actions {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav__cta-button {
+  background: var(--font-highlight-color, #4de1cd);
+  color: var(--bg-color, #121116);
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-variation-settings: "wght" var(--main-font-wght, 500);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.nav__cta-button:hover {
+  background: #45c7b5;
+  color: var(--font-main-color, #ddd);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(77, 225, 205, 0.3);
+}
+
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  position: relative;
+}
+
+.nav__toggle span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background-color: var(--font-main-color, #ddd);
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: absolute;
+  transform-origin: center;
+}
+
+.nav__toggle span:nth-child(1) {
+  top: 8px;
+}
+
+.nav__toggle span:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.nav__toggle span:nth-child(3) {
+  bottom: 8px;
+}
+
+/* Анимация превращения в крестик */
+.nav__toggle.active span:nth-child(1) {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.nav__toggle.active span:nth-child(2) {
+  opacity: 0;
+  transform: translateY(-50%) scale(0);
+}
+
+.nav__toggle.active span:nth-child(3) {
+  bottom: 50%;
+  transform: translateY(50%) rotate(-45deg);
+}
+
+/* Скрываем мобильную кнопку на десктопе */
+.nav__item--mobile-cta {
+  display: none;
+}
