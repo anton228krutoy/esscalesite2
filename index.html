@@ -549,18 +549,27 @@
         </div>
 
         <div class="portfolio__filters">
-          <button class="portfolio__filter-btn active" type="button" data-filter="all">
-            Все проекты
-          </button>
-          <button class="portfolio__filter-btn" type="button" data-filter="mobile">
-            Мобильные приложения
-          </button>
-          <button class="portfolio__filter-btn" type="button" data-filter="app">
+          <div class="btn-wrapper">
+            <button class="portfolio__filter-btn active" type="button" data-filter="all">
+              Все проекты
+            </button>
+          </div>
+
+          <div class="btn-wrapper">
+            <button class="portfolio__filter-btn" type="button" data-filter="mobile">
+              Мобильные приложения
+            </button>
+          </div>
+          <div class="btn-wrapper">
+            <button class="portfolio__filter-btn" type="button" data-filter="app">
             Веб-приложения
-          </button>
-          <button class="portfolio__filter-btn" type="button" data-filter="software">
-            Сайты
-          </button>
+            </button>
+          </div>
+          <div class="btn-wrapper">
+            <button class="portfolio__filter-btn" type="button" data-filter="software">
+              Сайты
+            </button>
+          </div>          
         </div>
 
         <div class="portfolio__list">
@@ -579,9 +588,9 @@
                 принимать правильные решение и иметь полный
                 контроль над вашим бизнесом.
               </p>
-              <div class="portfolio__item-btn-container">
-                <a href="https://www.instagram.com/p/DNySMyQWPzy/" class="portfolio__item-btn">Узнать больше</a>
-                </div>
+              <a href="https://www.instagram.com/p/DNySMyQWPzy/" class="btn-wrapper">
+                <span class="portfolio__item-btn">Узнать больше</span>
+              </a>
             </div>
           </article>
           
@@ -596,7 +605,7 @@
               </div>
             </div>
           </article>
-
+        
           <!-- Карточка 3: изображение слева, текст справа -->
           <article class="portfolio__item" data-category="software">
             <div class="portfolio__item-img">
@@ -609,10 +618,13 @@
               <p class="portfolio__item-text">
                 Написан нами, для нас.
               </p>
-              <a href="https://github.com/anton228krutoy/esscalesite2.git" class="portfolio__item-btn">Узнать больше</a>
+              <a href="https://github.com/anton228krutoy/esscalesite2.git" class="btn-wrapper">
+                <span class="portfolio__item-btn">Узнать больше</span>
+              </a>
             </div>
           </article>
         </div>
+
       </section>
       
       <!-- Секция "Контакты" -->

@@ -47,6 +47,7 @@
 }
 
 .portfolio__filter-btn {
+  display: inline-block;
   background: var(--card-color, rgba(255, 255, 255, 0.08));
   border: 2px solid var(--card-border-color, rgba(255, 255, 255, 0.01));
   color: var(--font-main-color, #ddd);
@@ -62,15 +63,11 @@
   will-change: transform, background-color, border-color;
 }
 
-.portfolio__filter-btn.processing {
-  pointer-events: none;
-}
-
-/* Linkin-Path: чтобы вернуть сдвиг для кнопок фильтра расскоментируйте эту transform. Что делают другие btn с hover, я хз */
-.portfolio__filter-btn:hover:not(.processing) {
+.btn-wrapper:hover .portfolio__filter-btn {
   background: rgba(77, 225, 205, 0.12);
+  color: var(--font-highlight-color, #4de1cd);
   border-color: var(--font-highlight-color, #4de1cd);
-  /* transform: translateY(-3px) scale(1.02); */
+  transform: translateY(-4px) scale(1.02);
   box-shadow: 0 8px 25px rgba(77, 225, 205, 0.15);
 }
 
@@ -79,14 +76,10 @@
   color: var(--button-text-color, #000);
   border-color: var(--font-highlight-color, #4de1cd);
   font-weight: 700;
-  /* transform: translateY(-1px); */
+  transform: translateY(-4px);
   box-shadow: 0 5px 15px rgba(77, 225, 205, 0.3);
 }
 
-.portfolio__filter-btn.active:hover:not(.processing) {
-  /* transform: translateY(-4px) scale(1.02); */
-  box-shadow: 0 10px 30px rgba(77, 225, 205, 0.4);
-}
 
 /* Основной контент портфолио */
 .portfolio__list {
@@ -174,7 +167,7 @@
 }
 
 .portfolio__item-btn {
-  display: inline-block;
+  display: flex;
   background: var(--font-highlight-color, #4de1cd);
   color: var(--button-text-color, #000);
   padding: 0.75rem 2rem;
@@ -189,12 +182,29 @@
   letter-spacing: 0.05em;
 }
 
-.portfolio__item-btn:hover {
-  background: transparent;
+.btn-wrapper {
+  display: inline-block;
+  align-self: flex-start;     /* обрезаем по размеру контента */
+  cursor: pointer;
+}
+
+.btn-wrapper:hover .portfolio__item-btn {
+  transform: translateY(-4px);              /* визуальное сдвигание */
+  background: transparent;    
+  /* color: var(--button-text-color); */
   color: var(--font-highlight-color, #4de1cd);
-  /* transform: translateY(-2px); */
   box-shadow: 0 10px 20px rgba(77, 225, 205, 0.3);
 }
+
+/* .portfolio__item-btn:hover {
+  background: transparent;
+  color: var(--font-highlight-color, #4de1cd); */
+  /* transform: translateY(-2px); */
+  /* margin-bottom: 0.85rem; */
+  /* box-shadow: 0 10px 20px rgba(77, 225, 205, 0.3); */
+  /* box-shadow: 0 12px 25px rgba(77, 225, 205, 0.4); 
+} */
+ 
 
 /* Стили для группы кнопок */
 .portfolio__item-buttons {
@@ -213,12 +223,16 @@
   background: transparent;
   color: var(--font-highlight-color, #4de1cd);
   border: 2px solid var(--font-highlight-color, #4de1cd);
+  padding: 0.75rem 2rem; /* базовые отступы */
+  transition: all 0.3s ease;
+  box-sizing: border-box;
 }
 
-.portfolio__item-btn--secondary:hover {
+.btn-wrapper:hover .portfolio__item-btn--secondary {
   background: var(--font-highlight-color, #4de1cd);
   color: var(--button-text-color, #000);
-  /* transform: translateY(-2px); */
+  transform: translateY(-2px);
+  padding: 8.5rem 2.2rem;
   box-shadow: 0 10px 20px rgba(77, 225, 205, 0.3);
 }
 
@@ -354,8 +368,8 @@
 
 /* Отключаем hover эффекты на сенсорных устройствах */
 @media (hover: none) and (pointer: coarse) {
-  .portfolio__filter-btn:hover:not(.processing),
-  .portfolio__filter-btn.active:hover:not(.processing),
+  .portfolio__filter-btn:hover,
+  .portfolio__filter-btn.active:hover,
   .portfolio__item-btn:hover,
   .portfolio__item-btn--secondary:hover,
   .portfolio__item-img img:hover {
