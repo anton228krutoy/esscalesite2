@@ -59,6 +59,12 @@
   border: none;
   cursor: pointer;
   transition: outline 0.2s;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  /* на всякий случай */
+  box-shadow: none;
 }
 
 /* .interests_open-button:focus-visible {
@@ -66,6 +72,22 @@
   outline-offset: 2px;
   border-radius: 20px;
 } */
+
+
+/* убираем системную рамку в любых фокус‑состояниях */
+.interests_close-button:focus,
+.interests_close-button:focus-visible,
+.interests_close-button:focus-within {
+  outline: none;
+  box-shadow: none;
+}
+
+/* dialog тоже может рисовать outline в мобильных */
+.interests_dialog:focus,
+.interests_dialog:focus-visible {
+  outline: none;
+}
+
 
 /* Контейнер кнопки */
 .interests_button-container {

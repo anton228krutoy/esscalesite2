@@ -129,6 +129,11 @@
   display: inline-block;
   align-self: flex-start;     /* обрезаем по размеру контента */
   cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow: none;
 }
 
 .service-card__button {
@@ -155,6 +160,7 @@
   color:  #000;
   border-color: var(--font-highlight-color, transparent);
   transform: translateX(4px);
+  
 }
 
 .service-card__button svg {
@@ -378,6 +384,12 @@ body.services-modal-open {
 	transition: transform .3s cubic-bezier(.25,.46,.45,.94);
 	transform-origin: 50% 50%;
 	pointer-events: none; /* хит‑зона остаётся у кнопки */
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  /* на всякий случай */
+  box-shadow: none;
 }
 
 .close-btn-wrapper:hover .services_close-button__inner {

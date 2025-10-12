@@ -61,6 +61,11 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   will-change: transform, background-color, border-color;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow: none;
 }
 
 .btn-wrapper:hover .portfolio__filter-btn {
