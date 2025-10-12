@@ -64,7 +64,9 @@
           </li>
         </ul>
         <div class="nav__actions">
-          <a href="https://t.me/esscalechat" class="nav__cta-button" target="_blank" rel="noopener noreferrer">Работа с нами</a>
+          <div class="nav-btn-wrapper" role="button" tabindex="0" data-href="https://t.me/esscalechat">
+            <span class="nav__cta-button">Работа с нами</span>
+          </div>
           <div class="nav__toggle" id="nav-toggle">
             <span></span>
             <span></span>
@@ -341,91 +343,113 @@
       <section id="services" class="services">
         <div class="services__header">
           <h2 class="services__title">
-            <span class="accent-text">У</span>СЛУГИ<br>
+            <span class="accent-text"></span>УСЛУГИ<br>
             <span class="services__title-small">И</span><br>
             <span class="accent-text">ПРАЙС</span>
           </h2>
         </div>
         
         <div class="services__carousel">
-            <div class="services__track">
-              <div class="service-card">
-                <div class="service-card__content">
-                  <h3 class="service-card__title">Консалтинг и Аудит</h3>
-                  <p class="service-card__description">Предоставляем экспертизу для существующих проектов и команд. Помогаем решать сложные технические challenges, проводим аудит и оптимизацию.</p>
-                  <button class="service-card__button" onclick="openServiceDialog('dialog-services-consulting')">
-                    <span>Узнать больше</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <div class="service-card">
-                <div class="service-card__content">
-                  <h3 class="service-card__title">Сложная веб-разработка</h3>
-                  <p class="service-card__description">Создаем высоконагруженные и функционально богатые веб-системы для решения бизнес-задач. Мы специализируемся на сложных проектах, где важны производительность, масштабируемость и уникальная логика.</p>
-                  <button class="service-card__button" onclick="openServiceDialog('dialog-services-webdev')">
-                    <span>Узнать больше</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <div class="service-card">
-                <div class="service-card__content">
-                  <h3 class="service-card__title">Наукоемкое ПО и R&D</h3>
-                  <p class="service-card__description">Разработка сложного программного обеспечения для научных исследований, инженерного анализа и моделирования физических процессов. Полный цикл: от постановки задачи до внедрения.</p>
-                  <button class="service-card__button" onclick="openServiceDialog('dialog-services-rd')">
-                    <span>Узнать больше</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <div class="service-card">
-                <div class="service-card__content">
-                  <h3 class="service-card__title">Data Science и Machine Learning</h3>
-                  <p class="service-card__description">Превращаем данные в работающие бизнес-решения с помощью ИИ. Специализируемся на сложных проектах, где важна точность прогнозов.</p>
-                  <button class="service-card__button" onclick="openServiceDialog('dialog-services-ml')">
-                    <span>Узнать больше</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              <div class="service-card">
-                <div class="service-card__content">
-                  <h3 class="service-card__title">Мобильная разработка</h3>
-                  <p class="service-card__description">Создаем мобильные приложения с комплексной логикой и интеграцией передовых технологий. Специализируемся на нетривиальных проектах.</p>
-                  <button class="service-card__button" onclick="openServiceDialog('dialog-services-mobile')">
-                    <span>Узнать больше</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-             </div>
-           </div>
+	        <div class="services__track">
+	        	<div class="card-wrapper">
+	        		<div class="service-card">
+	        			<div class="service-card__content">
+	        				<h3 class="service-card__title">Консалтинг и Аудит</h3>
+	        				<p class="service-card__description">Предоставляем экспертизу для существующих проектов и команд. Помогаем решать сложные технические challenges, проводим аудит и оптимизацию.</p>
+	        				<button class="btn-wrapper" type="button" onclick="openServiceDialog('dialog-services-consulting')">
+	        					<span class="service-card__button">
+	        						<span>Узнать больше</span>
+	        						<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+	        							<path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+	        						</svg>
+	        					</span>
+	        				</button>
+	        			</div>
+	        		</div>
+	        	</div>
+          
+	        	<div class="card-wrapper">
+	        		<div class="service-card">
+	        			<div class="service-card__content">
+	        				<h3 class="service-card__title">Сложная веб-разработка</h3>
+	        				<p class="service-card__description">Создаем высоконагруженные и функционально богатые веб-системы для решения бизнес-задач. Мы специализируемся на сложных проектах, где важны производительность, масштабируемость и уникальная логика.</p>
+	        				<button class="btn-wrapper" type="button" onclick="openServiceDialog('dialog-services-webdev')">
+	        					<span class="service-card__button">
+	        						<span>Узнать больше</span>
+	        						<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+	        							<path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+	        						</svg>
+	        					</span>
+	        				</button>
+	        			</div>
+	        		</div>
+	        	</div>
+          
+	        	<div class="card-wrapper">
+	        		<div class="service-card">
+	        			<div class="service-card__content">
+	        				<h3 class="service-card__title">Наукоемкое ПО и R&D</h3>
+	        				<p class="service-card__description">Разработка сложного программного обеспечения для научных исследований, инженерного анализа и моделирования физических процессов. Полный цикл: от постановки задачи до внедрения.</p>
+	        				<button class="btn-wrapper" type="button" onclick="openServiceDialog('dialog-services-rd')">
+	        					<span class="service-card__button">
+	        						<span>Узнать больше</span>
+	        						<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+	        							<path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+	        						</svg>
+	        					</span>
+	        				</button>
+	        			</div>
+	        		</div>
+	        	</div>
+          
+	        	<div class="card-wrapper">
+	        		<div class="service-card">
+	        			<div class="service-card__content">
+	        				<h3 class="service-card__title">Data Science и Machine Learning</h3>
+	        				<p class="service-card__description">Превращаем данные в работающие бизнес-решения с помощью ИИ. Специализируемся на сложных проектах, где важна точность прогнозов.</p>
+	        				<button class="btn-wrapper" type="button" onclick="openServiceDialog('dialog-services-ml')">
+	        					<span class="service-card__button">
+	        						<span>Узнать больше</span>
+	        						<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+	        							<path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+	        						</svg>
+	        					</span>
+	        				</button>
+	        			</div>
+	        		</div>
+	        	</div>
+          
+	        	<div class="card-wrapper">
+	        		<div class="service-card">
+	        			<div class="service-card__content">
+	        				<h3 class="service-card__title">Мобильная разработка</h3>
+	        				<p class="service-card__description">Создаем мобильные приложения с комплексной логикой и интеграцией передовых технологий. Специализируемся на нетривиальных проектах.</p>
+	        				<button class="btn-wrapper" type="button" onclick="openServiceDialog('dialog-services-mobile')">
+	        					<span class="service-card__button">
+	        						<span>Узнать больше</span>
+	        						<svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+	        							<path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+	        						</svg>
+	        					</span>
+	        				</button>
+	        			</div>
+	        		</div>
+	        	</div>
+	        </div>
+        </div>
           
           <div class="services__bottom">
             <h2 class="services__bottom-title">
-              <span class="accent-text">О</span>ЗНАКОМЬСЯ<br>
+              <span class="accent-text"></span>ОЗНАКОМЬСЯ<br>
               С <span class="accent-text">ПРАЙС-ЛИСТОМ</span>
             </h2>
-            <a href="./esscale_pricelist.pdf" target="_blank" class="services__pdf-btn">
+            <a href="./esscale_pricelist.pdf" target="_blank" class="btn-wrapper">
+            <span class="services__pdf-btn">
               Прайс-лист
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
+            </span>
             </a>
           </div>
       </section>
@@ -449,7 +473,11 @@
             </ul>
           </div>
         </div>
-        <button class="services_close-button" type="button" aria-label="Закрыть диалог" tabindex="0"></button>
+        <div class="close-btn-wrapper">
+          <button class="services_close-button" type="button" aria-label="Закрыть диалог" tabindex="0">
+            <span class="services_close-button__inner"></span>
+          </button>
+        </div>
       </dialog>
 
       <!-- Модальное окно: Сложная веб-разработка -->
@@ -679,7 +707,8 @@
     <script src="./sections/services/services.js"></script>
     <script src="./sections/portfolio/portfolio.js?v=1.2"></script>
     <script src="./js/particles-init.js"></script>
-
+    <script src="./js/nav.js"></script>
+    
     <!-- Встроенные скрипты -->
     <script>
       // Функция для подключения HTML файлов (по методу с msiter.ru)

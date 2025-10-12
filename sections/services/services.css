@@ -53,14 +53,25 @@
   position: relative;
   overflow: visible; /* Позволяем контенту выходить за границы при необходимости */
   opacity: 0.7;
-  cursor: pointer;
+  /* cursor: pointer; */
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Мягкая тень */
   box-sizing: border-box; /* Включаем padding в общий размер */
 }
 
-.service-card::before {
+.card-wrapper {
+  display: block-inline;
+}
+
+/* .card-wrapper .service-card {
+  transition: transform .35s cubic-bezier(.23,1,.32,1),
+              box-shadow .35s cubic-bezier(.23,1,.32,1),
+              border-color .35s cubic-bezier(.23,1,.32,1);
+  will-change: transform;
+} */
+
+.card-wrapper:hover .service-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -72,14 +83,11 @@
   transition: opacity 0.3s ease;
 }
 
-.service-card:hover::before {
+.card-wrapper:hover .service-card::before {
   opacity: 1;
 }
 
-/* Стили для активной карточки удалены - теперь все карточки одинаковые */
-
-/* Hover эффект для всех карточек */
-.service-card:hover {
+.card-wrapper:hover .service-card {
   opacity: 1;
   transform: translateY(-4px);
   background: rgba(255, 255, 255, 0.12); /* Более яркое мутное стекло при hover */
@@ -117,6 +125,12 @@
   hyphens: auto;
 }
 
+.btn-wrapper {
+  display: inline-block;
+  align-self: flex-start;     /* обрезаем по размеру контента */
+  cursor: pointer;
+}
+
 .service-card__button {
   display: flex;
   align-items: center;
@@ -136,10 +150,10 @@
   white-space: nowrap; /* Предотвращаем перенос текста в кнопке */
 }
 
-.service-card__button:hover {
-  background: var(--font-highlight-color, #4de1cd);
-  color: var(--font-main-color, #fff);
-  border-color: var(--font-highlight-color, #4de1cd);
+.btn-wrapper:hover .service-card__button {
+  background: var(--font-highlight-color, #000);
+  color:  #000;
+  border-color: var(--font-highlight-color, transparent);
   transform: translateX(4px);
 }
 
@@ -187,11 +201,11 @@
   transition: all 0.3s ease;
 }
 
-.services__pdf-btn:hover {
+.btn-wrapper:hover .services__pdf-btn {
   background: var(--font-highlight-color, #4de1cd);
   color: var(--font-main-color, #fff);
   border-color: var(--font-highlight-color, #4de1cd);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
 }
 
 .services__pdf-btn svg {
@@ -334,7 +348,7 @@ body.services-modal-open {
   height: 40px;
   margin: 0;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -348,35 +362,59 @@ body.services-modal-open {
   -ms-user-select: none;
 }
 
-.services_close-button:hover {
-  transform: scale(1.2) rotate(90deg);
+.close-btn-wrapper {
+  grid-row: 1;
+  justify-self: end;
+  align-self: start;
+  /* display: inline-flex;           чтобы содержимое центрировалось как раньше */
+  display: block-inline;
 }
 
-.services_close-button:active {
-  transform: scale(0.9) rotate(90deg);
-  transition: all 0.1s ease;
+/* внутренний слой — только он вращается */
+.services_close-button__inner {
+	position: relative;
+	width: 20px;
+	height: 20px;
+	transition: transform .3s cubic-bezier(.25,.46,.45,.94);
+	transform-origin: 50% 50%;
+	pointer-events: none; /* хит‑зона остаётся у кнопки */
 }
 
-.services_close-button::after,
-.services_close-button::before {
+.close-btn-wrapper:hover .services_close-button__inner {
+  transform: rotate(90deg) scale(1.2);
+}
+
+/* быстрый импульс при active */
+.services_close-button:active .services_close-button__inner {
+  transform: rotate(90deg) scale(0.9);
+  transition: transform .1s ease;
+}
+
+/* линии крестика — центрируем относительно middle точки */
+.services_close-button__inner::before,
+.services_close-button__inner::after {
   content: "";
   position: absolute;
+  left: 50%;
+  top: 50%;
   width: 18px;
   height: 2px;
   background: var(--font-main-color, #fff);
   border-radius: 1px;
+  transform-origin: 50% 50%;
 }
 
-.services_close-button::after {
-  transform: rotate(45deg);
+/* две перекрещенные линии, центрирование через translate(-50%,-50%) */
+.services_close-button__inner::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.services_close-button__inner::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.services_close-button::before {
-  transform: rotate(-45deg);
-}
-
-.services_close-button:hover::after,
-.services_close-button:hover::before {
+/* подсветка линий при hover */
+.close-btn-wrapper:hover .services_close-button__inner::before,
+.close-btn-wrapper:hover .services_close-button__inner::after {
   background: var(--font-highlight-color, #4de1cd);
   width: 20px;
   height: 2.5px;
