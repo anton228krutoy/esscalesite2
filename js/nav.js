@@ -45,3 +45,12 @@
 //         });
 //     });
 // });
+document.querySelector('.nav-btn-wrapper').addEventListener('click', function() {
+  window.open(this.dataset.href, '_blank');
+});
+document.querySelector('.nav-btn-wrapper').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    window.open(this.dataset.href, '_blank');
+    e.preventDefault();
+  }
+});
