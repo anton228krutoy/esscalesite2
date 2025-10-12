@@ -61,11 +61,11 @@
   transition: outline 0.2s;
 }
 
-.interests_open-button:focus-visible {
+/* .interests_open-button:focus-visible {
   outline: 2px solid var(--font-highlight-color,#4de1cd);
   outline-offset: 2px;
   border-radius: 20px;
-}
+} */
 
 /* Контейнер кнопки */
 .interests_button-container {
