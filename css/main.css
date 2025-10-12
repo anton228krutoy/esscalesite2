@@ -168,6 +168,11 @@ input, textarea, [contenteditable="true"] {
   display: inline-flex;
   align-self: center;
   cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  box-shadow: none;
 }
 
 .nav__actions {
