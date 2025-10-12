@@ -194,7 +194,6 @@ input, textarea, [contenteditable="true"] {
 
 .nav-btn-wrapper:hover .nav__cta-button {
   background-color: transparent;
-  /* border-color: var(--font-highlight-color,#4de1cd); */
   color: var(--font-highlight-color, #ddd);
   transform: translateY(-4px);
   box-shadow: 0 4px 15px rgba(77, 225, 205, 0.3);
@@ -405,7 +404,7 @@ section {
     position: fixed;
     top: 70px;
     left: -100%;
-    width: 100%;
+    width: 100vw;
     height: calc(100vh - 70px);
     background: rgba(18, 17, 22, 0.95);
     backdrop-filter: blur(10px);

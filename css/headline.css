@@ -1,5 +1,6 @@
 /* Hero секция */
 .hero {
+  container-type: inline-size;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -15,13 +16,15 @@
 }
 
 .hero__title {
-  font-size: clamp(5rem, 8vw, 8rem);
-  font-variation-settings: "wght" var(--main-font-wght-accent, 700);
-  color: var(--font-main-color, #fff);
-  margin: 0 0 1rem 0;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  
+  font-size: clamp(1.6rem, 20cqw, 10rem);
   line-height: 1.1;
+  overflow-wrap: anywhere;  /*перенос даже без пробелов */
+  
+  hyphens: auto;            /* дефисы с lang="ru" на <html> */
+  max-width: 100%;
+  text-align: center;
+  margin: 0 auto;
 }
 
 /* Стили для анимации печатания */
