@@ -2,10 +2,10 @@
 /* Стили для секции "Услуги и Прайс" */
 
 .services__header {
-  text-align: left;
+  text-align: center;
   margin-bottom: 4rem;
   max-width: 1200px;
-  margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
 }
 
@@ -205,7 +205,9 @@
   font-size: 1.1rem;
   font-variation-settings: "wght" var(--main-font-wght, 500);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: background-color .3s, border-color .3s, 
+              transform .3s, box-shadow .3s;
+  will-change: transform;
 }
 
 .btn-wrapper:hover .services__pdf-btn {
@@ -565,7 +567,7 @@ body.services-modal-open {
   }
 }
 /* Стили для экранов 768-965px */
-@media (min-width: 768px) and (max-width: 965px) {
+@media (min-width: 769px) and (max-width: 965px) {
   .services__track {
     flex-wrap: wrap;
     justify-content: center;
@@ -594,7 +596,7 @@ body.services-modal-open {
 
 /* Удален конфликтующий медиа-запрос - теперь используются специфичные медиа-запросы выше */
 
-@media (max-width: 768px) {
+@media (min-width: 481px) and (max-width: 768px) {
   .services {
     padding: 4rem 1rem;
   }
@@ -656,6 +658,20 @@ body.services-modal-open {
   
   .services_dialog .dialog_title {
     margin-top: 2rem;
+  }
+  
+  .services__bottom {
+    margin-top: 3rem;
+    padding: 0 1rem;
+  }
+  
+  .services__bottom-title {
+    margin-bottom: 1.5rem;
+  }
+  
+  .services__pdf-btn {
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
   }
 }
 
