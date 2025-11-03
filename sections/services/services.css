@@ -2,10 +2,10 @@
 /* Стили для секции "Услуги и Прайс" */
 
 .services__header {
-  text-align: left;
+  text-align: center;
   margin-bottom: 4rem;
   max-width: 1200px;
-  margin-left: 0;
+  margin-left: auto;
   margin-right: auto;
 }
 
@@ -49,7 +49,12 @@
   border: 1px solid rgba(255, 255, 255, 0.12); /* Тонкая светлая граница */
   border-radius: 20px;
   padding: 2rem;
-  transition: all 0.3s ease;
+  transition: opacity .3s ease,
+              background-color .3s ease,
+              border-color .3s ease,
+              transform .3s cubic-bezier(.23,1,.32,1),
+              box-shadow .3s ease;
+  will-change: transform, opacity, box-shadow;
   position: relative;
   overflow: visible; /* Позволяем контенту выходить за границы при необходимости */
   opacity: 0.7;
@@ -61,7 +66,7 @@
 }
 
 .card-wrapper {
-  display: block-inline;
+  display: inline-block;
 }
 
 /* .card-wrapper .service-card {
@@ -81,10 +86,6 @@
   background: linear-gradient(135deg, rgba(77, 225, 205, 0.1) 0%, transparent 50%);
   opacity: 0;
   transition: opacity 0.3s ease;
-}
-
-.card-wrapper:hover .service-card::before {
-  opacity: 1;
 }
 
 .card-wrapper:hover .service-card {
@@ -204,7 +205,9 @@
   font-size: 1.1rem;
   font-variation-settings: "wght" var(--main-font-wght, 500);
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: background-color .3s, border-color .3s, 
+              transform .3s, box-shadow .3s;
+  will-change: transform;
 }
 
 .btn-wrapper:hover .services__pdf-btn {
@@ -256,7 +259,7 @@ body.services-modal-open {
 .services_dialog {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  width: min(90vw, 700px);
+  width: 90vw;
   max-width: min(90vw, 700px);
   background-color: var(--dialog-card-color, rgb(26, 26, 26, 0.98));
   border: 2px solid var(--card-border-color, rgba(255, 255, 255, 0.1));
@@ -373,7 +376,7 @@ body.services-modal-open {
   justify-self: end;
   align-self: start;
   /* display: inline-flex;           чтобы содержимое центрировалось как раньше */
-  display: block-inline;
+  display: inline-block;
 }
 
 /* внутренний слой — только он вращается */
@@ -564,7 +567,7 @@ body.services-modal-open {
   }
 }
 /* Стили для экранов 768-965px */
-@media (min-width: 768px) and (max-width: 965px) {
+@media (min-width: 769px) and (max-width: 965px) {
   .services__track {
     flex-wrap: wrap;
     justify-content: center;
@@ -593,7 +596,7 @@ body.services-modal-open {
 
 /* Удален конфликтующий медиа-запрос - теперь используются специфичные медиа-запросы выше */
 
-@media (max-width: 768px) {
+@media (min-width: 481px) and (max-width: 768px) {
   .services {
     padding: 4rem 1rem;
   }
@@ -647,13 +650,28 @@ body.services-modal-open {
   
   /* Специальные стили для модальных окон услуг на мобильных */
   .services_dialog {
-    background-color: rgb(26, 26, 26, 0.98) !important; /* Высокая непрозрачность */
-    backdrop-filter: blur(15px) !important; /* Дополнительное размытие */
+    width: 95vw;
+    max-width: 95vw;
+    padding: 1.5rem;
+    border-radius: 15px;
   }
   
-  /* Отступ для заголовка диалога в мобильной версии */
   .services_dialog .dialog_title {
-    margin-top: 2rem !important; /* Отступ сверху для заголовка */
+    margin-top: 2rem;
+  }
+  
+  .services__bottom {
+    margin-top: 3rem;
+    padding: 0 1rem;
+  }
+  
+  .services__bottom-title {
+    margin-bottom: 1.5rem;
+  }
+  
+  .services__pdf-btn {
+    padding: 0.8rem 1.6rem;
+    font-size: 1rem;
   }
 }
 
@@ -690,18 +708,11 @@ body.services-modal-open {
   
   /* Адаптация модальных окон для мобильных */
   .services_dialog {
-    width: min(95vw, calc(100vw - 1rem)) !important;
-    max-width: min(95vw, calc(100vw - 1rem)) !important;
+    width: calc(100vw - 2rem);
+    max-width: calc(100vw - 2rem);
     padding: 1.5rem;
     border-radius: 15px;
-    max-height: min(85vh, calc(100vh - 2rem));
-    margin: 0.5rem !important;
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    background-color: rgb(26, 26, 26, 0.99) !important; /* Максимальная непрозрачность для мобильных */
-    backdrop-filter: blur(10px) !important; /* Дополнительное размытие фона */
+    max-height: calc(100vh - 4rem);
   }
   
   .dialog_title {
@@ -736,6 +747,6 @@ body.services-modal-open {
   
   /* Дополнительный отступ для заголовка на очень маленьких экранах */
   .services_dialog .dialog_title {
-    margin-top: 2.5rem !important; /* Больший отступ для очень маленьких экранов */
+    margin-top: 2.5rem;
   }
 }
