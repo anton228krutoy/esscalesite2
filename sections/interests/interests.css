@@ -263,6 +263,16 @@ body.services-modal-open {
   color: var(--font-highlight-color,#4de1cd);
 }
 
+@media (max-width: 900px) {
+  .interests {
+    padding: 3rem 0;
+  }
+  
+  .interests .section_interests {
+    padding: 0 1rem;
+  }
+}
+
 @media (min-width: 1024px) {
   .interests_card-list { grid-template-columns: repeat(4, 1fr); }
 }
