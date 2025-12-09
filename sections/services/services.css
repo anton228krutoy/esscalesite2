@@ -4,7 +4,6 @@
 .services__header {
   text-align: center;
   margin-bottom: 4rem;
-  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -19,16 +18,11 @@
   line-height: 0.9;
 }
 
-/* Горизонтальный список услуг */
-.services__carousel {
+.services__track {
   position: relative;
   margin-bottom: 6rem;
-  width: 100%; /* динамическая ширина viewport */
-  margin-left: 0;
-  overflow: hidden;
-} 
-
-.services__track {
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   gap: 2rem;
   align-items: center;
@@ -42,8 +36,7 @@
   flex: 1 1 clamp(260px, 22%, 320px);
   min-width: 260px;
   max-width: 350px;
-  min-height: 400px; /* Минимальная высота вместо фиксированной */
-  height: auto; /* Автоматическая высота по содержимому */
+  height: 400px; /* Автоматическая высота по содержимому */
   background: rgba(255, 255, 255, 0.06); /* Мутное стекло */
   backdrop-filter: blur(20px) saturate(150%); /* Эффект мутного стекла */
   border: 1px solid rgba(255, 255, 255, 0.12); /* Тонкая светлая граница */
@@ -56,11 +49,8 @@
               box-shadow .3s ease;
   will-change: transform, opacity, box-shadow;
   position: relative;
-  overflow: visible; /* Позволяем контенту выходить за границы при необходимости */
   opacity: 0.7;
-  /* cursor: pointer; */
   display: flex;
-  flex-direction: column;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Мягкая тень */
   box-sizing: border-box; /* Включаем padding в общий размер */
 }
@@ -76,18 +66,6 @@
   will-change: transform;
 } */
 
-.card-wrapper:hover .service-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, rgba(77, 225, 205, 0.1) 0%, transparent 50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
 .card-wrapper:hover .service-card {
   opacity: 1;
   transform: translateY(-4px);
@@ -99,7 +77,6 @@
 
 .service-card__content {
   position: relative;
-  z-index: 2;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -107,7 +84,7 @@
 }
 
 .service-card__title {
-  font-size: clamp(1.25rem, 1rem + 1vw, 1.5rem);
+  font-size: clamp(1.25rem, 1rem + 2vw, 1.7rem);
   font-variation-settings: "wght" var(--main-font-wght-accent, 600);
   color: var(--font-main-color, #fff);
   margin: 0 0 1rem 0;
@@ -127,10 +104,8 @@
 }
 
 .btn-wrapper {
-  display: inline-block;
-  align-self: flex-start;     /* обрезаем по размеру контента */
   cursor: pointer;
-  outline: none;
+  outline: none; /* нужно для того, чтобы не появлялась обводка вокруг кнопки */
   -webkit-tap-highlight-color: transparent;
   -webkit-appearance: none;
   appearance: none;
@@ -146,12 +121,11 @@
   color: var(--font-main-color, #fff);
   padding: 0.75rem 1.5rem;
   border-radius: 50px;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-variation-settings: "wght" var(--main-font-wght, 500);
-  cursor: pointer;
+
   transition: all 0.3s ease;
-  align-self: flex-start;
-  margin-top: auto; /* Прижимает кнопку к низу */
+  /* margin-top: auto; Прижимает кнопку к низу */
   min-height: 44px; /* Минимальная высота для кнопки */
   white-space: nowrap; /* Предотвращаем перенос текста в кнопке */
 }
@@ -177,9 +151,6 @@
 .services__bottom {
   text-align: center;
   margin-top: 4rem;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
   padding: 0 2rem;
 }
 
@@ -225,22 +196,6 @@
   transform: translateX(4px);
 }
 
-/* Отключаем hover эффекты на сенсорных устройствах */
-@media (hover: none) and (pointer: coarse) {
-  .service-card:hover,
-  .service-card:hover::before,
-  .service-card__button:hover,
-  .service-card__button:hover svg,
-  .services__pdf-btn:hover,
-  .services__pdf-btn:hover svg {
-    transform: none;
-    opacity: inherit;
-    background: inherit;
-    border-color: inherit;
-    color: inherit;
-  }
-}
-
 /* Стили для модальных окон услуг */
 .services_dialog:not([open]) {
   display: none;
@@ -259,7 +214,6 @@ body.services-modal-open {
 .services_dialog {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  width: 90vw;
   max-width: min(90vw, 700px);
   background-color: var(--dialog-card-color, rgb(26, 26, 26, 0.98));
   border: 2px solid var(--card-border-color, rgba(255, 255, 255, 0.1));
@@ -268,7 +222,6 @@ body.services-modal-open {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
   z-index: 5;
   max-height: min(90vh, calc(100vh - 2rem));
   overflow-y: auto;
@@ -300,7 +253,7 @@ body.services-modal-open {
   font-size: clamp(1.5rem, 1.2rem + 1.5vw, 2.2rem);
   font-variation-settings: "wght" var(--main-font-wght-accent, 700);
   color: var(--font-highlight-color, #4de1cd);
-  margin: 0 0 1.5rem 0;
+  margin-bottom: 1.5rem;
   padding-bottom: 1rem;
   border-bottom: 2px solid var(--font-highlight-color, #4de1cd);
 }
@@ -375,7 +328,6 @@ body.services-modal-open {
   grid-row: 1;
   justify-self: end;
   align-self: start;
-  /* display: inline-flex;           чтобы содержимое центрировалось как раньше */
   display: inline-block;
 }
 
@@ -437,233 +389,40 @@ body.services-modal-open {
 
 
 
-/* Стили для экранов 1300-1365px (исключаем iPad Pro 1366px) */
-
+/* Отключаем hover эффекты на сенсорных устройствах */
+@media (hover: none) and (pointer: coarse) {
+  .service-card:hover,
+  .service-card:hover::before,
+  .service-card__button:hover,
+  .service-card__button:hover svg,
+  .services__pdf-btn:hover,
+  .services__pdf-btn:hover svg {
+    transform: none;
+    opacity: inherit;
+    background: inherit;
+    border-color: inherit;
+    color: inherit;
+  }
+}
 
 /* Стили для больших экранов (1401px - 1600px) */
-@media (min-width: 1401px) and (max-width: 1600px) {
-  .services__carousel {
-    width: 80vw; /* 80% ширины viewport */
-    margin-left: auto;
-    margin-right: auto; /* Центрирование через margin */
-    overflow: visible;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  .services__track {
-    align-self: center;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: clamp(1rem, 1.5vw, 1.8rem);
-    padding: 4rem 0;
-    max-width: 100%; /* 100% ширины .services__carousel */
-    margin: 0; /* БЕЗ auto - уже центрирован родитель */
-    align-items: center;
-  }
-  
+@media (min-width: 1024px) {
   .service-card {
-    flex: 1 1 0;
-    min-width: 0;
-    max-width: clamp(260px, 18vw, 300px);
-    width: 100%;
     min-height: 480px;
-
-  }
-  
-  .service-card__title {
-    font-size: clamp(1.1rem, 1.5vw, 1.35rem);
-    line-height: 1.3;
-  }
-  
-  .service-card__description {
-    font-size: clamp(0.9rem, 1vw, 1rem);
-    line-height: 1.5;
-    margin-bottom: 1.5rem;
-  }
-  
-  .service-card__button {
-    padding: clamp(0.7rem, 1vw, 0.9rem) clamp(1.2rem, 1.5vw, 1.8rem);
-    font-size: clamp(0.85rem, 1vw, 1rem);
-  }
-
-/* Стили для очень больших экранов (больше 1600px) */
-@media (min-width: 1601px) {
-  .services__carousel {
-    width: 100%;
-    margin-left: 0;
-  }
-  
-  .services__track {
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: 2.5rem;
-    padding: 4rem 2.5rem;
-    max-width: 1800px;
-    margin: 0 auto;
-  }
-  
-  .service-card {
-    flex: 1 1 300px;
-    min-width: 280px;
-    max-width: 320px;
-    min-height: 500px;
-    height: auto; /* Автоматическая высота по содержимому */
-  }
-  
-  .service-card__description {
-    font-size: 1.05rem;
-    line-height: 1.5;
-    margin-bottom: 1.5rem;
-  }
-  
-  .service-card__button {
-    padding: 1rem 2rem;
-    font-size: 1.05rem;
   }
 }
 
-/* Стили для экранов 966-1200px */
-@media (min-width: 966px) and (max-width: 1200px) {
-  .services__track {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;          /* чуть меньше отступы */
-    padding: 2.5rem 1rem;
-  }
-  
-  .service-card {
-    flex: 1 1 250px;    /* подгоняем ширину под меньшие экраны */
-    min-width: 220px;
-    max-width: 280px;
-    height: 360px;
-  }
-  
-  .service-card__description {
-    font-size: 0.85rem;
-    line-height: 1.3;
-    margin-bottom: 0.8rem;
-  }
-  
-  .service-card__button {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.85rem;
-  }
-}
+/* Стили для планшетов */
+@media (min-width: 768px) and (max-width: 1023px) {
 
-/* --- 2) Экраны 1201px — 1400px --- */
-@media (min-width: 1201px) and (max-width: 1400px) {
-  .services__track {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.2rem;       /* чуть больше отступы */
-    padding: 3rem 1.5rem;
-  }
-  
-  .service-card {
-    flex: 0 0 32%;    /* увеличиваем базовую ширину */
-    min-width: 300px;
-    max-width: 650px;
-    height: 380px;
-  }
-  
-  .service-card__description {
-    font-size: 0.9rem;
-    line-height: 1.4;
-    margin-bottom: 1rem;
-  }
-  
-  .service-card__button {
-    padding: 0.7rem 1.4rem;
-    font-size: 0.9rem;
-  }
-}
-/* Стили для экранов 768-965px */
-@media (min-width: 769px) and (max-width: 965px) {
-  .services__track {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    padding: 2.5rem 1rem;
-  }
-  
-  .service-card {
-    flex: 1 1 250px;
-    min-width: 220px;
-    max-width: 280px;
-    height: 360px;
-  }
-  
-  .service-card__description {
-    font-size: 0.85rem;
-    line-height: 1.3;
-    margin-bottom: 0.8rem;
-  }
-  
-  .service-card__button {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.85rem;
-  }
 }
 
 /* Удален конфликтующий медиа-запрос - теперь используются специфичные медиа-запросы выше */
 
-@media (min-width: 481px) and (max-width: 768px) {
-  .services {
-    padding: 4rem 1rem;
-  }
-  
-  .services__carousel {
-    width: 100%;
-    margin-left: 0;
-  }
-  
-  .services__track {
-    padding: 4rem 1rem;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem;
-  }
-  
-  .services__header {
-    text-align: left;
-  }
-  
-  .service-card {
-    height: 400px; /* Увеличиваем высоту для мобильных */
-    min-width: 250px;
-    max-width: 300px;
-    flex: 1 1 250px;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.08); /* Мутное стекло */
-    backdrop-filter: blur(25px) saturate(180%); /* Эффект мутного стекла */
-    border: 1px solid rgba(255, 255, 255, 0.15); /* Тонкая светлая граница */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Мягкая тень */
-  }
-  
-  .service-card__description {
-    color: rgba(255, 255, 255, 0.95); /* Более яркий текст */
-    font-size: 0.9rem;
-    line-height: 1.5; /* Уменьшаем межстрочный интервал */
-    margin-bottom: 1rem; /* Уменьшаем отступ снизу */
-  }
-  
-  .service-card__title {
-    color: #ffffff; /* Чисто белый цвет для заголовка */
-    font-size: 1.1rem;
-    margin-bottom: 0.8rem; /* Уменьшаем отступ */
-  }
-  
-  .service-card__button {
-    padding: 0.6rem 1.2rem; /* Уменьшаем отступы кнопки */
-    font-size: 0.85rem; /* Уменьшаем размер шрифта */
-    margin-top: 0.5rem; /* Уменьшаем отступ сверху */
-  }
-  
+@media (max-width: 767px) {
   /* Специальные стили для модальных окон услуг на мобильных */
   .services_dialog {
-    width: 95vw;
+    width: 90vw;
     max-width: 95vw;
     padding: 1.5rem;
     border-radius: 15px;
@@ -671,95 +430,5 @@ body.services-modal-open {
   
   .services_dialog .dialog_title {
     margin-top: 2rem;
-  }
-  
-  .services__bottom {
-    margin-top: 3rem;
-    padding: 0 1rem;
-  }
-  
-  .services__bottom-title {
-    margin-bottom: 1.5rem;
-  }
-  
-  .services__pdf-btn {
-    padding: 0.8rem 1.6rem;
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .service-card {
-    height: 380px; /* Увеличиваем высоту для очень маленьких экранов */
-    min-width: 200px;
-    max-width: 280px;
-    padding: 1.25rem;
-    background: rgba(255, 255, 255, 0.1); /* Мутное стекло для маленьких экранов */
-    backdrop-filter: blur(30px) saturate(200%); /* Усиленный эффект мутного стекла */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Более заметная граница */
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4); /* Более глубокая тень */
-  }
-  
-  .service-card__title {
-    font-size: 1rem;
-    color: #ffffff; /* Чисто белый цвет */
-    margin-bottom: 0.7rem; /* Уменьшаем отступ */
-  }
-  
-  .service-card__description {
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.98); /* Почти белый текст */
-    line-height: 1.4; /* Компактный межстрочный интервал */
-    margin-bottom: 0.8rem; /* Уменьшаем отступ */
-  }
-  
-  .service-card__button {
-    padding: 0.5rem 1rem; /* Еще более компактные отступы */
-    font-size: 0.8rem; /* Еще меньший размер шрифта */
-    margin-top: 0.3rem; /* Минимальный отступ сверху */
-  }
-  
-  /* Адаптация модальных окон для мобильных */
-  .services_dialog {
-    width: calc(100vw - 2rem);
-    max-width: calc(100vw - 2rem);
-    padding: 1.5rem;
-    border-radius: 15px;
-    max-height: calc(100vh - 4rem);
-  }
-  
-  .dialog_title {
-    font-size: clamp(1.2rem, 1.5rem + 1vw, 1.8rem);
-    padding-bottom: 1rem;
-  }
-  
-  .dialog_text {
-    font-size: clamp(0.9rem, 1rem + 0.5vw, 1.2rem);
-    line-height: 1.5;
-  }
-  
-  .dialog_services h4 {
-    font-size: clamp(1rem, 1.1rem + 0.5vw, 1.3rem);
-  }
-  
-  .dialog_services li {
-    font-size: clamp(0.85rem, 0.9rem + 0.3vw, 1rem);
-  }
-  
-  .services_close-button {
-    width: 45px;
-    height: 45px;
-    margin: 0;
-  }
-  
-  .services_close-button::after,
-  .services_close-button::before {
-    width: 24px;
-    height: 3px;
-  }
-  
-  /* Дополнительный отступ для заголовка на очень маленьких экранах */
-  .services_dialog .dialog_title {
-    margin-top: 2.5rem;
   }
 }
