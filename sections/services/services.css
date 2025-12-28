@@ -36,7 +36,7 @@
   flex: 1 1 clamp(260px, 22%, 320px);
   min-width: 260px;
   max-width: 350px;
-  height: 400px; /* Автоматическая высота по содержимому */
+  height: 500px; /* Автоматическая высота по содержимому */
   background: rgba(255, 255, 255, 0.06); /* Мутное стекло */
   backdrop-filter: blur(20px) saturate(150%); /* Эффект мутного стекла */
   border: 1px solid rgba(255, 255, 255, 0.12); /* Тонкая светлая граница */

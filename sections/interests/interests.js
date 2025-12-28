@@ -326,11 +326,7 @@ window.initInterestsDialogs = function() {
     dialog.addEventListener('show', dialog._showHandler);
     dialog.addEventListener('close', dialog._closeHandler);
     dialog.addEventListener('keydown', dialog._keydownHandler);
-    
-    // Добавляем обработчик клика с небольшой задержкой, чтобы избежать конфликтов
-    setTimeout(() => {
-      dialog.addEventListener('click', dialog._clickHandler);
-    }, 100);
+    dialog.addEventListener('click', dialog._clickHandler);
     
     console.log(`✅ Добавлены обработчики для диалога ${index + 1} (${dialog.id}):`, {
       hasShowHandler: !!dialog._showHandler,
