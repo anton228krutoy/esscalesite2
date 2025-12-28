@@ -169,51 +169,6 @@ body.services-modal-open {
   font-size:clamp(1rem,0.4286rem +1.1905vw,1.5rem);
 }
 
-/* Скопированные из services.css ключевые кадры */
-@keyframes backdrop-fade-in {
-  from {
-    background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0);
-  }
-  to {
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-  }
-}
-
-@keyframes backdrop-fade-out {
-  from {
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-  }
-  to {
-    background: rgba(0, 0, 0, 0);
-    backdrop-filter: blur(0);
-  }
-}
-
-@keyframes dialog-fade-in {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-}
-
-@keyframes dialog-fade-out {
-  from {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.95);
-  }
-}
-
 
 /* Кнопка закрытия */
 .interests_close-button {
@@ -250,9 +205,6 @@ body.services-modal-open {
   box-shadow: 0 20px 40px rgba(77,225,205,0.15), 0 8px 32px rgba(0,0,0,0.3);
 }
 
-
-
-
 .interests_button-container:hover {
   background-color: transparent;
   border-color: var(--font-highlight-color,#4de1cd);
@@ -263,13 +215,30 @@ body.services-modal-open {
   color: var(--font-highlight-color,#4de1cd);
 }
 
+/* Отключаем hover эффекты на сенсорных устройствах */
+@media (hover: none) and (pointer: coarse) {
+  .interests_card-item:hover,
+  .interests_button-container:hover,
+  .interests_button-container:hover .interests_button-text,
+  .interests_close-button:hover,
+  .interests_close-button:hover::before,
+  .interests_close-button:hover::after {
+    transform: none;
+    background: inherit;
+    border-color: inherit;
+    color: inherit;
+    box-shadow: inherit;
+  }
+}
+
+
 @media (min-width: 1024px) {
   .interests_card-list { grid-template-columns: repeat(4, 1fr); }
 }
 /* @media (min-width: 768px) and (max-width: 1023px) {
   .interests_card-list { grid-template-columns: repeat(3, 1fr); }
 } */
-@media (max-width: 1024px) {
+@media (min-width: 481px) and (max-width: 1024px) {
   .interests_card-list { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 480px) {

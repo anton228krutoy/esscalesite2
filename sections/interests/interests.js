@@ -10,10 +10,9 @@ function openInterestsDialog(dialog) {
   
   // Блокируем прокрутку
   document.body.classList.add('interests-modal-open');
-  // document.body.style.top = `-${scrollPosition}px`;
 
   document.body.style.overflow = 'hidden';
-   document.body.style.top = `-${scrollPosition}px`;
+  document.body.style.top = `-${scrollPosition}px`;
   
   // Открываем модальное окно
   dialog.showModal();
@@ -92,7 +91,6 @@ function resetAllInterestCards() {
   console.log('🔄 Состояние всех карточек интересов сброшено');
 }
 
-/* Глобальные обработчики удалены - используются только в initInterestsDialogs */
 
 /* Инициализация кликов по карточкам */
 function initCardClicks() {
@@ -107,7 +105,6 @@ function initCardClicks() {
     
     // Удаляем старые обработчики
     card.removeEventListener('click', card._cardClickHandler);
-    card.removeEventListener('touchend', card._cardTouchHandler);
     
     // Создаем новые обработчики
     card._cardClickHandler = (event) => {
@@ -123,7 +120,7 @@ function initCardClicks() {
       event.stopPropagation();
       
       // Определяем ID диалога из HTML onclick атрибута
-      const dialogId = card.onclick && card.onclick.toString().match(/getElementById\('([^']+)'\)/)?.[1];
+      const dialogId = card.dataset.dialogId;
       
       if (dialogId) {
         const dialog = document.getElementById(dialogId);
@@ -134,36 +131,14 @@ function initCardClicks() {
       }
     };
     
-    card._cardTouchHandler = (event) => {
-      console.log('🔥 TOUCH ПО КАРТОЧКЕ!', {
-        card: card,
-        cardIndex: index,
-        event: event
-      });
-      
-      // Предотвращаем всплытие события
-      event.preventDefault();
-      event.stopPropagation();
-      
-      // Определяем ID диалога из HTML onclick атрибута
-      const dialogId = card.onclick && card.onclick.toString().match(/getElementById\('([^']+)'\)/)?.[1];
-      
-      if (dialogId) {
-        const dialog = document.getElementById(dialogId);
-        if (dialog) {
-          console.log('✅ Открываем диалог по touch на карточку:', dialogId);
-          openInterestsDialog(dialog);
-        }
-      }
-    };
+    
     
     // Добавляем обработчики
     card.addEventListener('click', card._cardClickHandler);
-    card.addEventListener('touchend', card._cardTouchHandler);
+    
     
     console.log(`✅ Добавлены обработчики для карточки ${index + 1}:`, {
       hasClickHandler: !!card._cardClickHandler,
-      hasTouchHandler: !!card._cardTouchHandler
     });
   });
   
@@ -173,7 +148,6 @@ function initCardClicks() {
     
     // Удаляем старые обработчики
     button.removeEventListener('click', button._buttonClickHandler);
-    button.removeEventListener('touchend', button._buttonTouchHandler);
     
     // Создаем новые обработчики
     button._buttonClickHandler = (event) => {
@@ -200,36 +174,12 @@ function initCardClicks() {
       }
     };
     
-    button._buttonTouchHandler = (event) => {
-      console.log('🔥 TOUCH ПО КНОПКЕ ПОДРОБНЕЕ!', {
-        button: button,
-        buttonIndex: index,
-        event: event
-      });
-      
-      // Предотвращаем всплытие события
-      event.preventDefault();
-      event.stopPropagation();
-      
-      // Определяем ID диалога из HTML onclick атрибута
-      const dialogId = button.onclick && button.onclick.toString().match(/getElementById\('([^']+)'\)/)?.[1];
-      
-      if (dialogId) {
-        const dialog = document.getElementById(dialogId);
-        if (dialog) {
-          console.log('✅ Открываем диалог по touch на кнопку:', dialogId);
-          openInterestsDialog(dialog);
-        }
-      }
-    };
     
     // Добавляем обработчики
     button.addEventListener('click', button._buttonClickHandler);
-    button.addEventListener('touchend', button._buttonTouchHandler);
     
     console.log(`✅ Добавлены обработчики для кнопки ${index + 1}:`, {
       hasClickHandler: !!button._buttonClickHandler,
-      hasTouchHandler: !!button._buttonTouchHandler
     });
   });
   
@@ -291,10 +241,6 @@ window.initInterestsDialogs = function() {
       button.removeEventListener('click', button._clickHandler);
       console.log(`Удален старый click handler для кнопки ${index + 1}`);
     }
-    if (button._touchendHandler) {
-      button.removeEventListener('touchend', button._touchendHandler);
-      console.log(`Удален старый touchend handler для кнопки ${index + 1}`);
-    }
     
     // Создаем именованные функции для обработчиков
     button._clickHandler = (event) => {
@@ -319,28 +265,12 @@ window.initInterestsDialogs = function() {
       }
     };
     
-    button._touchendHandler = (event) => {
-      console.log('🔥 TOUCH ПО КНОПКЕ ЗАКРЫТИЯ INTERESTS!', {
-        button: button,
-        dialog: button.closest('dialog'),
-        event: event
-      });
-      event.preventDefault();
-      event.stopPropagation();
-      const dialog = button.closest('dialog');
-      if (dialog) {
-        console.log('✅ Закрываем диалог interests по touch:', dialog.id);
-        closeDialog(dialog);
-      }
-    };
     
     // Добавляем обработчики
     button.addEventListener('click', button._clickHandler);
-    button.addEventListener('touchend', button._touchendHandler);
     
     console.log(`✅ Добавлены обработчики для кнопки ${index + 1}:`, {
       hasClickHandler: !!button._clickHandler,
-      hasTouchendHandler: !!button._touchendHandler,
       buttonElement: button
     });
   });
@@ -436,7 +366,6 @@ window.initInterestsDialogs = function() {
       console.log('🧪 Кнопка закрытия найдена:', closeButton);
       console.log('🧪 Обработчики кнопки:', {
         hasClickHandler: !!closeButton?._clickHandler,
-        hasTouchendHandler: !!closeButton?._touchendHandler
       });
     } else {
       console.error('❌ Диалог не найден:', dialogId);
