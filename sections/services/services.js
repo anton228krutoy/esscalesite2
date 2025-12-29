@@ -10,24 +10,18 @@ function closeServiceDialog(dialog) {
   
   // Сохраняем позицию прокрутки перед разблокировкой
   const scrollPosition = parseInt(document.body.style.top || '0') * -1;
-  //const scrollPosition = window.pageYOffset;
-  
-  document.body.classList.remove('services-modal-open');
-  document.body.style.top = '';
-
-  // Отключаем плавную прокрутку только на момент jump scroll
-  document.documentElement.style.scrollBehavior = 'auto';
-  window.scrollTo(0, scrollPosition);
-  document.documentElement.style.scrollBehavior = '';
-
 
   // Разблокируем прокрутку
-  // document.body.classList.remove('services-modal-open');
-  // document.body.style.top = '';
+  document.body.classList.remove('services-modal-open');
+  document.body.style.top = '';
   
+  document.documentElement.style.scrollBehavior = 'auto';
   // Восстанавливаем позицию прокрутки
-  // window.scrollTo(0, scrollPosition);
+  window.scrollTo(0, scrollPosition);
   
+  // Возвращаем плавную прокрутку
+  document.documentElement.style.scrollBehavior = '';
+
   dialog.classList.add('closing');
   setTimeout(() => {
     dialog.close();

@@ -36,7 +36,7 @@
   flex: 1 1 clamp(260px, 22%, 320px);
   min-width: 260px;
   max-width: 350px;
-  height: 400px; /* Автоматическая высота по содержимому */
+  height: 500px; /* Автоматическая высота по содержимому */
   background: rgba(255, 255, 255, 0.06); /* Мутное стекло */
   backdrop-filter: blur(20px) saturate(150%); /* Эффект мутного стекла */
   border: 1px solid rgba(255, 255, 255, 0.12); /* Тонкая светлая граница */
@@ -59,12 +59,6 @@
   display: inline-block;
 }
 
-/* .card-wrapper .service-card {
-  transition: transform .35s cubic-bezier(.23,1,.32,1),
-              box-shadow .35s cubic-bezier(.23,1,.32,1),
-              border-color .35s cubic-bezier(.23,1,.32,1);
-  will-change: transform;
-} */
 
 .card-wrapper:hover .service-card {
   opacity: 1;
@@ -196,11 +190,6 @@
   transform: translateX(4px);
 }
 
-/* Стили для модальных окон услуг */
-.services_dialog:not([open]) {
-  display: none;
-}
-
 /* Блокируем прокрутку при открытом модальном окне услуг */
 body.services-modal-open {
   overflow: hidden;
@@ -214,7 +203,7 @@ body.services-modal-open {
 .services_dialog {
   display: grid;
   grid-template-rows: auto 1fr auto;
-  max-width: min(90vw, 700px);
+  width: min(90vw, 700px);
   background-color: var(--dialog-card-color, rgb(26, 26, 26, 0.98));
   border: 2px solid var(--card-border-color, rgba(255, 255, 255, 0.1));
   border-radius: 20px;
@@ -222,11 +211,18 @@ body.services-modal-open {
   position: fixed;
   top: 50%;
   left: 50%;
-  z-index: 5;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+  z-index: 1000;
   max-height: min(90vh, calc(100vh - 2rem));
   overflow-y: auto;
   margin: 0;
   box-sizing: border-box;
+}
+
+/* Стили для модальных окон услуг */
+.services_dialog:not([open]) {
+  display: none;
 }
 
 .services_dialog::backdrop {
@@ -417,7 +413,6 @@ body.services-modal-open {
 
 }
 
-/* Удален конфликтующий медиа-запрос - теперь используются специфичные медиа-запросы выше */
 
 @media (max-width: 767px) {
   /* Специальные стили для модальных окон услуг на мобильных */
