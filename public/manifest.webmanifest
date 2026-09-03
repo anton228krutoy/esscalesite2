@@ -1,0 +1,15 @@
+{
+  "name": "ESSCALE — инженерная разработка",
+  "short_name": "ESSCALE",
+  "description": "Разработка ПО для задач, у которых нет готового решения: высоконагруженные системы, мобильные приложения, машинное обучение.",
+  "lang": "ru",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#08090B",
+  "theme_color": "#08090B",
+  "icons": [
+    { "src": "/favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
