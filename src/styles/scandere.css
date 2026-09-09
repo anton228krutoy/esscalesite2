@@ -1,0 +1,486 @@
+/* ============================================================
+   Страница проекта Scandere.
+
+   Отдельный дизайн-язык, взятый у самого приложения: тёплая
+   зелёная тьма вместо холодной чёрной, мятный акцент, крупные
+   скруглённые карточки. Заголовки набраны Onest, а не Unbounded —
+   этого достаточно, чтобы страница ощущалась как продукт,
+   а не как ещё одна секция сайта.
+   ============================================================ */
+
+.s-page {
+  /* Переопределяем токены точечно: структура шкал остаётся
+     общей с сайтом, меняются только роли цвета и характер. */
+  --rgb-void:   8 19 15;        /* #08130F — зелёная тьма */
+  --rgb-cool:  79 209 197;      /* #4FD1C5 — мятный акцент приложения */
+  --mark-top:    #A9F0E2;
+  --mark-bottom: #2FB9A8;
+
+  --s-card:   rgb(255 255 255 / 0.035);
+  --s-line:   rgb(var(--rgb-cool) / 0.16);
+  --s-radius: 18px;
+
+  background:
+    radial-gradient(90% 60% at 50% -10%, rgb(var(--rgb-cool) / 0.10), transparent 70%),
+    radial-gradient(70% 50% at 100% 100%, rgb(var(--rgb-cool) / 0.06), transparent 70%),
+    var(--c-bg);
+  background-attachment: fixed;
+}
+
+.s-wrap {
+  width: 100%;
+  max-width: 64rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* --- Шапка -------------------------------------------------------------- */
+
+.s-top {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--gutter);
+  background: rgb(var(--rgb-void) / 0.72);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--c-line);
+}
+.s-top__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--c-text);
+}
+.s-top__arrow { transition: transform var(--dur-base) var(--ease-spring); }
+@media (hover: hover) {
+  .s-top__back:hover .s-top__arrow { transform: translateX(-4px); }
+}
+.s-top__here { color: var(--c-text-faint); }
+
+/* --- Первый экран -------------------------------------------------------- */
+
+.s-hero {
+  padding-block: clamp(3rem, 2rem + 5vw, 6rem) clamp(2.5rem, 2rem + 3vw, 4rem);
+  text-align: center;
+}
+.s-hero__mark { display: flex; justify-content: center; margin-bottom: var(--space-5); }
+.mark { filter: drop-shadow(0 8px 32px rgb(var(--rgb-cool) / 0.28)); }
+
+.s-hero__title {
+  /* Onest, а не Unbounded: на сайте характерный дисплейный шрифт,
+     здесь — тот же гротеск, что в интерфейсе приложения. */
+  font-family: var(--ff-sans);
+  font-size: clamp(2.5rem, 1.7rem + 3.6vw, 4.5rem);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-tighter);
+  line-height: 1;
+}
+.s-hero__kind {
+  margin-top: var(--space-3);
+  color: var(--c-accent);
+}
+.s-hero__lede {
+  margin: var(--space-5) auto 0;
+  max-width: 52ch;
+  font-size: var(--fs-300);
+  line-height: var(--lh-relaxed);
+  color: var(--c-text-muted);
+}
+
+/* --- Скачивание ---------------------------------------------------------- */
+
+.s-get {
+  margin-top: var(--space-7);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-4);
+}
+
+.s-btn {
+  display: grid;
+  gap: 2px;
+  padding: 0.9em 1.6em;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--s-line);
+  background: var(--s-card);
+  color: var(--c-text);
+  text-align: center;
+  transition:
+    opacity var(--dur-base) var(--ease-out) var(--enter-delay, 0ms),
+    border-color var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-out);
+}
+.s-btn__label { font-size: var(--fs-200); font-weight: var(--fw-medium); }
+.s-btn__note  { font-size: var(--fs-50); color: var(--c-text-faint); }
+
+.s-btn--primary {
+  background: rgb(var(--rgb-cool));
+  border-color: rgb(var(--rgb-cool));
+  color: rgb(var(--rgb-void));
+}
+.s-btn--primary .s-btn__note { color: rgb(var(--rgb-void) / 0.65); }
+
+@media (hover: hover) {
+  .s-btn:hover { border-color: rgb(var(--rgb-cool) / 0.5); }
+  .s-btn--primary:hover { border-color: rgb(var(--rgb-cool)); }
+}
+
+/* Пока ссылки нет, кнопка честно выглядит недоступной, а не
+   ведёт в 404. Состояние приходит из данных, а не из разметки. */
+.s-btn[data-soon] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.s-btn[data-soon] .s-btn__note::after { content: " · скоро"; }
+@media (hover: hover) {
+  .s-btn[data-soon]:hover { border-color: var(--s-line); }
+}
+
+/* --- Секции --------------------------------------------------------------- */
+
+.s-section { padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem); }
+
+/* Появление включает сам скрипт, выставив data-anim на <html>.
+   Без этого секции скрыты не были бы: контент, который прячется
+   в CSS и показывается в JS, исчезает целиком, если скрипт
+   не доехал. */
+:root[data-anim] .s-section,
+:root[data-anim] .s-cta {
+  opacity: 0;
+  transform: translateY(1.2rem);
+  transition: opacity var(--dur-slow) var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
+}
+:root[data-anim] .s-section[data-in],
+:root[data-anim] .s-cta[data-in] { opacity: 1; transform: none; }
+
+.s-h2 {
+  font-family: var(--ff-sans);
+  font-size: var(--fs-500);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-tight);
+}
+.s-sub {
+  margin-top: var(--space-3);
+  max-width: 56ch;
+  color: var(--c-text-muted);
+  line-height: var(--lh-relaxed);
+}
+
+/* --- Метрики ---------------------------------------------------------------- */
+
+.s-chips {
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.s-chip {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 0.75em 1.4em;
+  border-radius: var(--r-pill);
+  border: 1px solid rgb(var(--rgb-cool) / 0.3);
+  background: rgb(var(--rgb-cool) / 0.07);
+  font-size: var(--fs-200);
+  font-weight: var(--fw-medium);
+  color: rgb(var(--rgb-cool));
+
+  /* Переходы перечислены здесь один раз и с разными задержками.
+     Раньше задержка появления (по индексу) распространялась на ВСЕ
+     свойства, включая наведение: первый чип отзывался мгновенно,
+     десятый — через полсекунды, и список выглядел рассинхронизированным.
+     Теперь ждёт очереди только появление.
+
+     transform в списке есть, но под курсором он мгновенный (см. ниже):
+     иначе магнит каждый кадр перезапускал бы переход. */
+  transition:
+    opacity var(--dur-base) var(--ease-out) var(--enter-delay, 0ms),
+    border-color var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-out);
+}
+
+/* Свет идёт за курсором и не заливает чип целиком: заливка гасила
+   сам засвет, ради которого всё и делалось. */
+.s-chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(5rem 5rem at var(--mx, 50%) var(--my, 50%),
+              rgb(var(--rgb-cool) / 0.42), transparent 72%);
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .s-chip:hover {
+    border-color: rgb(var(--rgb-cool) / 0.75);
+    background: rgb(var(--rgb-cool) / 0.12);
+    /* Покачивание не останавливаем: резкая остановка анимации
+       читалась как рывок. Элемент продолжает качаться и
+       одновременно тянется за курсором. */
+  }
+  .s-chip:hover::after { opacity: 1; }
+}
+
+/* Постоянное покачивание. Пишется в свойство translate, а не в
+   transform: они независимы, поэтому магнитное смещение от курсора
+   (его ставит скрипт в transform) не затирает анимацию и наоборот. */
+@keyframes chip-float {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -7px; }
+}
+
+/* Покачивание только пока секция в кадре: иначе десять
+   композитных анимаций тикают до конца жизни страницы, в том
+   числе когда блок давно уехал за экран. */
+:root[data-anim] [data-visible] .s-chip {
+  animation: chip-float 4.4s ease-in-out infinite;
+  /* Отрицательная задержка сдвигает фазу, а не откладывает старт:
+     чипы качаются вразнобой, а не строем. */
+  animation-delay: calc(var(--i, 0) * -0.62s);
+}
+
+/* Появление: только прозрачность. Сдвиг сюда добавлять нельзя —
+   он писался бы в transform, за который отвечает магнит, или в
+   translate, занятый покачиванием. */
+:root[data-anim] .s-chip,
+:root[data-anim] .s-card,
+:root[data-anim] .s-btn {
+  opacity: 0;
+  --enter-delay: calc(var(--i, 0) * 55ms);
+}
+:root[data-anim] [data-in] .s-chip,
+:root[data-anim] [data-in] .s-card,
+:root[data-anim] [data-in] .s-btn,
+:root[data-anim] .s-hero .s-btn {
+  opacity: 1;
+}
+
+/* --- Карточки --------------------------------------------------------------- */
+
+.s-grid {
+  margin: var(--space-6) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--space-4);
+}
+.s-grid--wide { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+
+.s-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: var(--space-5);
+  border-radius: var(--s-radius);
+  border: 1px solid var(--s-line);
+  background: var(--s-card);
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+  transition:
+    opacity var(--dur-base) var(--ease-out) var(--enter-delay, 0ms),
+    border-color var(--dur-base) var(--ease-out),
+    background var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .s-card:hover {
+    border-color: rgb(var(--rgb-cool) / 0.55);
+  }
+  .s-card:hover .s-card__title { color: rgb(var(--rgb-cool)); }
+}
+.s-card__title { transition: color var(--dur-base) var(--ease-out); }
+
+/* Тот же приём, что у чипов: свет идёт за курсором, а не
+   заливает карточку целиком по наведению. */
+.s-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(14rem 14rem at var(--mx, 50%) var(--my, 50%),
+              rgb(var(--rgb-cool) / 0.16), transparent 68%);
+  transition: opacity var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .s-card:hover::after { opacity: 1; }
+}
+.s-card__title { font-size: var(--fs-300); font-weight: var(--fw-medium); }
+.s-card__note  { font-size: var(--fs-100); color: var(--c-text-muted); line-height: var(--lh-relaxed); }
+
+/* --- Карта ------------------------------------------------------------------ */
+
+.s-map {
+  position: relative;
+  margin-top: var(--space-6);
+  display: grid;
+  place-items: center;
+  padding: var(--space-6);
+  border-radius: var(--s-radius);
+  border: 1px solid var(--s-line);
+  background:
+    radial-gradient(80% 70% at 50% 30%, rgb(var(--rgb-cool) / 0.07), transparent 70%),
+    var(--s-card);
+  overflow: hidden;
+}
+.s-map .citymap {
+  --map-line: rgb(var(--rgb-light) / 0.55);
+  --map-river: rgb(var(--rgb-cool) / 0.85);
+  width: min(100%, 34rem);
+}
+.s-map .pin__dot  { fill: rgb(var(--rgb-cool)); }
+.s-map .pin--active .pin__dot  { fill: rgb(var(--rgb-signal)); }
+
+/* Панель выбранной точки */
+.s-map__panel {
+  position: absolute;
+  left: var(--space-5);
+  bottom: var(--space-5);
+  min-width: min(16rem, 70vw);
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--s-radius);
+  background: rgb(var(--rgb-void) / 0.82);
+  border: 1px solid var(--s-line);
+  backdrop-filter: blur(12px);
+}
+
+/* Короткая подсветка рамки на смене точки — подтверждение,
+   что нажатие сработало, без движения самой панели. */
+.s-map__panel.is-updated {
+  animation: panel-ping var(--dur-slow) var(--ease-out);
+}
+@keyframes panel-ping {
+  0%   { border-color: rgb(var(--rgb-cool) / 0.85); }
+  100% { border-color: var(--s-line); }
+}
+
+.s-map__panel-title {
+  font-size: var(--fs-300);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-tight);
+}
+
+.s-map__stats {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-5);
+}
+.s-map__stat {
+  display: grid;
+  gap: 2px;
+  /* Показатели проявляются по очереди, а не все разом. */
+  animation: stat-in var(--dur-base) var(--ease-out) backwards;
+  animation-delay: calc(var(--k, 0) * 45ms);
+}
+@keyframes stat-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+.s-map__stat-label { color: var(--c-text-faint); font-size: var(--fs-50); }
+.s-map__stat-value {
+  margin: 0;
+  font-family: var(--ff-mono);
+  font-size: var(--fs-300);
+  font-variant-numeric: tabular-nums;
+  color: rgb(var(--rgb-cool));
+}
+
+.s-map__hint {
+  position: absolute;
+  right: var(--space-5);
+  top: var(--space-5);
+  color: var(--c-text-faint);
+  font-size: var(--fs-50);
+}
+
+/* Точки-кнопки */
+.s-map .pin { cursor: pointer; }
+.s-map .pin__hit { fill: transparent; }   /* область нажатия крупнее самой точки */
+.s-map .pin__halo,
+.s-map .pin__dot { transition: fill var(--dur-base) var(--ease-out), stroke var(--dur-base) var(--ease-out); }
+
+/* Пульс только у выбранной: если пульсируют все, ни одна
+   не читается как выбранная. */
+.s-map .pin__pulse { opacity: 0; animation: none; }
+[data-visible] .s-map .pin--active .pin__pulse {
+  opacity: 1;
+  animation: pin-pulse 3.4s var(--ease-out) infinite;
+}
+
+.s-map .pin:focus-visible { outline: none; }
+.s-map .pin:focus-visible .pin__halo {
+  stroke: rgb(var(--rgb-signal));
+  stroke-width: 2;
+}
+@media (hover: hover) {
+  .s-map .pin:not(.pin--active):hover .pin__dot { fill: rgb(var(--rgb-light)); }
+}
+
+@media (max-width: 640px) {
+  .s-map__panel { position: static; margin-top: var(--space-5); }
+  .s-map__hint { display: none; }
+}
+
+/* --- Факты -------------------------------------------------------------------- */
+
+.s-facts__list {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+  gap: var(--space-5);
+  padding-block: var(--space-6);
+  border-block: 1px solid var(--c-line);
+}
+.s-fact { display: grid; gap: var(--space-2); }
+.s-fact__label { color: var(--c-text-faint); }
+.s-fact__value {
+  margin: 0;
+  font-family: var(--ff-mono);
+  font-size: var(--fs-400);
+  font-variant-numeric: tabular-nums;
+  color: var(--c-signal);
+}
+.s-facts__note {
+  margin-top: var(--space-5);
+  font-size: var(--fs-100);
+  color: var(--c-text-muted);
+}
+.s-facts__note a { color: var(--c-accent); text-decoration: underline; text-underline-offset: 3px; }
+
+/* --- Призыв ---------------------------------------------------------------------- */
+
+.s-cta {
+  padding-block: clamp(3rem, 2rem + 4vw, 6rem);
+  text-align: center;
+}
+.s-cta__title {
+  font-family: var(--ff-sans);
+  font-size: var(--fs-500);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-tight);
+}
+.s-cta__text { margin: var(--space-4) auto var(--space-6); max-width: 44ch; color: var(--c-text-muted); }
+.s-cta .s-btn { display: inline-grid; }
+
+/* --- Подвал ------------------------------------------------------------------------ */
+
+.s-foot { border-top: 1px solid var(--c-line); padding-block: var(--space-5); }
+.s-foot__inner { display: flex; justify-content: space-between; gap: var(--space-4); color: var(--c-text-faint); }
+.s-foot a { transition: color var(--dur-fast) var(--ease-out); }
+@media (hover: hover) { .s-foot a:hover { color: var(--c-accent); } }

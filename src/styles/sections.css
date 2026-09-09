@@ -1,0 +1,101 @@
+/* ============================================================
+   Секции.
+
+   Структуру держат тонкие линии и пустота, а не «стеклянные
+   карточки» — в старой версии их было шесть вариантов, все
+   с разными значениями фона, рамки и размытия.
+   ============================================================ */
+
+section { position: relative; z-index: var(--z-content); }
+
+/* --- Шапка секции ----------------------------------------------------- */
+
+.sec-head {
+  max-width: var(--w-narrow);
+  margin-bottom: var(--space-8);
+}
+.sec-head__label { color: var(--c-accent); margin-bottom: var(--space-4); }
+.sec-head__title {
+  font-family: var(--ff-display);
+  font-size: var(--fs-600);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight);
+}
+.sec-head__lede {
+  margin-top: var(--space-5);
+  font-size: var(--fs-300);
+  line-height: var(--lh-relaxed);
+  color: var(--c-text-muted);
+}
+
+/* Метрики в подписи кейса — единственное, что уцелело от прежней
+   секции работ: сама карточка переехала в case.css. */
+.metric { display: grid; gap: var(--space-1); }
+.metric__label { color: var(--c-text-faint); }
+.metric__value {
+  font-family: var(--ff-mono);
+  font-size: var(--fs-300);
+  font-variant-numeric: tabular-nums;
+  color: var(--c-signal);
+  margin: 0;
+}
+
+/* --- Кнопка --------------------------------------------------------------
+   Одна форма на весь сайт. В старой версии кнопки в портфолио,
+   услугах и шапке жили по разным правилам и в трёх местах были
+   сломаны. */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 0.85em 1.5em;
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--r-pill);
+  font-family: var(--ff-mono);
+  font-size: var(--fs-100);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+  color: var(--c-text);
+  transition: border-color var(--dur-base) var(--ease-out),
+              background var(--dur-base) var(--ease-out),
+              color var(--dur-base) var(--ease-out);
+}
+.btn__arrow { transition: transform var(--dur-base) var(--ease-spring); }
+@media (hover: hover) {
+  .btn:hover {
+    background: var(--c-accent);
+    border-color: var(--c-accent);
+    color: rgb(var(--rgb-void));
+  }
+  .btn:hover .btn__arrow { transform: translateX(4px); }
+}
+.btn--lg { font-size: var(--fs-200); padding: 1em 1.8em; }
+
+/* --- Контакт и подвал ------------------------------------------------------ */
+
+.contact { text-align: center; }
+.contact__label { color: var(--c-accent); margin-bottom: var(--space-4); }
+.contact__title {
+  font-family: var(--ff-display);
+  font-size: var(--fs-700);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tighter);
+}
+.contact__text {
+  margin: var(--space-5) auto var(--space-7);
+  max-width: 42ch;
+  color: var(--c-text-muted);
+  font-size: var(--fs-300);
+  line-height: var(--lh-relaxed);
+}
+
+.footer { border-top: 1px solid var(--c-line); padding-block: var(--space-6); }
+.footer__inner {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  color: var(--c-text-faint);
+}
