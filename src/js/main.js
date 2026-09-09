@@ -3,6 +3,8 @@ import '../styles/fonts.css'
 import '../styles/base.css'
 import '../styles/layout.css'
 import '../styles/sections.css'
+import '../styles/case.css'
+import '../styles/dirs.css'
 import '../styles/calc.css'
 
 /* ============================================================
@@ -15,6 +17,9 @@ import '../styles/calc.css'
    ============================================================ */
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/* data-anim выставляет синхронный скрипт в <head> — до первой
+   отрисовки. Здесь дублировать не нужно. */
 
 /* Решение принимается до загрузки чанка, а не после: незачем
    тянуть 30 КБ, чтобы потом выяснить, что рисовать некому. */
@@ -88,11 +93,20 @@ async function boot() {
   const { initCalculator } = await import('./calculator.js')
   initCalculator(field)
 
+  const { initCase } = await import('./case.js')
+  initCase()
+
+  const { initDirections } = await import('./dirs.js')
+  initDirections(field)
+
   const year = document.querySelector('[data-year]')
   if (year) year.textContent = new Date().getFullYear()
 
   if (!reduceMotion) initMotion(field)
-  else document.querySelectorAll('[data-reveal]').forEach(el => (el.dataset.reveal = 'shown'))
+  else {
+    document.querySelectorAll('[data-reveal]').forEach(el => (el.dataset.reveal = 'shown'))
+    document.querySelectorAll('[data-lines]').forEach(el => (el.dataset.lines = 'shown'))
+  }
 }
 
 async function initMotion(field) {
@@ -113,20 +127,43 @@ async function initMotion(field) {
   // Скролл ведёт состояние поля. Обработчик не пишет стилей и
   // ничего не читает из layout — только передаёт число в шейдер.
   lenis.on('scroll', ({ scroll, limit }) => {
-    const p = limit > 0 ? Math.min(scroll / limit, 1) : 0
-    field?.setProgress(p)
-    document.documentElement.style.setProperty('--scroll-progress', p.toFixed(4))
+    field?.setProgress(limit > 0 ? Math.min(scroll / limit, 1) : 0)
   })
 
-  // Вход первого экрана: одна поставленная сцена со сдвигом по
-  // очереди — она делает больше, чем россыпь мелких эффектов.
+  /* Вход первого экрана — одна поставленная сцена.
+
+     Заголовок идёт первым и отдельно: его строки выезжают
+     из-под масок, а не проявляются. Движение снизу вверх
+     отыгрывает сам смысл строки — путь от формулы к результату.
+     Остальное подтягивается следом, чтобы заголовок оставался
+     главным событием, а не одним из. */
   const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
+
+  const title = document.querySelector('[data-lines]')
+  const lines = document.querySelectorAll('.hero__title .line__in')
+  if (lines.length) {
+    /* Анимируем y, а не yPercent: начальный сдвиг задан в CSS
+       процентами, а GSAP хранит y и yPercent раздельно и сумирует.
+       При yPercent: 0 пиксельный сдвиг остался бы на месте — строки
+       так и не выехали бы из-под маски. */
+    tl.to(lines, {
+      y: 0,
+      duration: 1.15,
+      stagger: 0.14,
+      ease: 'expo.out',
+      // Помечаем вход завершённым — по этому признаку снимается
+      // will-change: держать композитный слой после одноразовой
+      // анимации незачем.
+      onComplete: () => title?.setAttribute('data-lines', 'shown'),
+    })
+  }
+
   tl.to('[data-reveal]', {
     opacity: 1,
     y: 0,
-    duration: 1.3,
-    stagger: 0.09,
-  })
+    duration: 1.1,
+    stagger: 0.08,
+  }, lines.length ? '-=0.75' : 0)
 }
 
 boot()

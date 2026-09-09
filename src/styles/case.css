@@ -1,0 +1,245 @@
+/* ============================================================
+   Витрина кейса.
+
+   Логика взята у Lusion: крупное медиа-окно, под ним подпись
+   и название. Отличие — внутри окна не картинка, а живой
+   интерфейс, собранный вёрсткой.
+   ============================================================ */
+
+.case {
+  display: grid;
+  gap: var(--space-5);
+  color: inherit;
+}
+
+/* --- Окно ------------------------------------------------------------- */
+
+.case__window {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg, 18px);
+  border: 1px solid var(--c-line);
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgb(var(--rgb-cool) / 0.10), transparent 70%),
+    var(--c-bg-raised);
+  aspect-ratio: 16 / 9;
+  isolation: isolate;
+  /* Окно чуть «поджато» и раскрывается при скролле — приём,
+     на котором держится вся витрина работ у Lusion. */
+  transform: scale(var(--case-scale, 0.96));
+  transition: transform var(--dur-slow) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out);
+}
+@media (max-width: 700px) {
+  .case__window { aspect-ratio: 4 / 3; }
+}
+
+.case__scene {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  /* Сцена ходит за курсором чуть медленнее самого курсора —
+     отсюда ощущение глубины, а не наклейки. */
+  transform: translate3d(var(--px, 0px), var(--py, 0px), 0) scale(var(--scene-scale, 1));
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+/* --- Схема города ------------------------------------------------------ */
+
+.citymap {
+  --map-line: rgb(var(--rgb-light) / 0.62);
+  --map-river: rgb(var(--rgb-cool) / 0.9);
+  width: min(92%, 36rem);
+  height: auto;
+  overflow: visible;
+}
+
+.pin__halo {
+  fill: none;
+  stroke: rgb(var(--rgb-cool) / 0.55);
+  stroke-width: 1;
+}
+.pin__dot { fill: rgb(var(--rgb-cool)); }
+
+.pin--active .pin__dot  { fill: rgb(var(--rgb-signal)); }
+.pin--active .pin__halo { stroke: rgb(var(--rgb-signal) / 0.6); }
+
+/* Пульс только у активной точки: если пульсируют все,
+   ни одна не читается как выбранная. */
+.pin__pulse {
+  fill: none;
+  stroke: rgb(var(--rgb-signal) / 0.7);
+  stroke-width: 1.2;
+  transform-origin: center;
+  transform-box: fill-box;
+  opacity: 0;
+}
+[data-visible] .pin__pulse {
+  opacity: 1;
+  animation: pin-pulse 3.4s var(--ease-out) infinite;
+}
+@keyframes pin-pulse {
+  0%        { transform: scale(0.6); opacity: 0.9; }
+  70%, 100% { transform: scale(3.4); opacity: 0; }
+}
+
+.pin__label {
+  fill: rgb(var(--rgb-light) / 0.6);
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+/* --- Наложенный интерфейс ---------------------------------------------
+   Пересобран вёрсткой в языке приложения, а не вставлен
+   скриншотом: так он остаётся живым и не желтеет с обновлениями. */
+
+.case__hud {
+  position: absolute;
+  left: var(--space-5);
+  bottom: var(--space-5);
+  display: grid;
+  gap: 2px;
+  padding: var(--space-3) var(--space-4);
+  border-radius: 12px;
+  background: rgb(var(--rgb-void) / 0.72);
+  border: 1px solid var(--c-line);
+  backdrop-filter: blur(10px);
+}
+.case__hud-title { color: var(--c-text); letter-spacing: var(--ls-wide); }
+.case__hud-sub   { color: var(--c-text-faint); font-size: var(--fs-50); text-transform: none; }
+
+.case__tiles {
+  position: absolute;
+  right: var(--space-5);
+  top: var(--space-5);
+  display: grid;
+  gap: var(--space-3);
+  width: min(38%, 11rem);
+}
+
+.tile {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: 12px;
+  background: rgb(var(--rgb-void) / 0.66);
+  border: 1px solid var(--c-line);
+  backdrop-filter: blur(10px);
+  color: var(--c-accent);
+  /* Плитки въезжают по очереди, а не все разом. */
+  transform: translateY(calc(var(--tile-i) * 2px));
+}
+.tile__label { color: var(--c-text-muted); }
+.tile__spark { width: 100%; height: 20px; opacity: 0.85; }
+
+@media (max-width: 700px) {
+  .case__tiles { display: none; }   /* в маленьком окне это шум */
+  .case__hud { left: var(--space-4); bottom: var(--space-4); }
+}
+
+/* --- Блик и подсказка --------------------------------------------------- */
+
+/* Блик идёт за курсором — то самое «стекло» поверх окна. */
+.case__sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-base) var(--ease-out);
+  background: radial-gradient(
+    22rem 22rem at var(--mx, 50%) var(--my, 50%),
+    rgb(var(--rgb-cool) / 0.16),
+    transparent 62%
+  );
+}
+
+.case__cue {
+  position: absolute;
+  /* Позиция задаётся через translate, а не left/top: это
+     композитное свойство, оно не трогает раскладку. С left/top
+     каждый кадр наведения вызывал пересчёт геометрии всего
+     содержимого окна — схемы города, плиток и подписи. */
+  left: 0;
+  top: 0;
+  translate: calc(var(--mx, 50%) - 50%) calc(var(--my, 50%) - 50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.8em 1.2em;
+  border-radius: var(--r-pill);
+  background: var(--c-accent);
+  color: rgb(var(--rgb-void));
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.7;
+  transition: opacity var(--dur-fast) var(--ease-out),
+              scale var(--dur-base) var(--ease-spring);
+}
+.case__cue-arrow { font-size: 1.1em; }
+
+@media (hover: hover) {
+  .case.is-hover .case__window { border-color: var(--c-line-strong); }
+  .case.is-hover .case__scene  { --scene-scale: 1.045; }
+  .case.is-hover .case__sheen  { opacity: 1; }
+  .case.is-hover .case__cue    { opacity: 1; scale: 1; }
+}
+
+/* На тач-устройствах подсказка «Открыть» не всплывает по наведению,
+   поэтому живёт в углу постоянно. */
+@media (hover: none) {
+  .case__cue {
+    left: auto; right: var(--space-4);
+    top: auto;  bottom: var(--space-4);
+    translate: none;
+    opacity: 1; scale: 1;
+    font-size: var(--fs-50);
+  }
+}
+
+/* --- Подпись ------------------------------------------------------------ */
+
+.case__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--c-line);
+}
+.case__id { display: grid; gap: var(--space-2); }
+.case__title {
+  font-family: var(--ff-display);
+  font-size: var(--fs-600);
+  font-weight: var(--fw-medium);
+  line-height: 1;
+  letter-spacing: var(--ls-tight);
+}
+.case__kind { color: var(--c-text-faint); }
+.case__metrics { display: flex; gap: var(--space-6); margin: 0; }
+
+/* Заголовок секции работ в две колонки: слева крупное «Работы»,
+   справа пояснение. Название проекта здесь не повторяется —
+   оно стоит один раз, под окном. */
+.sec-head--split {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-7);
+  max-width: none;
+}
+.sec-head__aside {
+  max-width: 34ch;
+  color: var(--c-text-muted);
+  font-size: var(--fs-200);
+  line-height: var(--lh-relaxed);
+}
+
+.case__text {
+  max-width: 54ch;
+  color: var(--c-text-muted);
+  line-height: var(--lh-relaxed);
+}

@@ -6,8 +6,8 @@
        нарушал WCAG 1.4.4 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>ESSCALE — инженерная разработка: высоконагруженные системы, мобильные приложения, ML</title>
-  <meta name="description" content="Разрабатываем ПО для задач, у которых нет готового решения: высоконагруженный бэкенд на C++, мобильные приложения на Flutter, математические модели и машинное обучение. Прозрачная оценка проекта в Esscale Points.">
+  <title>ESSCALE — наука, инженерия и разработка для бизнеса</title>
+  <meta name="description" content="Разрабатываем ПО для задач, у которых нет готового решения: высоконагруженные системы, мобильные приложения, математические модели и машинное обучение. Прозрачная оценка проекта в Esscale Points.">
   <link rel="canonical" href="https://esscale.ru/">
   <meta name="theme-color" content="#08090B">
 
@@ -25,6 +25,18 @@
 
   <link rel="preload" href="/fonts/unbounded-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+
+  <script>
+    /* Синхронно и до первой отрисовки: помечаем, что скрипт жив.
+       Прелоадер и стартовые состояния анимаций висят на этом
+       атрибуте, поэтому без JS они просто не применяются, а не
+       остаются навсегда поверх контента. */
+    try {
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.dataset.anim = ''
+      }
+    } catch (e) {}
+  </script>
 
   <script type="module" src="/src/js/main.js"></script>
 </head>
@@ -44,32 +56,27 @@
     <a class="hdr__mark" href="/">Esscale</a>
     <nav class="hdr__nav">
       <a class="hdr__link" href="#work">Работы</a>
+      <a class="hdr__link" data-secondary href="#directions">Направления</a>
       <a class="hdr__link" href="#estimate">Расчёт</a>
-      <a class="hdr__link" data-secondary href="#expertise">Экспертиза</a>
-      <a class="hdr__link" href="https://t.me/esscale" data-tg target="_blank" rel="noopener">Telegram</a>
+      <a class="hdr__link" href="{{TELEGRAM}}" target="_blank" rel="noopener">Telegram</a>
     </nav>
   </header>
 
   <main>
     <section class="hero container">
-      <p class="hero__label t-mono" data-reveal>Инженерная разработка</p>
+      <p class="hero__label t-mono" data-reveal>Наука · Инженерия · Бизнес</p>
 
-      <h1 class="hero__title" data-reveal>
-        Мы считаем то,<br>
-        что другие <span class="hero__accent">оценивают</span>
+      <h1 class="hero__title" data-lines>
+        <span class="line"><span class="line__in">От <span class="hero__accent">формулы</span></span></span>
+        <span class="line"><span class="line__in">до продакшена</span></span>
       </h1>
 
       <p class="hero__lede" data-reveal>
-        Строим системы для задач, у которых нет готового решения:
-        высоконагруженный бэкенд на C++, мобильные приложения,
-        математические модели и машинное обучение.
+        Ваша идея — наша реализация. Берём задачи, у которых нет
+        готового решения, и доводим их до работающего продукта.
       </p>
 
       <div class="readout" data-reveal>
-        <div class="readout__item">
-          <span class="readout__value">1·2·3·5·8·13</span>
-          <span class="readout__label">шкала оценки задач</span>
-        </div>
         <div class="readout__item">
           <span class="readout__value">15&nbsp;EP</span>
           <span class="readout__label">скорость команды в неделю</span>
@@ -82,6 +89,5 @@
     </section>
 
     <!--SECTIONS-->
-  </main>
 </body>
 </html>

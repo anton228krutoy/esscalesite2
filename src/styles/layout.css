@@ -32,6 +32,10 @@
 /* --- Прелоадер --------------------------------------------------------- */
 
 .loader {
+  /* Показывается, только если скрипт объявил себя живым. Иначе
+     непрозрачная заливка на весь экран осталась бы навсегда:
+     снять её мог только JS. */
+  display: none;
   position: fixed;
   inset: 0;
   z-index: var(--z-loader);
@@ -40,6 +44,7 @@
   background: var(--c-bg);
   transition: opacity var(--dur-slow) var(--ease-out);
 }
+:root[data-anim] .loader { display: grid; }
 .loader[data-hidden="true"] { opacity: 0; pointer-events: none; }
 
 .loader__inner {
@@ -165,17 +170,39 @@
   font-weight: var(--fw-medium);
   line-height: var(--lh-tight);
   letter-spacing: var(--ls-tighter);
-  max-width: 20ch;
+  max-width: 18ch;
 }
 
-/* Ключевое слово ставится в моно и оставляется светлым:
-   смена гарнитуры внутри строки работает сильнее, чем цвет. */
+/* Одно выделение на строку: цвет. Гарнитура остаётся общей,
+   иначе слово выпадает из ритма заголовка. */
 .hero__accent {
-  font-family: var(--ff-mono);
   font-style: normal;
-  font-weight: var(--fw-light);
-  letter-spacing: var(--ls-tight);
+  font-weight: inherit;
   color: var(--c-accent);
+}
+
+/* Строки заголовка выезжают из-под собственной маски — приём,
+   на котором держится вход первого экрана у студий-референсов.
+   overflow: clip вместо hidden: не создаёт контекста прокрутки. */
+.hero__title .line {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.06em;   /* иначе маска срезает выносные элементы */
+}
+.hero__title .line__in {
+  display: block;
+}
+/* will-change только на время входа: держать композитный слой
+   до конца жизни страницы ради одноразовой анимации незачем,
+   тем более рядом с полноэкранным WebGL. */
+:root[data-anim] .hero__title:not([data-lines="shown"]) .line__in {
+  will-change: transform;
+}
+:root[data-anim] .hero__title .line__in {
+  transform: translateY(110%);
+}
+:root[data-anim] .hero__title[data-lines="shown"] .line__in {
+  transform: none;
 }
 
 .hero__lede {
@@ -220,12 +247,13 @@
 
 /* --- Вход -------------------------------------------------------------- */
 
-[data-reveal] {
+/* То же правило, что и на странице проекта: прячет только скрипт,
+   и только после того, как сам объявил себя работающим. */
+:root[data-anim] [data-reveal] {
   opacity: 0;
   transform: translateY(1.4rem);
 }
-:root:not([data-ready]) [data-reveal] { opacity: 0; }
-[data-reveal="shown"] { opacity: 1; transform: none; }
+:root[data-anim] [data-reveal="shown"] { opacity: 1; transform: none; }
 
 /* На узких экранах показания занимали столбец во всю высоту и
    последнее уезжало за край первого экрана. Ставим их в две

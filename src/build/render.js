@@ -7,56 +7,46 @@
    попадают заранее, а не в браузере.
    ============================================================ */
 
-const esc = s => String(s)
-  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-  .replace(/"/g, '&quot;')
+import { cityMap } from './city-map.js'
+import { esc, nbsp } from './escape.js'
 
-/* Неразрывный пробел перед единицей: «297 EP» не должно
-   переноситься по строке. */
-const nbsp = s => String(s).replace(/(\d)\s(EP|₽|недел)/g, '$1 $2')
+/* Спарклайны — форма без числовых подписей: показывают характер
+   метрики, но не выдают чужие финансовые данные. */
+const SPARKS = [
+  'M1 15 L10 12 L19 14 L28 8 L37 9 L46 4 L55 6 L63 2',
+  'M1 11 L10 13 L19 9 L28 10 L37 6 L46 8 L55 5 L63 5',
+  'M1 17 L10 14 L19 15 L28 11 L37 13 L46 7 L55 9 L63 4',
+]
 
-export function renderExpertise(items) {
+
+
+export function renderDirections(items) {
   return `
-<section class="section expertise" id="expertise">
+<section class="section dirs" id="directions" data-dirs>
   <div class="container">
-    <header class="sec-head">
-      <p class="sec-head__label t-mono">Экспертиза</p>
-      <h2 class="sec-head__title t-display">Чем мы занимаемся</h2>
+    <header class="sec-head sec-head--split">
+      <h2 class="sec-head__title t-display">Направления</h2>
+      <p class="sec-head__aside">
+        Наводите на строку — увидите, из чего складывается работа.
+      </p>
     </header>
-    <ul class="grid-list" role="list">
-      ${items.map(it => `
-      <li class="cell">
-        <span class="cell__index t-mono">${esc(it.index)}</span>
-        <h3 class="cell__title">${esc(it.title)}</h3>
-        <p class="cell__text">${esc(it.summary)}</p>
-        <ul class="tags" role="list">
-          ${it.scope.map(s => `<li class="tag">${esc(s)}</li>`).join('')}
-        </ul>
-      </li>`).join('')}
-    </ul>
-  </div>
-</section>`
-}
 
-export function renderServices(items) {
-  return `
-<section class="section services" id="services">
-  <div class="container">
-    <header class="sec-head">
-      <p class="sec-head__label t-mono">Услуги</p>
-      <h2 class="sec-head__title t-display">Что мы делаем</h2>
-    </header>
-    <ul class="rows" role="list">
-      ${items.map(it => `
-      <li class="row">
-        <span class="row__index t-mono">${esc(it.index)}</span>
-        <div class="row__main">
-          <h3 class="row__title">${esc(it.title)}</h3>
-          <p class="row__text">${esc(it.summary)}</p>
+    <ul class="dir-list" role="list">
+      ${items.map((d, i) => `
+      <li class="dir${i === 0 ? ' is-active' : ''}" data-dir style="--dir-rgb: ${d.accent}">
+        <button class="dir__head" type="button" aria-expanded="${i === 0}" aria-controls="dir-${d.id}">
+          <span class="dir__index t-mono">${esc(d.index)}</span>
+          <span class="dir__title">${esc(d.title)}</span>
+          <span class="dir__sign" aria-hidden="true"></span>
+        </button>
+        <div class="dir__body" id="dir-${d.id}"${i === 0 ? '' : ' inert'}>
+          <div class="dir__inner">
+            <p class="dir__text">${esc(d.summary)}</p>
+            <ul class="dir__scope" role="list">
+              ${d.scope.map(x => `<li>${esc(x)}</li>`).join('')}
+            </ul>
+          </div>
         </div>
-        <ul class="tags tags--right" role="list">
-          ${it.scope.map(s => `<li class="tag">${esc(s)}</li>`).join('')}
-        </ul>
       </li>`).join('')}
     </ul>
   </div>
@@ -64,37 +54,59 @@ export function renderServices(items) {
 }
 
 export function renderProjects(items) {
+  const p = items[0]
+  if (!p) return ''
   return `
-<section class="section work" id="work">
+<section class="section showcase" id="work">
   <div class="container">
-    <header class="sec-head">
-      <p class="sec-head__label t-mono">Работы</p>
-      <h2 class="sec-head__title t-display">Избранные проекты</h2>
+    <header class="sec-head sec-head--split">
+      <h2 class="sec-head__title t-display">Работы</h2>
+      <p class="sec-head__aside">Пока один проект — зато разобранный до последней задачи.</p>
     </header>
-    <ul class="work-list" role="list">
-      ${items.map(p => `
-      <li class="work-item${p.status === 'in-progress' ? ' work-item--wip' : ''}">
-        <figure class="work-item__media">
-          <img src="${esc(p.media.src)}" width="${p.media.width}" height="${p.media.height}"
-               alt="${esc(p.title)} — ${esc(p.kind)}" loading="lazy" decoding="async">
-        </figure>
-        <div class="work-item__foot">
-          <div class="work-item__id">
-            <h3 class="work-item__title">${esc(p.title)}</h3>
-            <p class="work-item__kind t-mono">${esc(p.kind)}</p>
+
+    <a class="case" href="${esc(p.href || '#')}" data-case
+       aria-label="${esc(p.title)} — ${esc(p.kind)}. Открыть страницу проекта">
+      <div class="case__window" data-case-window aria-hidden="true">
+        <div class="case__scene" data-case-scene>
+          ${cityMap({ id: 'case' })}
+
+          <div class="case__hud">
+            <span class="case__hud-title t-mono">Заречная</span>
+            <span class="case__hud-sub t-mono">4 точки в сети</span>
           </div>
-          ${p.metrics.length ? `
-          <dl class="work-item__metrics">
-            ${p.metrics.map(m => `
-            <div class="metric">
-              <dt class="metric__label t-mono">${esc(m.label)}</dt>
-              <dd class="metric__value">${nbsp(esc(m.value))}</dd>
+
+          <div class="case__tiles">
+            ${['Выручка', 'Прибыль', 'Маржинальность'].map((label, i) => `
+            <div class="tile" style="--tile-i: ${i}">
+              <span class="tile__label t-mono">${label}</span>
+              <svg class="tile__spark" viewBox="0 0 64 20" aria-hidden="true" preserveAspectRatio="none">
+                <path d="${SPARKS[i]}" fill="none" stroke="currentColor" stroke-width="1.4"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </div>`).join('')}
-          </dl>` : `<p class="work-item__status t-mono">В разработке</p>`}
+          </div>
         </div>
-        <p class="work-item__text">${esc(p.summary)}</p>
-      </li>`).join('')}
-    </ul>
+
+        <span class="case__sheen" data-case-sheen aria-hidden="true"></span>
+        <span class="case__cue t-mono" data-case-cue aria-hidden="true">Открыть<span class="case__cue-arrow">↗</span></span>
+      </div>
+
+      <div class="case__meta">
+        <div class="case__id">
+          <h3 class="case__title">${esc(p.title)}</h3>
+          <p class="case__kind t-mono">${esc(p.kind)}</p>
+        </div>
+        <dl class="case__metrics">
+          ${p.metrics.map(m => `
+          <div class="metric">
+            <dt class="metric__label t-mono">${esc(m.label)}</dt>
+            <dd class="metric__value">${nbsp(esc(m.value))}</dd>
+          </div>`).join('')}
+        </dl>
+      </div>
+
+      <p class="case__text">${esc(p.summary)}</p>
+    </a>
   </div>
 </section>`
 }
@@ -108,7 +120,7 @@ export function renderEstimate({ tracks, multipliers, site }) {
       <p class="sec-head__label t-mono">Расчёт</p>
       <h2 class="sec-head__title t-display">Сколько это стоит</h2>
       <p class="sec-head__lede">
-        Мы оцениваем задачи в Esscale Points по шкале Фибоначчи — 1, 2, 3, 5, 8, 13.
+        Мы оцениваем задачи в Esscale Points — собственных единицах трудоёмкости.
         Отметьте, что нужно в проекте, и увидите объём работ, срок и вилку
         стоимости, посчитанные по той же методике, по которой мы считаем реальные проекты.
       </p>
@@ -155,7 +167,7 @@ export function renderEstimate({ tracks, multipliers, site }) {
       </div>
 
       <aside class="calc__result">
-        <div class="result" data-result>
+        <div class="result" data-result role="status" aria-live="polite">
           <div class="result__row">
             <span class="result__label t-mono">Объём работ</span>
             <strong class="result__value" data-out-ep>0 EP</strong>
@@ -208,6 +220,8 @@ export function renderContact(site) {
     </a>
   </div>
 </section>
+
+</main>
 
 <footer class="footer">
   <div class="container footer__inner">

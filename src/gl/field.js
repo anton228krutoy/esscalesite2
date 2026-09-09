@@ -58,17 +58,33 @@ export function createField(canvas) {
 
   // Целевые значения; фактические подтягиваются к ним каждый кадр,
   // поэтому любое изменение снаружи выглядит как переток, а не скачок.
-  const target = { density: 9.0, progress: 0, intensity: 1, signalMix: 0, mouse: [0.5, 0.5] }
+  const baseCool = u.uCool.value.slice()
+  const target = {
+    density: 9.0, progress: 0, intensity: 1, signalMix: 0,
+    mouse: [0.5, 0.5],
+    cool: baseCool.slice(),
+  }
   let raf = null
   let running = false
   let last = performance.now()
   let clock = 0
 
-  function resize() {
+  let resizePending = false
+  function applyResize() {
+    resizePending = false
     const w = window.innerWidth
     const h = window.innerHeight
     renderer.setSize(w, h)
     u.uResolution.value = [w * renderer.dpr, h * renderer.dpr]
+  }
+
+  /* Пересоздание буфера — самая дорогая операция здесь, а на
+     мобильных появление и скрытие адресной строки при прокрутке
+     генерирует поток resize. Схлопываем их в один за кадр. */
+  function resize() {
+    if (resizePending) return
+    resizePending = true
+    requestAnimationFrame(applyResize)
   }
 
   function frame(now) {
@@ -86,6 +102,12 @@ export function createField(canvas) {
     u.uSignalMix.value += (target.signalMix - u.uSignalMix.value) * k
     u.uMouse.value[0]  += (target.mouse[0] - u.uMouse.value[0]) * k * 0.6
     u.uMouse.value[1]  += (target.mouse[1] - u.uMouse.value[1]) * k * 0.6
+
+    // Цвет поля перетекает так же, как всё остальное: покомпонентно,
+    // за один кадр — иначе смена направления читалась бы как рывок.
+    for (let i = 0; i < 3; i++) {
+      u.uCool.value[i] += (target.cool[i] - u.uCool.value[i]) * k * 0.5
+    }
 
     renderer.render({ scene: mesh })
   }
@@ -115,7 +137,7 @@ export function createField(canvas) {
   document.addEventListener('pointerleave', onLeave, { passive: true })
   document.addEventListener('visibilitychange', onVisibility)
 
-  resize()
+  applyResize()
   start()
 
   return {
@@ -125,6 +147,15 @@ export function createField(canvas) {
     setProgress: v => { target.progress = v },
     setIntensity: v => { target.intensity = v },
     setSignalMix: v => { target.signalMix = v },
+
+    /* Акцент сцены. Принимает три компонента 0–255 — те же, что
+       лежат в данных направлений, чтобы источник цвета оставался
+       один. Без аргумента возвращает исходный цвет темы. */
+    setAccent(rgb) {
+      target.cool = rgb
+        ? rgb.map(n => Math.min(Math.max(Number(n) || 0, 0), 255) / 255)
+        : baseCool.slice()
+    },
     start,
     stop,
     destroy() {

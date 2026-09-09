@@ -44,7 +44,7 @@
   width: 1rem;
   height: 1rem;
   margin: 0;
-  border: 1px solid var(--c-line-strong);
+  border: 1px solid var(--c-line-control);
   border-radius: var(--r-sm);
   position: relative;
   transform: translateY(0.15rem);

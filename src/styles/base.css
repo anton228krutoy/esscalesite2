@@ -75,16 +75,6 @@ button {
   text-transform: uppercase;
 }
 
-/* Числа-показания: тёплый сигнальный, табличные цифры, чтобы
-   при пересчёте в калькуляторе разряды не прыгали. */
-.t-readout {
-  font-family: var(--ff-mono);
-  font-variant-numeric: tabular-nums;
-  color: var(--c-signal);
-}
-
-.t-muted { color: var(--c-text-muted); }
-
 .visually-hidden {
   position: absolute;
   width: 1px; height: 1px;
@@ -103,7 +93,6 @@ button {
   padding-inline: var(--gutter);
 }
 .container--narrow { max-width: var(--w-narrow); }
-.container--wide   { max-width: var(--w-wide); }
 
 .section { padding-block: var(--section-gap); }
 
