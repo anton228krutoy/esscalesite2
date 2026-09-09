@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <!-- background -->
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#13201E"/>
+      <stop offset="1" stop-color="#0A100F"/>
+    </linearGradient>
+    <radialGradient id="bgGlowTL" cx="0.28" cy="0.12" r="0.9">
+      <stop offset="0" stop-color="#2ED9B4" stop-opacity="0.20"/>
+      <stop offset="0.55" stop-color="#2ED9B4" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#2ED9B4" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="bgGlowBR" cx="0.85" cy="0.95" r="0.8">
+      <stop offset="0" stop-color="#1B7A66" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#1B7A66" stop-opacity="0"/>
+    </radialGradient>
+    <!-- mark -->
+    <linearGradient id="petal" x1="0.28" y1="0" x2="0.55" y2="1">
+      <stop offset="0" stop-color="#A9FBE4"/>
+      <stop offset="0.5" stop-color="#4FDCBB"/>
+      <stop offset="1" stop-color="#1FAE8E"/>
+    </linearGradient>
+    <radialGradient id="spotTop" gradientUnits="userSpaceOnUse" cx="505" cy="310" r="200">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="spotRight" gradientUnits="userSpaceOnUse" cx="700" cy="420" r="240">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="shadeBL" gradientUnits="userSpaceOnUse" cx="320" cy="700" r="310">
+      <stop offset="0" stop-color="#04332A" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#04332A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="shadeBR" gradientUnits="userSpaceOnUse" cx="670" cy="730" r="300">
+      <stop offset="0" stop-color="#06463A" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#06463A" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="20" stdDeviation="55" flood-color="#2ED9B4" flood-opacity="0.35"/>
+    </filter>
+    <mask id="channels" maskUnits="userSpaceOnUse" x="0" y="0" width="1024" height="1024">
+      <circle cx="512" cy="528" r="340" fill="white"/>
+      <g fill="none" stroke="black" stroke-linecap="round">
+        <path d="M 430 198 C 488 276 540 340 550 404" stroke-width="46"/>
+        <path d="M 721 260 C 670 318 598 360 550 404" stroke-width="46"/>
+        <path d="M 550 404 C 554 500 498 580 510 668 C 520 748 556 802 588 862" stroke-width="50"/>
+        <path d="M 178 463 C 250 500 300 472 360 505 C 418 537 448 564 470 594 C 482 610 494 628 502 650" stroke-width="44"/>
+        <path d="M 842 446 C 768 506 700 484 642 528 C 598 560 548 570 512 615" stroke-width="44"/>
+      </g>
+    </mask>
+  </defs>
+
+  <!-- squircle background -->
+  <rect width="1024" height="1024" rx="232" fill="url(#bg)"/>
+  <rect width="1024" height="1024" rx="232" fill="url(#bgGlowTL)"/>
+  <rect width="1024" height="1024" rx="232" fill="url(#bgGlowBR)"/>
+  <rect x="2" y="2" width="1020" height="1020" rx="230" fill="none" stroke="#FFFFFF" stroke-opacity="0.06" stroke-width="3"/>
+
+  <!-- mark -->
+  <g filter="url(#glow)">
+    <g mask="url(#channels)">
+      <circle cx="512" cy="528" r="340" fill="url(#petal)"/>
+      <circle cx="512" cy="528" r="340" fill="url(#spotTop)"/>
+      <circle cx="512" cy="528" r="340" fill="url(#spotRight)"/>
+      <circle cx="512" cy="528" r="340" fill="url(#shadeBL)"/>
+      <circle cx="512" cy="528" r="340" fill="url(#shadeBR)"/>
+    </g>
+  </g>
+</svg>

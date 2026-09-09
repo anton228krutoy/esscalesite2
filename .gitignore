@@ -1,5 +1,23 @@
+# зависимости и сборка
 node_modules/
 dist/
+
+# служебное окружение
 .DS_Store
-.playwright-mcp/
+.vscode/
+.idea/
+.claude/
 *.local
+*.log
+
+# артефакты браузерных проверок: Playwright кладёт снимки
+# в корень проекта, и они уже однажды уехали в коммит
+.playwright-mcp/
+/*.png
+/*.jpeg
+/*.webm
+
+# секреты
+.env
+.env.*
+!.env.example
