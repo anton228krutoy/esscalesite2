@@ -133,6 +133,7 @@ export function renderScandere({ data, site }) {
 <footer class="s-foot">
   <div class="s-wrap s-foot__inner">
     <a class="t-mono" href="/">esscale.ru</a>
+    <a class="t-mono" href="/scandere/privacy/">Конфиденциальность</a>
     <span class="t-mono">© <span data-year>2026</span> ${esc(site.name)}</span>
   </div>
 </footer>`

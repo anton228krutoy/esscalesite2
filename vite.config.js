@@ -80,6 +80,7 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         scandere: resolve(__dirname, 'scandere/index.html'),
+        privacy: resolve(__dirname, 'scandere/privacy/index.html'),
       },
       output: {
         // WebGL-слой отдельным чанком: он грузится лениво и только там,

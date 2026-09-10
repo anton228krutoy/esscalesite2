@@ -1,0 +1,45 @@
+/* ============================================================
+   Политика конфиденциальности — длинный текст.
+
+   base.css снимает у абзацев и списков все отступы (так удобнее
+   собирать секции витрины), поэтому ритм документа задаётся здесь.
+   Колонка узкая: строка во всю ширину экрана читается тяжело,
+   взгляд теряет начало следующей.
+   ============================================================ */
+
+.p-doc { max-width: 44rem; }
+
+.p-doc__title {
+  font-family: var(--ff-display);
+  /* Нижняя граница ниже, чем тянет глаз, и это не ошибка: Unbounded
+     широкий, и слово «конфиденциальности» при 1.6rem на экране 390 px
+     вылезало за край. Переносы по слогам — страховка для совсем узких
+     экранов; русский браузер переносит сам, раз у страницы lang="ru". */
+  font-size: clamp(1.3rem, 1rem + 1.8vw, 2.4rem);
+  line-height: 1.15;
+  hyphens: auto;
+  overflow-wrap: break-word;
+  margin-bottom: 0.75rem;
+}
+
+.p-doc__meta { color: var(--c-text-faint); margin-bottom: 2.5rem; }
+
+.p-doc h2 {
+  font-family: var(--ff-display);
+  font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem);
+  line-height: 1.3;
+  margin: 2.5rem 0 0.9rem;
+}
+
+.p-doc p,
+.p-doc li { color: var(--c-text-muted); line-height: 1.65; }
+
+.p-doc p + p,
+.p-doc p + ul,
+.p-doc ul + p { margin-top: 0.9rem; }
+
+.p-doc ul { padding-left: 1.25rem; display: grid; gap: 0.6rem; }
+
+.p-doc strong { color: var(--c-text); font-weight: 600; }
+
+.p-doc a { color: var(--c-accent); text-decoration: underline; text-underline-offset: 0.18em; }
