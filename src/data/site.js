@@ -44,8 +44,8 @@ export const site = {
     appstore: {
       label: 'Скачать в App Store',
       note: 'iOS',
-      href: '#',            // ЗАГЛУШКА — ждём ссылку в App Store
-      ready: false,
+      href: 'https://apps.apple.com/us/app/scandere/id6810326305?l=ru',
+      ready: true,
     },
     windows: {
       label: 'Версия для Windows',
@@ -61,4 +61,4 @@ export const site = {
 }
 
 /* Что ещё не заменено на настоящее. Список читает сборка. */
-export const PLACEHOLDERS = ['pricing.rublesPerEP', 'downloads.appstore']
+export const PLACEHOLDERS = ['pricing.rublesPerEP']
