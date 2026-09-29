@@ -5,6 +5,8 @@ import '../styles/layout.css'
 import '../styles/sections.css'
 import '../styles/case.css'
 import '../styles/case-words.css'
+import '../styles/case-photo.css'
+import '../styles/works.css'
 import '../styles/dirs.css'
 import '../styles/calc.css'
 

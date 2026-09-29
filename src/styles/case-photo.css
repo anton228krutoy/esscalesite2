@@ -1,0 +1,439 @@
+/* ============================================================
+   Кейс GoPhoto на главной.
+
+   Окно, плитки, блик и подпись — общие, из case.css: карточки
+   в ленте должны читаться как одна витрина. Своё здесь — палитра
+   сервиса и сцена с контактным листом.
+
+   Палитра — из самого GoPhoto: ночной синий, светло-синяя рамка
+   знака и его синие точки, тёплый жёлтый — только искрами. Фон
+   окна, как и у WearningLords, остаётся фоном сайта, а синий
+   приходит свечением сверху: целиком синее окно спорило бы
+   с соседними карточками, а так продукт остаётся своим внутри
+   общей тёмной витрины.
+   ============================================================ */
+
+.case--photo {
+  --rgb-blue:  79 133 245;    /* #4F85F5 — точки знака */
+  --rgb-frame: 116 165 255;   /* #74A5FF — рамка знака */
+  --rgb-ink:   12 18 32;      /* #0C1220 — ночной фон приложения */
+  --rgb-deep:  27 41 71;      /* #1B2947 — центр свечения */
+  --rgb-panel: 21 28 44;      /* #151C2C — панели */
+  --rgb-paper: 237 244 255;   /* #EDF4FF — текст приложения */
+  --rgb-warm: 255 214 138;    /* #FFD68A — тёплые искры */
+
+  /* Роли переобъявлены, а не только сырьё: --c-accent и --c-signal
+     вычислены на :root и приезжают сюда готовыми цветами сайта.
+     Светло-синий берёт на себя акцент — метку статуса, обводку
+     фокуса, полосы плиток, уголки видоискателя; тёплый — числа
+     в подписи, как янтарь у сайта. */
+  --c-accent: rgb(var(--rgb-frame));
+  --c-signal: rgb(var(--rgb-warm));
+
+  /* Свечение сверху — как у самого приложения, но из синего
+     знака, а не из глубокого синего его фона: #1B2947 под
+     приглушённым листом терялся, и окно выглядело просто тёмным. */
+  --case-glow: rgb(var(--rgb-blue) / 0.34);
+
+  /* Блик за курсором читает сырой --rgb-cool, а не роль, поэтому
+     переобъявлен и он. Бирюзовое пятно на синем окне выбивалось
+     бы из палитры — здесь блик светло-синий, как рамка знака. */
+  --rgb-cool: var(--rgb-frame);
+}
+
+/* Плитки и подпись — то же стекло, но на панелях приложения. */
+.case--photo .tile,
+.case--photo .case__hud {
+  background: rgb(var(--rgb-panel) / 0.72);
+  border-color: rgb(var(--rgb-paper) / 0.10);
+}
+
+/* --- Сцена -------------------------------------------------------------- */
+
+/* Подпись и плитки лежат внутри .photo, а не рядом, как у
+   WearningLords: окно в ленте работ меняет размер независимо
+   от экрана, и узнать его высоту плитки могут только через
+   контейнерный запрос — а он видит лишь потомков контейнера.
+   Геометрия от этого не меняется: .photo занимает окно целиком. */
+.photo {
+  position: absolute;
+  inset: 0;
+  container-type: size;
+  /* Ширина кадра на листе. Не чистая доля окна: в окне шириной
+     в телефон кадр в 12 % был бы с ноготь, и сюжеты на нём
+     слились бы в пятна. Постоянная часть держит кадр читаемым,
+     доля — растит лист вместе с окном.
+     Вычисляется у потомков: у самого контейнера cqw отсчитывались
+     бы не от него, а от ленты работ снаружи. */
+  --fw: calc(1.6rem + 9cqw);
+}
+
+/* Лист гаснет к краям окна — тот же приём, что кольца на схеме
+   города и линовка у WearningLords. Маска на неподвижной обёртке,
+   а не на самом листе: лист повёрнут, и маска повернулась бы
+   вместе с ним. */
+.photo__field {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: radial-gradient(70% 80% at 42% 44%, #000 34%, transparent);
+  mask-image: radial-gradient(70% 80% at 42% 44%, #000 34%, transparent);
+}
+
+/* Всё на листе — в em от этого кегля, 1em — десятая доля кадра:
+   сюжеты нарисованы в тех же em и масштабируются вместе с кадром.
+   Лист повёрнут на тот же угол, что рамка знака.
+
+   Лист ставится не серединой, а левым подсвеченным кадром:
+   он в двух шагах сетки (22em) левее середины листа и должен
+   стоять в пятой части окна при любой ширине. Середина окна
+   тут не годится: кадр на телефоне относительно крупнее, и
+   те же два шага уводили бы его за левый край. */
+.photo__sheet {
+  position: absolute;
+  left: calc(20% + 22em);
+  top: 42%;
+  display: grid;
+  grid-template-columns: repeat(9, 10em);
+  gap: 1em;
+  font-size: calc(var(--fw) / 10);
+  translate: -50% -50%;
+  rotate: -5deg;
+}
+
+/* --- Кадр ---------------------------------------------------------------- */
+
+.photo__pic {
+  display: block;
+  aspect-ratio: 3 / 2;
+  border-radius: 1em;
+  background-color: rgb(var(--rgb-deep));
+}
+
+/* Вся съёмка приглушена: на листе она — фон, а не витрина.
+   Прозрачностью, а не grayscale: серый кадр остался бы таким же
+   ярким, а лист должен уходить в темноту окна. И у каждого кадра,
+   а не у листа целиком: иначе подсвеченные не могли бы стать
+   ярче остальных. */
+.photo__sheet > .photo__pic { opacity: 0.34; }
+
+/* Подсвеченный кадр — в полную яркость и в светло-синем контуре. */
+.photo__sheet > .photo__pic.is-lit {
+  position: relative;
+  z-index: 1;
+  opacity: 1;
+  box-shadow: 0 0 0 max(1px, 0.14em) rgb(var(--rgb-frame));
+}
+
+/* Свечение — отдельным слоем: пульсирует его прозрачность,
+   а не размытие тени, которое пришлось бы перерисовывать
+   каждый кадр. */
+.photo__pic.is-lit::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  box-shadow: 0 0 2.6em 0.5em rgb(var(--rgb-blue) / 0.55);
+  opacity: 0.55;
+}
+
+/* Уголки видоискателя — одна скруглённая рамка, от которой маска
+   оставляет только углы. Четыре уголка отдельными элементами —
+   это ещё четыре узла на кадр и острые углы вместо мягких,
+   как у рамки знака. */
+.photo__pic.is-lit::after {
+  --arm: 2.2em;
+  content: "";
+  position: absolute;
+  inset: -0.95em;
+  border: max(1.5px, 0.2em) solid rgb(var(--rgb-frame));
+  border-radius: 1.7em;
+  -webkit-mask:
+    conic-gradient(at var(--arm) var(--arm), transparent 75%, #000 0)
+    0 0 / calc(100% - var(--arm)) calc(100% - var(--arm));
+  mask:
+    conic-gradient(at var(--arm) var(--arm), transparent 75%, #000 0)
+    0 0 / calc(100% - var(--arm)) calc(100% - var(--arm));
+}
+
+/* Кадры «дышат» только пока окно в кадре — как пульс точки на
+   схеме Scandere. По очереди, а не хором: три одновременных
+   вспышки читались бы как мигание всего листа. При уменьшенном
+   движении data-visible не ставится вовсе, и лист просто стоит. */
+[data-visible] .photo__pic.is-lit::before {
+  animation: photo-glow 4.2s var(--ease-inout) infinite;
+  animation-delay: calc(var(--lit) * -1.4s);
+}
+[data-visible] .photo__pic.is-lit::after {
+  animation: photo-aim 4.2s var(--ease-inout) infinite;
+  animation-delay: calc(var(--lit) * -1.4s);
+}
+@keyframes photo-glow {
+  50% { opacity: 1; }
+}
+@keyframes photo-aim {
+  50% { scale: 1.05; }
+}
+
+/* --- Сюжеты -------------------------------------------------------------
+   Каждый — стопка градиентов: первый слой рисуется поверх
+   остальных. Позиции — в долях кадра, размеры — в em (десятая
+   доля ширины кадра), поэтому сюжет одинаков на листе и в веере. */
+
+/* Закат над водой: солнце садится за горизонт, по воде — блики. */
+.photo__pic--sun {
+  background:
+    linear-gradient(rgb(var(--rgb-warm) / 0.6), rgb(var(--rgb-warm) / 0.6)) 60% 74% / 2.4em 0.16em no-repeat,
+    linear-gradient(rgb(var(--rgb-warm) / 0.35), rgb(var(--rgb-warm) / 0.35)) 60% 84% / 1.4em 0.14em no-repeat,
+    linear-gradient(transparent 62%, rgb(var(--rgb-deep)) 62%),
+    radial-gradient(circle at 60% 60%, rgb(var(--rgb-warm)) 0 0.95em, rgb(var(--rgb-warm) / 0.25) 1.05em, transparent 2.8em),
+    linear-gradient(rgb(56 86 150), rgb(132 150 200) 62%);
+}
+
+/* Огни не в фокусе — круги разного тона и размера. */
+.photo__pic--bokeh {
+  background:
+    radial-gradient(circle at 20% 34%, rgb(var(--rgb-frame) / 0.6) 0 0.85em, transparent 1.15em),
+    radial-gradient(circle at 46% 66%, rgb(var(--rgb-warm) / 0.55) 0 1.1em, transparent 1.45em),
+    radial-gradient(circle at 74% 30%, rgb(var(--rgb-blue) / 0.75) 0 1.3em, transparent 1.65em),
+    radial-gradient(circle at 86% 76%, rgb(var(--rgb-paper) / 0.3) 0 0.6em, transparent 0.85em),
+    radial-gradient(circle at 28% 86%, rgb(var(--rgb-frame) / 0.35) 0 0.55em, transparent 0.8em),
+    linear-gradient(160deg, rgb(28 40 70), rgb(var(--rgb-ink)));
+}
+
+/* Шары на нитках: синий впереди, тёплый поменьше — за ним. */
+.photo__pic--balloon {
+  background:
+    radial-gradient(0.34em 0.5em at 41% 29%, rgb(var(--rgb-paper) / 0.8), transparent),
+    radial-gradient(1.45em 1.8em at 46% 38%, rgb(var(--rgb-blue)) 0 94%, transparent),
+    linear-gradient(rgb(var(--rgb-paper) / 0.5), rgb(var(--rgb-paper) / 0.5)) 46.4% 100% / 0.1em 36% no-repeat,
+    radial-gradient(1.05em 1.3em at 68% 46%, rgb(var(--rgb-warm)) 0 93%, transparent),
+    linear-gradient(rgb(var(--rgb-paper) / 0.4), rgb(var(--rgb-paper) / 0.4)) 68.2% 100% / 0.1em 34% no-repeat,
+    linear-gradient(rgb(172 198 244), rgb(118 150 214));
+}
+
+/* Торт со свечой на столе. */
+.photo__pic--cake {
+  background:
+    radial-gradient(0.2em 0.36em at 50% 25%, rgb(var(--rgb-warm)) 0 55%, transparent),
+    radial-gradient(circle at 50% 25%, rgb(var(--rgb-warm) / 0.35), transparent 1.5em),
+    linear-gradient(rgb(var(--rgb-paper)), rgb(var(--rgb-paper))) 50% 34% / 0.2em 0.8em no-repeat,
+    linear-gradient(rgb(var(--rgb-paper)), rgb(var(--rgb-paper))) 50% 45% / 4.2em 0.45em no-repeat,
+    linear-gradient(rgb(var(--rgb-frame)), rgb(var(--rgb-blue))) 50% 62% / 3.8em 1.4em no-repeat,
+    linear-gradient(transparent 70%, rgb(42 60 100) 70%),
+    radial-gradient(circle at 50% 30%, rgb(60 86 140), rgb(var(--rgb-deep)) 70%);
+}
+
+/* Конфетти: точки и пара полосок на тёмном. */
+.photo__pic--confetti {
+  background:
+    linear-gradient(60deg, transparent 42%, rgb(var(--rgb-warm)) 42% 58%, transparent 58%) 62% 72% / 0.9em 0.9em no-repeat,
+    linear-gradient(-35deg, transparent 42%, rgb(var(--rgb-frame)) 42% 58%, transparent 58%) 30% 42% / 0.9em 0.9em no-repeat,
+    radial-gradient(circle at 16% 26%, rgb(var(--rgb-warm)) 0 0.28em, transparent 0.34em),
+    radial-gradient(circle at 36% 68%, rgb(var(--rgb-frame)) 0 0.24em, transparent 0.3em),
+    radial-gradient(circle at 52% 20%, rgb(var(--rgb-paper) / 0.9) 0 0.2em, transparent 0.26em),
+    radial-gradient(circle at 70% 48%, rgb(var(--rgb-warm) / 0.85) 0 0.22em, transparent 0.28em),
+    radial-gradient(circle at 86% 26%, rgb(var(--rgb-blue)) 0 0.3em, transparent 0.36em),
+    radial-gradient(circle at 82% 80%, rgb(var(--rgb-frame)) 0 0.2em, transparent 0.26em),
+    radial-gradient(circle at 22% 84%, rgb(var(--rgb-blue)) 0 0.26em, transparent 0.32em),
+    linear-gradient(150deg, rgb(40 58 100), rgb(var(--rgb-ink)));
+}
+
+/* Окно зала: переплёт, свет из окна и отсвет на полу. */
+.photo__pic--window {
+  background:
+    linear-gradient(rgb(var(--rgb-deep)), rgb(var(--rgb-deep))) 50% 44% / 0.18em 3.4em no-repeat,
+    linear-gradient(rgb(var(--rgb-deep)), rgb(var(--rgb-deep))) 50% 47% / 3em 0.18em no-repeat,
+    linear-gradient(rgb(var(--rgb-paper)), rgb(var(--rgb-frame))) 50% 44% / 3em 3.4em no-repeat,
+    linear-gradient(transparent 80%, rgb(var(--rgb-frame) / 0.2) 80%),
+    radial-gradient(circle at 50% 40%, rgb(62 90 146), rgb(24 34 58) 75%);
+}
+
+/* Горы и луна. Склоны — конические градиенты: клин с вершиной
+   в точке, полградуса по краям — сглаживание, иначе склон
+   рисовался бы лесенкой. */
+.photo__pic--hills {
+  background:
+    conic-gradient(from 135deg at 68% 46%, transparent, rgb(30 46 84) 0.5deg 89.5deg, transparent 90deg),
+    conic-gradient(from 138deg at 34% 36%, transparent, rgb(74 104 164) 0.5deg 83.5deg, transparent 84deg),
+    radial-gradient(circle at 80% 24%, rgb(var(--rgb-paper)) 0 0.42em, rgb(var(--rgb-paper) / 0.2) 0.5em, transparent 1.2em),
+    linear-gradient(rgb(96 128 196), rgb(170 196 240));
+}
+
+/* Арка с цветами: верхняя половина кольца над полом. */
+.photo__pic--arch {
+  background:
+    radial-gradient(circle at 30.7% 56.5%, rgb(var(--rgb-warm)) 0 0.3em, transparent 0.36em),
+    radial-gradient(circle at 42.4% 39%, rgb(var(--rgb-paper)) 0 0.26em, transparent 0.32em),
+    radial-gradient(circle at 61.2% 42%, rgb(var(--rgb-warm)) 0 0.3em, transparent 0.36em),
+    radial-gradient(circle at 69.3% 56.5%, rgb(var(--rgb-frame)) 0 0.26em, transparent 0.32em),
+    linear-gradient(transparent 76%, rgb(30 44 76) 76%),
+    radial-gradient(2.4em 2.8em at 50% 76%, transparent 86%, rgb(var(--rgb-paper) / 0.85) 88% 98%, transparent),
+    radial-gradient(circle at 50% 50%, rgb(66 94 152), rgb(26 38 66) 80%);
+}
+
+/* --- Веер копий ---------------------------------------------------------- */
+
+/* Копии подсвеченных кадров, уже «пришедшие». Справа снизу,
+   по одной вертикали с плитками: отметка над верхней копией
+   выступает до того же края, что и плитки. Кегль тот же, что
+   у листа, а сама копия — в полтора кадра: сюжеты на ней те же,
+   только крупнее. */
+.photo__stack {
+  position: absolute;
+  right: calc(var(--space-5) + 2.2em);
+  bottom: calc(var(--space-5) + 1.6em);
+  width: 15.5em;
+  aspect-ratio: 3 / 2;
+  font-size: calc(var(--fw) / 10);
+}
+
+.photo__print {
+  position: absolute;
+  inset: 0;
+  font-size: 1.55em;
+  box-shadow:
+    0 0 0 max(1px, 0.1em) rgb(var(--rgb-paper) / 0.16),
+    0 1.2em 2.4em -0.6em rgb(0 0 0 / 0.75);
+  /* Веер: верхняя копия чуть наклонена вправо, нижние уходят
+     влево и назад. */
+  rotate: calc(5deg - var(--k) * 9deg);
+  translate: calc(var(--k) * -1.4em) calc(var(--k) * -0.3em);
+  transition: rotate var(--dur-slow) var(--ease-out),
+              translate var(--dur-slow) var(--ease-out);
+}
+
+/* Отметка — синий кружок знака с галочкой. */
+.photo__badge {
+  position: absolute;
+  right: -0.9em;
+  top: -0.9em;
+  display: grid;
+  place-items: center;
+  width: 2.4em;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgb(var(--rgb-blue));
+  color: rgb(var(--rgb-paper));
+  box-shadow: 0 0 0 0.22em rgb(var(--rgb-ink));
+}
+.photo__check { width: 62%; height: 62%; }
+
+/* На наведение веер раскрывается, как если бы копии взяли
+   в руку. Это продолжение общего приёма окна, а не отдельная
+   анимация. Верхняя копия остаётся на месте, расходятся только
+   нижние: сцена при наведении и так увеличивается, и повёрнутая
+   верхняя копия уводила отметку в скруглённый угол окна. */
+@media (hover: hover) {
+  .case--photo.is-hover .photo__print {
+    rotate: calc(5deg - var(--k) * 12deg);
+    translate: calc(var(--k) * -2.2em) calc(var(--k) * -0.5em);
+  }
+}
+
+/* --- Подпись ------------------------------------------------------------ */
+
+/* Знак слева от подписи, на обе строки. */
+.case--photo .case__hud {
+  grid-template-columns: auto auto;
+  column-gap: var(--space-3);
+  align-items: center;
+}
+.case--photo .case__hud-title,
+.case--photo .case__hud-sub { grid-column: 2; }
+
+.photo__mark {
+  grid-row: 1 / 3;
+  width: 1.75rem;
+  height: 1.75rem;
+  color: rgb(var(--rgb-frame));
+}
+.photo__mark-dot { fill: rgb(var(--rgb-blue)); }
+
+/* --- Плитки ------------------------------------------------------------- */
+
+/* Готовность этапа — полоса, как у WearningLords точность. */
+.photo__bar {
+  position: relative;
+  display: block;
+  height: 20px;
+}
+.photo__bar::before,
+.photo__bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 2px;
+}
+.photo__bar::before { right: 0; background: rgb(var(--rgb-paper) / 0.12); }
+.photo__bar::after  { width: calc(var(--v) * 100%); background: currentColor; }
+
+/* --- Окно поменьше -------------------------------------------------------
+   В ленте работ окно меняет размер вместе с лентой, а не с экраном:
+   на широком мониторе оно бывает и в полтора раза ниже обычного.
+   Плитки и подпись — px, а не доли окна, и в низком окне они
+   занимали бы его целиком, накрывая и веер, и подсвеченные кадры.
+   Поэтому уходят по очереди, по высоте самого окна:
+     470px — три плитки (≈ 250px) и веер под ними уже не помещаются
+             друг над другом, и первой уходит средняя, «Обработка»;
+     360px — подпись ложится на нижний подсвеченный кадр, а две
+             плитки почти касаются веера; остаётся одна сцена.
+   По ширине экрана, как у соседних кейсов, это не решить: окно
+   высотой 300px бывает и на планшете, и на ноутбуке. */
+@container (max-height: 470px) {
+  .photo__minor { display: none; }
+}
+@container (max-height: 360px) {
+  .photo .case__tiles,
+  .photo .case__hud { display: none; }
+
+  /* Равняться больше не на что, и веер отходит ближе к углу —
+     на тот же отступ, что подпись на телефоне: в окне шириной
+     в телефон иначе он почти касался нижнего подсвеченного кадра. */
+  .photo__stack {
+    right: calc(var(--space-4) + 2.2em);
+    bottom: calc(var(--space-4) + 1.6em);
+  }
+}
+
+/* Окно уже 290px — телефон уже 360px. Веер задан в долях кадра,
+   а в кадре есть постоянная часть (1.6rem), поэтому в узком окне
+   веер занимает большую долю и ложился на нижний подсвеченный
+   кадр. Делаем его меньше, прижимаем к углу и сводим копии теснее. */
+@container (max-width: 290px) {
+  .photo__stack {
+    width: 13.5em;
+    right: calc(var(--space-3) + 2em);
+    bottom: calc(var(--space-3) + 1.4em);
+  }
+  .photo__print { translate: calc(var(--k) * -1em) calc(var(--k) * -0.2em); }
+}
+
+/* Без контейнерных запросов (Safari до 16) ни cqw, ни блоки выше
+   не сработают. Там ширина кадра считается от экрана: без них и лента
+   (works.css) считает карточку от экрана — четыре пятых его ширины,
+   не больше 56rem. Высоту окна узнаём по нему же: ниже 470px окно
+   16 : 9 становится на экране уже 1045px, ниже 360px — уже 800px,
+   а окно 4 : 3 — уже 600px. Узкое окно (290px) — телефон уже 360px. */
+@supports not (container-type: size) {
+  .photo { --fw: calc(1.6rem + min(7.2vw, 5rem)); }
+
+  @media (max-width: 1045px) {
+    .photo__minor { display: none; }
+  }
+  @media (min-width: 701px) and (max-width: 800px), (max-width: 600px) {
+    .photo .case__tiles,
+    .photo .case__hud { display: none; }
+  }
+  @media (max-width: 360px) {
+    .photo__stack {
+      width: 13.5em;
+      right: calc(var(--space-3) + 2em);
+      bottom: calc(var(--space-3) + 1.4em);
+    }
+    .photo__print { translate: calc(var(--k) * -1em) calc(var(--k) * -0.2em); }
+  }
+}

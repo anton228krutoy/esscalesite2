@@ -9,6 +9,7 @@
 
 import { cityMap } from './city-map.js'
 import { wordsScene } from './words-scene.js'
+import { photoScene } from './photo-scene.js'
 import { esc, nbsp } from './escape.js'
 
 /* Спарклайны — форма без числовых подписей: показывают характер
@@ -77,7 +78,7 @@ function cityScene() {
 }
 
 /* У каждого продукта в окне своя сцена — его собственный
-   интерфейс, а не общий шаблон: два одинаковых окна подряд
+   интерфейс, а не общий шаблон: два одинаковых окна рядом
    читались бы как один кейс, показанный дважды. Сцена ищется
    по id проекта; если её нет, сборка падает, а не выпускает
    на главную пустое окно.
@@ -87,6 +88,7 @@ function cityScene() {
 const SCENES = {
   scandere:      { render: cityScene },
   wearninglords: { render: wordsScene, theme: 'case--words' },
+  gophoto:       { render: photoScene, theme: 'case--photo' },
 }
 
 /* Статус показывается только у того, что ещё нельзя скачать:
@@ -95,22 +97,34 @@ const SCENES = {
    чем есть. */
 const STATUS = {
   soon: 'Скоро в App Store',
+  dev:  'В разработке',
 }
 
+/* Карточка со страницей — ссылка, без страницы — статья.
+   Раньше при пустом href собиралась ссылка на «#»: она вела на
+   верх главной и обещала подсказкой «Открыть» то, чего нет.
+
+   draggable="false" у ссылки: в ленте работ её тянут мышью, чтобы
+   листать, а браузер вместо этого начинал перетаскивать саму ссылку. */
 function renderCase(p) {
   const scene = SCENES[p.id]
   if (!scene) throw new Error(`[render] для проекта «${p.id}» нет сцены в окне кейса`)
   const status = STATUS[p.status]
+  const cls = `case${scene.theme ? ` ${scene.theme}` : ''}`
+  const open = p.href
+    ? `<a class="${cls}" href="${esc(p.href)}" data-case draggable="false"
+       aria-label="${esc(p.title)} — ${esc(p.kind)}.${status ? ` ${esc(status)}.` : ''} Открыть страницу проекта">`
+    : `<article class="${cls}" data-case>`
+  const close = p.href ? '</a>' : '</article>'
   return `
-    <a class="case${scene.theme ? ` ${scene.theme}` : ''}" href="${esc(p.href || '#')}" data-case
-       aria-label="${esc(p.title)} — ${esc(p.kind)}.${status ? ` ${esc(status)}.` : ''} Открыть страницу проекта">
+    ${open}
       <div class="case__window" data-case-window aria-hidden="true">
         <div class="case__scene" data-case-scene>
           ${scene.render()}
         </div>
 
-        <span class="case__sheen" data-case-sheen aria-hidden="true"></span>
-        <span class="case__cue t-mono" data-case-cue aria-hidden="true">Открыть<span class="case__cue-arrow">↗</span></span>
+        <span class="case__sheen" data-case-sheen aria-hidden="true"></span>${p.href ? `
+        <span class="case__cue t-mono" data-case-cue aria-hidden="true">Открыть<span class="case__cue-arrow">↗</span></span>` : ''}
       </div>
 
       <div class="case__meta">
@@ -122,29 +136,67 @@ function renderCase(p) {
           </div>` : `
           <p class="case__kind t-mono">${esc(p.kind)}</p>`}
         </div>
-        <dl class="case__metrics">
+        ${p.metrics?.length ? `<dl class="case__metrics">
           ${p.metrics.map(m => `
           <div class="metric">
             <dt class="metric__label t-mono">${esc(m.label)}</dt>
             <dd class="metric__value">${nbsp(esc(m.value))}</dd>
           </div>`).join('')}
-        </dl>
+        </dl>` : ''}
       </div>
 
       <p class="case__text">${esc(p.summary)}</p>
-    </a>`
+    ${close}`
 }
 
+/* Работы — лента, которая листается вбок: в центре карточка
+   в полный размер, к краям соседние уменьшаются и гаснут.
+
+   Лента — обычный горизонтальный скролл с прилипанием, а не
+   сдвиг трансформом: свайп на телефоне, жест трекпада, Tab по
+   ссылкам и прокрутка без скрипта работают сами, скрипт только
+   добавляет масштаб, кнопки и перетаскивание мышью.
+
+   Лента стоит вне .container, во всю ширину секции: соседние
+   карточки должны уходить за край экрана, а не обрезаться посреди
+   поля страницы.
+
+   data-lenis-prevent-horizontal: Lenis гасит любое колесо с
+   ненулевым deltaY и превращает его в вертикальную прокрутку
+   страницы, а в жесте трекпада вбок deltaY почти никогда не ноль —
+   лента стояла бы. С этим атрибутом Lenis пропускает жесты, где
+   преобладает горизонталь, а вертикальные по-прежнему плавно
+   крутит страницу.
+
+   Кнопки собраны с hidden: без скрипта они ничего бы не делали. */
 export function renderProjects(items) {
   if (!items.length) return ''
+  const pad = n => String(n).padStart(2, '0')
   return `
 <section class="section showcase" id="work">
-  <div class="container">
-    <header class="sec-head sec-head--split">
-      <h2 class="sec-head__title t-display">Работы</h2>
-      <p class="sec-head__aside">Scandere уже в&nbsp;App&nbsp;Store, WearningLords готовится к&nbsp;выходу.</p>
-    </header>
-${items.map(renderCase).join('\n')}
+  <div class="works" data-works>
+    <div class="container">
+      <header class="sec-head sec-head--split works__head">
+        <h2 class="sec-head__title t-display">Работы</h2>
+        <div class="works__side">
+          <p class="sec-head__aside">Продукты, которые мы сделали и&nbsp;делаем сейчас.</p>
+          <div class="works__nav" data-works-nav hidden>
+            <button class="works__btn" type="button" data-works-prev aria-label="Предыдущая работа">
+              <span aria-hidden="true">←</span>
+            </button>
+            <span class="works__count t-mono" aria-atomic="true"><span class="visually-hidden">Работа </span><span data-works-index>01</span><span aria-hidden="true">&nbsp;/&nbsp;</span><span class="visually-hidden"> из </span>${pad(items.length)}</span>
+            <button class="works__btn" type="button" data-works-next aria-label="Следующая работа">
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <ul class="works__track" role="list" data-works-track data-lenis-prevent-horizontal>
+${items.map(p => `      <li class="works__slide" data-slide>${renderCase(p)}
+      </li>`).join('\n')}
+    </ul>
   </div>
 </section>`
 }

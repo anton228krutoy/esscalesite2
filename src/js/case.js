@@ -12,7 +12,14 @@
    pointermove и один scroll на все окна, а не по комплекту
    на каждое. Работу делают только окна в кадре — какие они,
    сообщает тот же IntersectionObserver, что раскрывает окно.
+
+   Кейсы стоят в ленте, которая листается вбок (works.js). Лента —
+   часть той же витрины, поэтому грузится этим же модулем, а не
+   отдельным import(): лишний динамический импорт уже однажды
+   перетасовал чанки и порядок CSS на главной.
    ============================================================ */
+
+import { initWorks } from './works.js'
 
 /* Два порога у одного наблюдателя, потому что вопроса два.
    «Окно в кадре?» — да, как только виден хоть край: курсор может
@@ -23,11 +30,21 @@ const SEEN = 0
 const REVEAL = 0.25
 
 export function initCase() {
+  // До проверки на «меньше движения»: листать ленту кнопками
+  // нужно и тем, у кого анимации выключены.
+  initWorks()
+
   const cases = [...document.querySelectorAll('[data-case]')]
     .map(card => ({
       card,
       win: card.querySelector('[data-case-window]'),
+      slide: card.closest('[data-slide]'),   // место в ленте работ, если кейс в ней
+      // Номер работы в ленте: у копий одной работы (works.js) он общий,
+      // и состояние — видно ли окно, наведён ли курсор — тоже общее.
+      group: card.closest('[data-slide]')?.dataset.copy ?? null,
+      shown: false,
       rect: null,         // геометрия окна; измеряется только у окон в кадре
+      scale: 1,           // во сколько раз окно на экране меньше своей раскладки
       inView: false,
       hovering: false,
     }))
@@ -56,10 +73,20 @@ export function initCase() {
         // До записи стилей ниже: так замер не заставляет браузер
         // пересчитывать раскладку посреди обработчика.
         pointer?.(c)
-        if (shown) c.win.style.setProperty('--case-scale', '1')
+        // В ленте работ окна раскрываются все разом. Поодиночке
+        // лента после переезда с копии на оригинал ставила бы
+        // в центр ещё поджатое окно, и оно заметно «вздрагивало».
+        if (shown) for (const x of c.slide ? cases.filter(y => y.slide) : [c]) {
+          x.win.style.setProperty('--case-scale', '1')
+        }
         // Пульс точки на схеме и курсор в поле ответа живут,
-        // только пока окно заметно в кадре.
-        e.target.toggleAttribute('data-visible', shown)
+        // только пока окно заметно в кадре. У копий одной работы —
+        // пока заметна хоть одна: иначе после переезда с копии на
+        // оригинал анимации сцены начинались бы заново, с рывком.
+        c.shown = shown
+        const members = c.group === null ? [c] : cases.filter(x => x.group === c.group)
+        const visible = members.some(m => m.shown)
+        for (const m of members) m.win.toggleAttribute('data-visible', visible)
       }
     },
     { threshold: [SEEN, REVEAL] }
@@ -80,6 +107,17 @@ function followPointer(cases) {
   let over = false            // курсор над страницей
   let queued = false
 
+  /* Окно на экране меньше своей раскладки: оно раскрывается из
+     0.96, а в ленте боковые карточки ещё и уменьшены. Блик и
+     подсказка стоят в координатах раскладки, поэтому смещение
+     курсора делим на этот масштаб — иначе на уменьшенном окне
+     подсказка отставала бы от курсора тем сильнее, чем он дальше
+     от угла. offsetWidth трансформ не учитывает — он и нужен. */
+  const read = c => {
+    c.rect = c.win.getBoundingClientRect()
+    c.scale = c.rect.width / c.win.offsetWidth || 1
+  }
+
   const setHover = (c, on) => {
     if (c.hovering === on) return
     c.hovering = on
@@ -92,26 +130,44 @@ function followPointer(cases) {
 
   const flush = () => {
     queued = false
-    for (const c of cases) {
-      const { rect, win } = c
 
-      /* Проверяем попадание сами, а не полагаемся на :hover.
-         При скролле указатель не двигается, поэтому браузер не
-         пересчитывает :hover — окно уезжает, а состояние остаётся. */
-      const inside = over && c.inView && rect !== null &&
+    /* Проверяем попадание сами, а не полагаемся на :hover.
+       При скролле указатель не двигается, поэтому браузер не
+       пересчитывает :hover — окно уезжает, а состояние остаётся.
+
+       В ленте отзывается только карточка в центре: боковая по
+       клику не открывается, а встаёт в центр, и подсказка
+       «Открыть» на ней обещала бы не то. Заодно две карточки
+       не могут откликнуться разом там, где они сходятся.
+
+       Сначала решаем, где курсор, и только потом пишем: у копий одной
+       работы наведение общее. Лента молча переезжает с копии на
+       оригинал, и если бы оригинал «наводился» заново, сцена под
+       неподвижным курсором заметно отъезжала и приближалась бы. */
+    const hit = new Map()   // работа (или сам кейс вне ленты) → кейс под курсором
+    for (const c of cases) {
+      const { rect } = c
+      const inside = over && (c.inView || c.slide) && rect !== null &&
+        (!c.slide || c.slide.hasAttribute('data-active')) &&
         cx >= rect.left && cx <= rect.right &&
         cy >= rect.top  && cy <= rect.bottom
-      setHover(c, inside)
-      if (!inside) continue
+      if (inside) hit.set(c.group ?? c, c)
+    }
 
-      const mx = cx - rect.left
-      const my = cy - rect.top
-      const px = (mx / rect.width - 0.5) * 18      // сцена ходит мягче курсора
-      const py = (my / rect.height - 0.5) * 18
-      win.style.setProperty('--mx', `${mx.toFixed(1)}px`)
-      win.style.setProperty('--my', `${my.toFixed(1)}px`)
-      win.style.setProperty('--px', `${(-px).toFixed(2)}px`)
-      win.style.setProperty('--py', `${(-py).toFixed(2)}px`)
+    for (const c of cases) {
+      const src = hit.get(c.group ?? c)
+      setHover(c, !!src)
+      if (!src) continue
+
+      const { rect } = src
+      const mx = (cx - rect.left) / src.scale
+      const my = (cy - rect.top) / src.scale
+      const px = ((cx - rect.left) / rect.width - 0.5) * 18      // сцена ходит мягче курсора
+      const py = ((cy - rect.top) / rect.height - 0.5) * 18
+      c.win.style.setProperty('--mx', `${mx.toFixed(1)}px`)
+      c.win.style.setProperty('--my', `${my.toFixed(1)}px`)
+      c.win.style.setProperty('--px', `${(-px).toFixed(2)}px`)
+      c.win.style.setProperty('--py', `${(-py).toFixed(2)}px`)
     }
   }
 
@@ -120,9 +176,12 @@ function followPointer(cases) {
   }
 
   // Окна вне кадра не измеряются: их геометрия никому не нужна,
-  // а каждое чтение — это пересчёт раскладки.
+  // а каждое чтение — это пересчёт раскладки. Кроме ленты работ:
+  // после переезда с копии в центре оказывается оригинал, про который
+  // наблюдатель ещё не успел сказать «в кадре», — его окно нужно
+  // измерить сразу. Карточек в ленте девять, это недорого.
   const measure = () => {
-    for (const c of cases) if (c.inView) c.rect = c.win.getBoundingClientRect()
+    for (const c of cases) if (c.inView || c.slide) read(c)
   }
 
   // Слушаем на документе: указатель может покинуть окно и без
@@ -133,7 +192,7 @@ function followPointer(cases) {
     // Геометрию здесь НЕ перечитываем: она меняется от скролла и
     // ресайза, а не от движения мыши. Чтение на каждое движение
     // давало пересчёт раскладки после записи стилей в том же кадре.
-    for (const c of cases) if (c.inView && !c.rect) c.rect = c.win.getBoundingClientRect()
+    for (const c of cases) if ((c.inView || c.slide) && !c.rect) read(c)
     schedule()
   }, { passive: true })
 
@@ -146,13 +205,16 @@ function followPointer(cases) {
   let idle = 0
   const track = () => {
     const probe = hovered()
-    const prevTop = probe?.rect ? probe.rect.top : null
+    const prev = probe?.rect ?? null
     measure()
     flush()
     // Останавливаемся, когда окно перестало двигаться: иначе
     // цикл с чтением геометрии крутился бы до конца жизни
-    // страницы, хотя прокрутка давно кончилась.
-    const still = prevTop !== null && probe.rect !== null && Math.abs(probe.rect.top - prevTop) < 0.5
+    // страницы, хотя прокрутка давно кончилась. Смотрим и на
+    // левый край: лента работ двигает окно вбок, а не вверх.
+    const still = prev !== null && probe.rect !== null &&
+      Math.abs(probe.rect.top - prev.top) < 0.5 &&
+      Math.abs(probe.rect.left - prev.left) < 0.5
     idle = still ? idle + 1 : 0
     if (hovered() && idle < 3) requestAnimationFrame(track)
     else tracking = false
@@ -162,7 +224,10 @@ function followPointer(cases) {
     schedule()
     if (hovered() && !tracking) { tracking = true; idle = 0; requestAnimationFrame(track) }
   }
-  window.addEventListener('scroll', onScroll, { passive: true })
+  /* На документе и на погружении, а не на window: событие scroll
+     не всплывает, и прокрутку ленты работ window не слышал бы —
+     окна уезжали бы вбок, а блик оставался на старом месте. */
+  document.addEventListener('scroll', onScroll, { passive: true, capture: true })
   window.addEventListener('resize', onScroll, { passive: true })
 
   /* Окно раскрывается из масштаба 0.96, и всё, что измерено до
@@ -172,8 +237,8 @@ function followPointer(cases) {
      Событие всплывает и от сцены внутри окна — его отсекаем. */
   for (const c of cases) {
     c.win.addEventListener('transitionend', e => {
-      if (e.target !== c.win || e.propertyName !== 'transform' || !c.inView) return
-      c.rect = c.win.getBoundingClientRect()
+      if (e.target !== c.win || e.propertyName !== 'transform' || !(c.inView || c.slide)) return
+      read(c)
       schedule()
     })
   }
@@ -190,7 +255,8 @@ function followPointer(cases) {
   })
 
   return c => {
-    c.rect = c.inView ? c.win.getBoundingClientRect() : null
+    if (c.inView || c.slide) read(c)
+    else c.rect = null
     schedule()
   }
 }
