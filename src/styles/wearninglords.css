@@ -138,10 +138,3 @@
   .w-shots::-webkit-scrollbar { display: none; }
   .w-shot { scroll-snap-align: start; }
 }
-
-/* --- Подвал -------------------------------------------------------------------- */
-
-/* Три подписи вразрядку в строку на экран 390 px не помещаются:
-   «© 2026 Esscale» уезжало за правый край. Переносим на вторую
-   строку. */
-.w-page .s-foot__inner { flex-wrap: wrap; row-gap: var(--space-3); }

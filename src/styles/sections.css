@@ -84,6 +84,13 @@ section { position: relative; z-index: var(--z-content); }
   line-height: var(--lh-tight);
   letter-spacing: var(--ls-tighter);
 }
+/* «Расскажите,» при нижней границе --fs-700 на 12 px шире колонки
+   экрана 320 px и залезало в поле. Тот же приём, что у заголовка
+   первого экрана: на узком экране кегль следует за колонкой,
+   а там, где слово влезает, остаётся прежним. */
+@media (max-width: 640px) {
+  .contact__title { font-size: min(var(--fs-700), (100vw - 2 * var(--gutter)) / 8); }
+}
 .contact__text {
   margin: var(--space-5) auto var(--space-7);
   max-width: 42ch;

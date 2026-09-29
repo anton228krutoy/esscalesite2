@@ -481,6 +481,16 @@
 /* --- Подвал ------------------------------------------------------------------------ */
 
 .s-foot { border-top: 1px solid var(--c-line); padding-block: var(--space-5); }
-.s-foot__inner { display: flex; justify-content: space-between; gap: var(--space-4); color: var(--c-text-faint); }
+/* Три подписи вразрядку в строку на экран 390 px не помещаются:
+   «© 2026 Esscale» уезжало за правый край, и страницу можно было
+   сдвинуть вбок. Переносим на вторую строку. Правило общее для
+   Scandere и WearningLords: подвал у них один. */
+.s-foot__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-4);
+  color: var(--c-text-faint);
+}
 .s-foot a { transition: color var(--dur-fast) var(--ease-out); }
 @media (hover: hover) { .s-foot a:hover { color: var(--c-accent); } }
