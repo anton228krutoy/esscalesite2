@@ -102,17 +102,14 @@ const STATUS = {
 
 /* Карточка со страницей — ссылка, без страницы — статья.
    Раньше при пустом href собиралась ссылка на «#»: она вела на
-   верх главной и обещала подсказкой «Открыть» то, чего нет.
-
-   draggable="false" у ссылки: в ленте работ её тянут мышью, чтобы
-   листать, а браузер вместо этого начинал перетаскивать саму ссылку. */
+   верх главной и обещала подсказкой «Открыть» то, чего нет. */
 function renderCase(p) {
   const scene = SCENES[p.id]
   if (!scene) throw new Error(`[render] для проекта «${p.id}» нет сцены в окне кейса`)
   const status = STATUS[p.status]
   const cls = `case${scene.theme ? ` ${scene.theme}` : ''}`
   const open = p.href
-    ? `<a class="${cls}" href="${esc(p.href)}" data-case draggable="false"
+    ? `<a class="${cls}" href="${esc(p.href)}" data-case
        aria-label="${esc(p.title)} — ${esc(p.kind)}.${status ? ` ${esc(status)}.` : ''} Открыть страницу проекта">`
     : `<article class="${cls}" data-case>`
   const close = p.href ? '</a>' : '</article>'
@@ -152,21 +149,14 @@ function renderCase(p) {
 /* Работы — лента, которая листается вбок: в центре карточка
    в полный размер, к краям соседние уменьшаются и гаснут.
 
-   Лента — обычный горизонтальный скролл с прилипанием, а не
-   сдвиг трансформом: свайп на телефоне, жест трекпада, Tab по
-   ссылкам и прокрутка без скрипта работают сами, скрипт только
-   добавляет масштаб, кнопки и перетаскивание мышью.
+   Листают её кнопки, стрелки и клик по боковой карточке (works.js);
+   свайпы отключены. В разметке это обычная горизонтальная полоса
+   с прокруткой: без скрипта её листают сами, и до всех работ можно
+   добраться.
 
    Лента стоит вне .container, во всю ширину секции: соседние
    карточки должны уходить за край экрана, а не обрезаться посреди
    поля страницы.
-
-   data-lenis-prevent-horizontal: Lenis гасит любое колесо с
-   ненулевым deltaY и превращает его в вертикальную прокрутку
-   страницы, а в жесте трекпада вбок deltaY почти никогда не ноль —
-   лента стояла бы. С этим атрибутом Lenis пропускает жесты, где
-   преобладает горизонталь, а вертикальные по-прежнему плавно
-   крутит страницу.
 
    Кнопки собраны с hidden: без скрипта они ничего бы не делали. */
 export function renderProjects(items) {
@@ -193,7 +183,7 @@ export function renderProjects(items) {
       </header>
     </div>
 
-    <ul class="works__track" role="list" data-works-track data-lenis-prevent-horizontal>
+    <ul class="works__track" role="list" data-works-track>
 ${items.map(p => `      <li class="works__slide" data-slide>${renderCase(p)}
       </li>`).join('\n')}
     </ul>
