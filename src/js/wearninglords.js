@@ -32,25 +32,10 @@ for (const el of document.querySelectorAll('[data-soon]')) {
   el.addEventListener('click', e => e.preventDefault())
 }
 
-/* Стрелка «дальше» — только если первый экран уместился в окно,
-   то есть не вырос выше своего минимума «окно минус шапка».
-   Иначе из-под нижнего края выглядывал бы обрезанный круг.
-   ResizeObserver, а не resize: высота меняется и от поворота
-   телефона, и когда догружается шрифт. */
-const hero = document.querySelector('.s-hero')
-const next = hero?.querySelector('.s-hero__next')
-if (next) {
-  new ResizeObserver(() => {
-    const min = parseFloat(getComputedStyle(hero).minHeight)
-    next.toggleAttribute('data-off', hero.getBoundingClientRect().height > min + 1)
-  }).observe(hero)
-}
-
 /* Появление секций. IntersectionObserver, а не обработчик
    скролла: браузер считает пересечения сам. */
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
-/* Первый экран — ради data-visible: по нему качается стрелка «дальше». */
-const items = document.querySelectorAll('.s-hero, .s-section, .s-cta')
+const items = document.querySelectorAll('.s-section, .s-cta')
 
 if (reduce) {
   items.forEach(el => el.setAttribute('data-in', ''))
@@ -68,4 +53,37 @@ if (reduce) {
     { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
   )
   items.forEach(el => io.observe(el))
+}
+
+/* Стрелка «дальше». В разметке она спрятана, и показываем её, только
+   если круг целиком помещается в первый экран и не ближе 8 px
+   к нижнему краю. Высота первого экрана без шапки — его min-height,
+   поэтому край окна считаем от его верха.
+
+   Пересчёт — и по размеру блока (поворот телефона, догрузка шрифта),
+   и по размеру окна: когда блок вырос по содержимому, смена высоты
+   окна его размер не трогает, а край окна сдвигает. */
+const hero = document.querySelector('.s-hero')
+const next = hero?.querySelector('.s-hero__next')
+const target = document.getElementById('about')
+
+if (next) {
+  const fit = () => {
+    const fold = parseFloat(getComputedStyle(hero).minHeight)
+    const end = next.getBoundingClientRect().bottom - hero.getBoundingClientRect().top
+    next.toggleAttribute('data-off', end > fold - 8)
+  }
+  new ResizeObserver(fit).observe(hero)
+  addEventListener('resize', fit, { passive: true })
+
+  /* Прокрутка скриптом, а не переходом по якорю: адрес не меняется
+     и в истории не остаётся лишней записи. Иначе «Назад» сначала
+     возвращал бы к первому экрану, а не уводил со страницы, а ссылка,
+     скопированная после нажатия, открывалась бы сразу на описании —
+     без названия и кнопок скачивания. */
+  next.addEventListener('click', e => {
+    if (!target) return
+    e.preventDefault()
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' })
+  })
 }

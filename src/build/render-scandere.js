@@ -46,7 +46,7 @@ export function renderScandere({ data, site }) {
       </div>
     </div>
 
-    <a class="s-hero__next" href="#about" aria-label="Подробнее">
+    <a class="s-hero__next" href="#about" aria-label="Подробнее" data-off>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M12 4v15M6 13l6 6 6-6"/>
