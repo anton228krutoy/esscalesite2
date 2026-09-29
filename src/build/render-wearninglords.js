@@ -61,9 +61,16 @@ export function renderWearninglords({ data, site }) {
         </a>
       </div>
     </div>
+
+    <a class="s-hero__next" href="#about" aria-label="Подробнее">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 4v15M6 13l6 6 6-6"/>
+      </svg>
+    </a>
   </section>
 
-  <section class="s-section">
+  <section class="s-section" id="about">
     <div class="s-wrap">
       <h2 class="s-h2">Как учит</h2>
       <ul class="s-chips" role="list">

@@ -20,6 +20,15 @@
   --s-line:   rgb(var(--rgb-cool) / 0.16);
   --s-radius: 18px;
 
+  /* Высота шапки. Первый экран вычитает её из высоты окна,
+     поэтому шапка берёт её отсюда же, а не складывает из отступов
+     и строки: та плавает с шириной окна (55–58 px), и первый экран
+     промахивался бы на пару пикселей. */
+  --s-top-h: 3.75rem;
+
+  /* На сколько секция приподнимается, появляясь. */
+  --s-rise: 1.2rem;
+
   background:
     radial-gradient(90% 60% at 50% -10%, rgb(var(--rgb-cool) / 0.10), transparent 70%),
     radial-gradient(70% 50% at 100% 100%, rgb(var(--rgb-cool) / 0.06), transparent 70%),
@@ -44,6 +53,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
+  min-height: var(--s-top-h);
   padding: var(--space-4) var(--gutter);
   background: rgb(var(--rgb-void) / 0.72);
   backdrop-filter: blur(14px);
@@ -63,10 +73,27 @@
 
 /* --- Первый экран -------------------------------------------------------- */
 
+/* Первый экран занимает окно целиком, до нижнего края. Иначе из-под
+   кнопок скачивания выглядывал заголовок следующей секции и верх
+   её карточек — обрезанные посреди, как недогруженная страница.
+   svh, а не dvh: высота не прыгает, когда телефон прячет панели
+   браузера при прокрутке. Если содержимое выше окна (телефон
+   боком), блок просто растёт — отступы остаются как были.
+
+   Две строки: содержимое по центру свободного места и стрелка
+   «дальше» под ним. Нижний отступ — это воздух под стрелкой,
+   поэтому он небольшой: весь низ и так занимает её строка.
+   Верхний — лишь минимум: содержимое стоит по центру, и отступ
+   работает, только когда места впритык. На телефоне он поэтому
+   ужат до 2rem — ровно столько не хватало стрелке на iPhone. */
 .s-hero {
-  padding-block: clamp(3rem, 2rem + 5vw, 6rem) clamp(2.5rem, 2rem + 3vw, 4rem);
+  min-height: calc(100svh - var(--s-top-h));
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding-block: clamp(2rem, 1rem + 5vw, 6rem) var(--space-5);
   text-align: center;
 }
+.s-hero > .s-wrap { align-self: center; }
 .s-hero__mark { display: flex; justify-content: center; margin-bottom: var(--space-5); }
 .mark { filter: drop-shadow(0 8px 32px rgb(var(--rgb-cool) / 0.28)); }
 
@@ -94,7 +121,10 @@
 /* --- Скачивание ---------------------------------------------------------- */
 
 .s-get {
-  margin-top: var(--space-7);
+  /* От --space-6 на телефоне до --space-7 на широком экране, по той
+     же формуле 380→1600 px, что и шрифты в tokens.css. Эти 16 px
+     и решают, поместится ли стрелка «дальше» на экране iPhone. */
+  margin-top: clamp(2rem, 1.69rem + 1.31vw, 3rem);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -141,9 +171,73 @@
   .s-btn[data-soon]:hover { border-color: var(--s-line); }
 }
 
+/* --- Стрелка «дальше» ------------------------------------------------------ */
+
+/* Первый экран занимает окно целиком, и снизу ничто не подсказывает,
+   что страница продолжается. Стрелка — эта подсказка. Она в своей
+   строке сетки, а не поверх первого экрана: когда содержимое выше
+   окна, стрелка уходит вниз вместе с ним и не наезжает на кнопки.
+
+   Показывается, только если первый экран уместился в окно целиком
+   (data-off ставит скрипт). Иначе на телефоне из-под нижнего края
+   выглядывал бы обрезанный круг — ровно то, от чего первый экран
+   и растягивали. А когда не уместился, содержимое само уходит
+   за край и подсказывает, что ниже есть ещё. visibility, а не
+   display: место под стрелкой остаётся, и вёрстка не прыгает. */
+.s-hero__next {
+  justify-self: center;
+  margin-top: var(--space-5);
+  display: grid;
+  place-items: center;
+  width: 2.75rem;               /* 44 px — в неё попадает палец */
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid var(--s-line);
+  color: var(--c-text-muted);
+  transition: color var(--dur-base) var(--ease-out),
+              border-color var(--dur-base) var(--ease-out);
+}
+.s-hero__next[data-off] { visibility: hidden; }
+@media (hover: hover) {
+  .s-hero__next:hover {
+    color: var(--c-accent);
+    border-color: rgb(var(--rgb-cool) / 0.5);
+  }
+}
+
+/* Проявляется чуть позже остального: сначала читается сам первый
+   экран, потом взгляд цепляется за движение внизу. Заодно скрипт
+   успевает спрятать стрелку, если та не помещается, — без вспышки. */
+@keyframes next-in { from { opacity: 0; } }
+:root[data-anim] .s-hero__next {
+  animation: next-in var(--dur-slow) var(--ease-out) 600ms backwards;
+}
+
+/* Покачивается сама стрелка, а не круг: круг стоит на месте,
+   и движение читается как «туда», а не как дрожание кнопки.
+   Только пока первый экран в кадре — как и у чипов. */
+@keyframes next-bob {
+  0%, 100% { translate: 0 -2px; }
+  50%      { translate: 0 3px; }
+}
+:root[data-anim] .s-hero[data-visible] .s-hero__next svg {
+  animation: next-bob 2.4s var(--ease-inout) infinite;
+}
+
+/* Стрелка — обычный якорь, работает и без скрипта. Прокрутка
+   плавная только на этих страницах: на главной ею управляет
+   Lenis, и base.css её выключает. */
+@media (prefers-reduced-motion: no-preference) {
+  :root:has(.s-hero) { scroll-behavior: smooth; }
+}
+
 /* --- Секции --------------------------------------------------------------- */
 
-.s-section { padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem); }
+.s-section {
+  padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  /* По якорю секция встаёт под липкую шапку, а не за неё. */
+  scroll-margin-top: var(--s-top-h);
+}
 
 /* Появление включает сам скрипт, выставив data-anim на <html>.
    Без этого секции скрыты не были бы: контент, который прячется
@@ -152,12 +246,19 @@
 :root[data-anim] .s-section,
 :root[data-anim] .s-cta {
   opacity: 0;
-  transform: translateY(1.2rem);
+  transform: translateY(var(--s-rise));
   transition: opacity var(--dur-slow) var(--ease-out),
               transform var(--dur-slow) var(--ease-out);
 }
 :root[data-anim] .s-section[data-in],
 :root[data-anim] .s-cta[data-in] { opacity: 1; transform: none; }
+
+/* Якорь считает от сдвинутого края: пока секция не появилась, она
+   ниже на --s-rise, и без поправки доезжала бы под шапку ровно
+   на столько же. */
+:root[data-anim] .s-section:not([data-in]) {
+  scroll-margin-top: calc(var(--s-top-h) + var(--s-rise));
+}
 
 .s-h2 {
   font-family: var(--ff-sans);

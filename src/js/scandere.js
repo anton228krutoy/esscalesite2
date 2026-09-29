@@ -27,10 +27,25 @@ for (const el of document.querySelectorAll('[data-soon]')) {
   el.addEventListener('click', e => e.preventDefault())
 }
 
+/* Стрелка «дальше» — только если первый экран уместился в окно,
+   то есть не вырос выше своего минимума «окно минус шапка».
+   Иначе из-под нижнего края выглядывал бы обрезанный круг.
+   ResizeObserver, а не resize: высота меняется и от поворота
+   телефона, и когда догружается шрифт. */
+const hero = document.querySelector('.s-hero')
+const next = hero?.querySelector('.s-hero__next')
+if (next) {
+  new ResizeObserver(() => {
+    const min = parseFloat(getComputedStyle(hero).minHeight)
+    next.toggleAttribute('data-off', hero.getBoundingClientRect().height > min + 1)
+  }).observe(hero)
+}
+
 /* Появление секций. IntersectionObserver, а не обработчик
    скролла: браузер считает пересечения сам. */
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches
-const items = document.querySelectorAll('.s-section, .s-cta')
+/* Первый экран — ради data-visible: по нему качается стрелка «дальше». */
+const items = document.querySelectorAll('.s-hero, .s-section, .s-cta')
 
 if (reduce) {
   items.forEach(el => el.setAttribute('data-in', ''))
