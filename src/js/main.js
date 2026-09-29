@@ -4,6 +4,7 @@ import '../styles/base.css'
 import '../styles/layout.css'
 import '../styles/sections.css'
 import '../styles/case.css'
+import '../styles/case-words.css'
 import '../styles/dirs.css'
 import '../styles/calc.css'
 

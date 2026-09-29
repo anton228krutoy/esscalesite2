@@ -8,6 +8,7 @@
    ============================================================ */
 
 import { cityMap } from './city-map.js'
+import { wordsScene } from './words-scene.js'
 import { esc, nbsp } from './escape.js'
 
 /* Спарклайны — форма без числовых подписей: показывают характер
@@ -53,22 +54,10 @@ export function renderDirections(items) {
 </section>`
 }
 
-export function renderProjects(items) {
-  const p = items[0]
-  if (!p) return ''
-  return `
-<section class="section showcase" id="work">
-  <div class="container">
-    <header class="sec-head sec-head--split">
-      <h2 class="sec-head__title t-display">Работы</h2>
-      <p class="sec-head__aside">Пока один проект — зато разобранный до последней задачи.</p>
-    </header>
-
-    <a class="case" href="${esc(p.href || '#')}" data-case
-       aria-label="${esc(p.title)} — ${esc(p.kind)}. Открыть страницу проекта">
-      <div class="case__window" data-case-window aria-hidden="true">
-        <div class="case__scene" data-case-scene>
-          ${cityMap({ id: 'case' })}
+/* Сцена Scandere: схема города, поверх неё — выбранная точка
+   и плитки показателей. */
+function cityScene() {
+  return `${cityMap({ id: 'case' })}
 
           <div class="case__hud">
             <span class="case__hud-title t-mono">Заречная</span>
@@ -84,7 +73,40 @@ export function renderProjects(items) {
                       stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>`).join('')}
-          </div>
+          </div>`
+}
+
+/* У каждого продукта в окне своя сцена — его собственный
+   интерфейс, а не общий шаблон: два одинаковых окна подряд
+   читались бы как один кейс, показанный дважды. Сцена ищется
+   по id проекта; если её нет, сборка падает, а не выпускает
+   на главную пустое окно.
+
+   theme — модификатор для сцены со своей палитрой. Scandere
+   живёт в цветах самого сайта, ему модификатор не нужен. */
+const SCENES = {
+  scandere:      { render: cityScene },
+  wearninglords: { render: wordsScene, theme: 'case--words' },
+}
+
+/* Статус показывается только у того, что ещё нельзя скачать:
+   у вышедшего приложения подпись «в App Store» ничего бы
+   не добавила, а у готовящегося без неё кейс обещал бы больше,
+   чем есть. */
+const STATUS = {
+  soon: 'Скоро в App Store',
+}
+
+function renderCase(p) {
+  const scene = SCENES[p.id]
+  if (!scene) throw new Error(`[render] для проекта «${p.id}» нет сцены в окне кейса`)
+  const status = STATUS[p.status]
+  return `
+    <a class="case${scene.theme ? ` ${scene.theme}` : ''}" href="${esc(p.href || '#')}" data-case
+       aria-label="${esc(p.title)} — ${esc(p.kind)}.${status ? ` ${esc(status)}.` : ''} Открыть страницу проекта">
+      <div class="case__window" data-case-window aria-hidden="true">
+        <div class="case__scene" data-case-scene>
+          ${scene.render()}
         </div>
 
         <span class="case__sheen" data-case-sheen aria-hidden="true"></span>
@@ -93,8 +115,12 @@ export function renderProjects(items) {
 
       <div class="case__meta">
         <div class="case__id">
-          <h3 class="case__title">${esc(p.title)}</h3>
-          <p class="case__kind t-mono">${esc(p.kind)}</p>
+          <h3 class="case__title">${esc(p.title)}</h3>${status ? `
+          <div class="case__sub">
+            <p class="case__kind t-mono">${esc(p.kind)}</p>
+            <span class="case__status t-mono">${esc(status)}</span>
+          </div>` : `
+          <p class="case__kind t-mono">${esc(p.kind)}</p>`}
         </div>
         <dl class="case__metrics">
           ${p.metrics.map(m => `
@@ -106,7 +132,19 @@ export function renderProjects(items) {
       </div>
 
       <p class="case__text">${esc(p.summary)}</p>
-    </a>
+    </a>`
+}
+
+export function renderProjects(items) {
+  if (!items.length) return ''
+  return `
+<section class="section showcase" id="work">
+  <div class="container">
+    <header class="sec-head sec-head--split">
+      <h2 class="sec-head__title t-display">Работы</h2>
+      <p class="sec-head__aside">Scandere уже в&nbsp;App&nbsp;Store, WearningLords готовится к&nbsp;выходу.</p>
+    </header>
+${items.map(renderCase).join('\n')}
   </div>
 </section>`
 }

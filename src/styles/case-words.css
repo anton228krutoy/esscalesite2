@@ -1,0 +1,339 @@
+/* ============================================================
+   Кейс WearningLords на главной.
+
+   Окно, плитки, блик и подсказка — общие, из case.css: два
+   кейса подряд должны читаться как одна витрина. Своё здесь —
+   палитра приложения и сцена с карточками.
+
+   Палитра та же, что на странице проекта: бирюзовый, лайм и
+   кремовые «страницы» знака. Но фон окна остаётся фоном сайта,
+   а бирюзовый — только подсветкой: целиком бирюзовое окно
+   спорило бы с холодным акцентом главной, а так кейс остаётся
+   своим продуктом внутри общей тёмной витрины.
+   ============================================================ */
+
+.case--words {
+  --rgb-lime:  163 230 31;    /* #A3E61F — лайм из знака */
+  --rgb-teal:    5 82 84;     /* #055254 — фирменный бирюзовый */
+  --rgb-cream: 253 248 236;   /* #FDF8EC — кремовые страницы книги */
+  --rgb-ink:     4 22 23;     /* #041617 — бирюзовая тьма страницы проекта */
+
+  /* Роли переобъявлены, а не только сырьё: --c-accent вычислен
+     на :root и приезжает сюда готовым цветом сайта (подробно —
+     в wearninglords.css). Лайм берёт на себя и акцент — подсказку
+     «Открыть», обводку фокуса, линии плиток, — и показания:
+     янтарь рядом с лаймом спорил бы с ним. */
+  --c-accent: rgb(var(--rgb-lime));
+  --c-signal: rgb(var(--rgb-lime));
+
+  /* Блик за курсором остаётся холодным, как у сайта: лайм
+     малой плотности поверх тёмного окна и бирюзовой подсветки
+     даёт оливковую муть, а не стекло. Лайм — только для чётких
+     линий, текста и подсказки. */
+  --case-glow: rgb(var(--rgb-teal) / 0.62);
+}
+
+/* Плитки и подпись точки — то же стекло, но с бирюзовым отливом,
+   как плашки в самом приложении. */
+.case--words .tile,
+.case--words .case__hud {
+  background: rgb(var(--rgb-ink) / 0.72);
+  border-color: rgb(var(--rgb-cream) / 0.10);
+}
+
+/* --- Сцена -------------------------------------------------------------- */
+
+.words {
+  position: absolute;
+  inset: 0;
+  /* Размеры колоды считаются от окна, а не от экрана: окно
+     меняет пропорции на узких экранах, и сцена должна
+     помещаться в него, а не в ширину страницы. */
+  container-type: size;
+}
+
+/* Линовка тетради — тот же приём, что кольца на схеме города:
+   тонкие линии, которые гаснут к краям окна. */
+.words::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(2.25rem - 1px),
+    rgb(var(--rgb-cream) / 0.07) calc(2.25rem - 1px) 2.25rem
+  );
+  -webkit-mask-image: radial-gradient(closest-side, #000 35%, transparent);
+  mask-image: radial-gradient(closest-side, #000 35%, transparent);
+}
+
+.words__stack {
+  position: absolute;
+  /* Чуть левее и выше центра: справа плитки, слева внизу подпись
+     топика, и на планшетной ширине поле ответа иначе задевало её. */
+  left: 49%;
+  top: 47%;
+  translate: -50% -50%;
+  /* Всё внутри — в em от этого кегля, включая ширину: колода
+     масштабируется целиком, пропорции карточки не плывут.
+     Первая строка — для браузеров без контейнерных единиц
+     (Safari до 16): окно почти во всю ширину экрана, поэтому
+     vw дают тот же кегль с небольшой погрешностью. */
+  font-size: clamp(0.625rem, 1.35vw, 1.08rem);
+  font-size: clamp(0.625rem, 1.62cqw, 1.08rem);
+  width: 24em;
+  display: grid;
+  gap: 0.9em;
+}
+
+.words__deck {
+  position: relative;
+  display: grid;
+  /* Место сверху — под верхние строки карточек позади. */
+  padding-top: 3.6em;
+}
+
+.words__card {
+  display: grid;
+  align-content: start;
+  border-radius: 1.1em;
+  color: rgb(var(--rgb-cream));
+}
+
+/* Верхняя карточка — как в приложении: бирюзовая, с лаймовой
+   обводкой, когда ответ проверен. Градиент на тон темнее, чем
+   в приложении: там карточка лежит на светлом фоне, здесь —
+   на почти чёрном, и в исходной яркости она перетягивала бы
+   на себя всю витрину, включая соседний кейс. */
+.words__card--front {
+  position: relative;
+  z-index: 2;
+  padding: 1.15em 1.35em 1.25em;
+  background: linear-gradient(180deg, rgb(11 96 94), rgb(5 72 74) 75%);
+  border: 1px solid rgb(var(--rgb-lime) / 0.45);
+  box-shadow:
+    inset 0 1px 0 rgb(var(--rgb-cream) / 0.14),
+    0 1.8em 3.6em -1em rgb(0 0 0 / 0.7);
+}
+
+/* Карточки позади: то же место, но выше и уже — видна только
+   верхняя строка. Чем дальше карточка, тем она темнее. */
+.words__card--back {
+  position: absolute;
+  inset: 3.6em 0 0;
+  padding: 0.6em 1.35em;
+  transform-origin: 50% 0;
+  translate: 0 calc(var(--k) * -1.8em);
+  scale: calc(1 - var(--k) * 0.06);
+  background: rgb(var(--rgb-teal) / calc(0.78 - var(--k) * 0.22));
+  border: 1px solid rgb(var(--rgb-cream) / 0.12);
+  transition: translate var(--dur-slow) var(--ease-out);
+}
+
+.words__peek {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  font-size: 0.85em;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.words__peek-term    { font-weight: var(--fw-bold); color: rgb(var(--rgb-cream) / 0.85); }
+.words__peek-meaning { color: rgb(var(--rgb-cream) / 0.5); }
+
+.words__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  margin-left: auto;
+  padding: 0.3em 0.7em 0.3em 0.5em;
+  border-radius: var(--r-pill);
+  background: rgb(var(--rgb-lime) / 0.14);
+  color: rgb(var(--rgb-lime));
+  font-size: 0.7em;
+  letter-spacing: var(--ls-wide);
+}
+.words__badge .words__check { width: 1.2em; height: 1.2em; }
+
+.words__label {
+  font-size: max(0.62em, 8px);
+  letter-spacing: var(--ls-widest);
+  color: rgb(var(--rgb-cream) / 0.55);
+}
+.words__label--term { color: rgb(var(--rgb-lime)); }
+
+.words__term {
+  margin-top: 0.25em;
+  font-size: 2.4em;
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-tight);
+  line-height: 1.1;
+  /* Разделитель под термином, как в приложении. */
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid rgb(var(--rgb-cream) / 0.14);
+  margin-bottom: 0.3em;
+}
+
+.words__verdict {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.9em;
+  font-size: 0.85em;
+  font-weight: var(--fw-medium);
+  color: rgb(var(--rgb-lime));
+}
+.words__half { width: 1.15em; height: 1.15em; flex: none; }
+
+.words__meaning {
+  margin-top: 0.2em;
+  font-size: 1.3em;
+  font-weight: var(--fw-bold);
+  line-height: 1.2;
+}
+
+/* Поле ответа: слово набирается, а не выбирается из вариантов —
+   ради этого поле и стоит под карточкой. */
+.words__answer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8em 1.1em;
+  border-radius: 0.9em;
+  background: rgb(var(--rgb-ink) / 0.72);
+  border: 1px solid rgb(var(--rgb-cream) / 0.14);
+  backdrop-filter: blur(10px);
+  color: rgb(var(--rgb-cream));
+}
+.words__answer .words__half { color: rgb(var(--rgb-lime)); width: 1.3em; height: 1.3em; }
+
+.words__typed { display: inline-flex; align-items: center; }
+
+.words__caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.15em;
+  margin-left: 2px;
+  border-radius: 1px;
+  background: rgb(var(--rgb-lime));
+}
+/* Курсор мигает только пока окно в кадре — как пульс точки на
+   схеме Scandere. При уменьшенном движении data-visible не ставится
+   вовсе, и курсор просто стоит. */
+[data-visible] .words__caret { animation: words-caret 1.1s steps(1) infinite; }
+@keyframes words-caret {
+  50% { opacity: 0; }
+}
+
+/* На наведение колода чуть раскрывается: карточки позади
+   приподнимаются, как если бы за них взялись. Это продолжение
+   общего приёма окна, а не отдельная анимация. */
+@media (hover: hover) {
+  .case--words.is-hover .words__card--back { translate: 0 calc(var(--k) * -2.2em); }
+}
+
+/* --- Узкое окно ---------------------------------------------------------
+   Окно здесь 4 : 3 и без плиток (см. case.css). Подпись топика
+   легла бы на саму карточку, а подсказка «Открыть» живёт в правом
+   нижнем углу постоянно. Поэтому подписи нет, колода стоит
+   по центру полосы над подсказкой, а её кегль считается от высоты
+   окна так, чтобы колода помещалась в эту полосу с запасом:
+     14.4em — высота карточки с полем ответа в телефонной раскладке
+              (без подписей «Термин» и «Значение», см. ниже),
+     66px   — подсказка с её отступом от края и зазор над ней.
+   Там, где подписи ещё видны, окно выше 360px, и кегль уже упёрся
+   в 13px — колоде хватает места и с ними.
+
+   Центр полосы — 50% − 33px, а не через cqh: проценты top и так
+   считаются от высоты окна и работают в любом браузере. Кегль без
+   контейнерных единиц не выразить, поэтому перед ним — запасной:
+   окно 4 : 3 во всю колонку, его высота ≈ 0.75 × (100vw − 40px),
+   и та же формула, переписанная через ширину экрана. */
+@media (max-width: 700px) {
+  .case--words .case__hud { display: none; }
+
+  .words__stack {
+    left: 50%;
+    top: calc(50% - 33px);
+    font-size: clamp(7px, calc((66vw - 92px) / 14.4), 13px);
+    font-size: clamp(7px, calc((88cqh - 66px) / 14.4), 13px);
+  }
+}
+
+/* На телефоне карточек позади не видно: строка в пару миллиметров
+   — это уже не слова, а рябь. Верхняя карточка и поле ответа
+   важнее — на них держится вся идея приложения, — и отступы
+   внутри них поджаты, чтобы им досталось больше кегля. Подписи
+   «Термин» и «Значение» тоже уходят: моноширинный кегль у них
+   не меньше 8px, и в маленьком окне они вышли бы крупнее самого
+   слова в поле ответа. Что ответ засчитан частично, и без них
+   говорят вердикт и полукруг в поле. */
+@container (max-height: 360px) {
+  .words__card--back,
+  .words__label { display: none; }
+  .words__deck { padding-top: 0; }
+  .words__stack { gap: 0.7em; }
+  .words__card--front { padding: 0.95em 1.2em 1em; }
+  .words__verdict { margin-bottom: 0.6em; }
+  .words__answer { padding: 0.65em 1em; }
+}
+
+/* Без контейнерных запросов (Safari до 16) блок выше не сработает,
+   и в телефонном окне колода вылезла бы за края. Там окно узнаём
+   по ширине экрана: высоту 360px окно 4 : 3 получает на экране
+   около 525px. Повторено только то, без чего колода не влезает. */
+@supports not (container-type: size) {
+  @media (max-width: 525px) {
+    .words__card--back,
+    .words__label { display: none; }
+    .words__deck { padding-top: 0; }
+  }
+}
+
+/* --- Плитки ------------------------------------------------------------- */
+
+/* «Выучено» — три дня: засчитанные залиты, текущий — контуром. */
+.words__days {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  height: 20px;
+}
+.words__day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 6px;
+  border: 1px solid rgb(var(--rgb-lime) / 0.5);
+  font-family: var(--ff-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgb(var(--rgb-lime));
+}
+.words__day.is-done {
+  background: rgb(var(--rgb-lime));
+  border-color: transparent;
+  color: rgb(var(--rgb-ink));
+}
+.words__day .words__check { width: 10px; height: 10px; }
+
+/* Точность — полоса, как «По направлениям» в статистике приложения. */
+.words__bar {
+  position: relative;
+  display: block;
+  height: 20px;
+}
+.words__bar::before,
+.words__bar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 2px;
+}
+.words__bar::before { right: 0; background: rgb(var(--rgb-cream) / 0.12); }
+.words__bar::after  { width: calc(var(--v) * 100%); background: currentColor; }

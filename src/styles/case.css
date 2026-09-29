@@ -12,6 +12,11 @@
   color: inherit;
 }
 
+/* Кейсы идут друг под другом. Отступ между ними меньше отступа
+   между секциями, но заметно больше внутреннего: подпись должна
+   читаться как конец своего кейса, а не как вступление к следующему. */
+.case + .case { margin-top: clamp(5rem, 3rem + 6vw, 9rem); }
+
 /* --- Окно ------------------------------------------------------------- */
 
 .case__window {
@@ -19,8 +24,10 @@
   overflow: hidden;
   border-radius: var(--r-lg, 18px);
   border: 1px solid var(--c-line);
+  /* --case-glow — место, где сцена со своей палитрой
+     подкрашивает окно. По умолчанию — цвет сайта. */
   background:
-    radial-gradient(120% 90% at 50% 0%, rgb(var(--rgb-cool) / 0.10), transparent 70%),
+    radial-gradient(120% 90% at 50% 0%, var(--case-glow, rgb(var(--rgb-cool) / 0.10)), transparent 70%),
     var(--c-bg-raised);
   aspect-ratio: 16 / 9;
   isolation: isolate;
@@ -218,7 +225,35 @@
   letter-spacing: var(--ls-tight);
 }
 .case__kind { color: var(--c-text-faint); }
-.case__metrics { display: flex; gap: var(--space-6); margin: 0; }
+
+/* «Скоро в App Store» — метка, а не второй заголовок: мелкий
+   моноширинный кегль в контуре акцента, как кнопка «скоро» на
+   странице самого проекта. Стоит в строке с типом, а не с
+   названием: так название одно в своей строке, как у соседнего
+   кейса, и обе подписи перестраиваются на одних и тех же ширинах.
+   Не влезает в строку — сама переносится под тип. */
+.case__sub {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+}
+.case__status {
+  display: inline-block;
+  padding: 0.55em 0.9em;
+  border: 1px solid rgb(var(--rgb-light) / 0.22);
+  border-color: color-mix(in srgb, var(--c-accent) 45%, transparent);
+  border-radius: var(--r-pill);
+  color: var(--c-accent);
+  font-size: var(--fs-50);
+  line-height: 1;
+  letter-spacing: var(--ls-wide);
+  white-space: nowrap;
+}
+/* По верхнему краю, а не растяжением: если одно значение на узком
+   экране переносится в две строки, соседнее растянулось бы до его
+   высоты и съехало вниз от своей подписи. */
+.case__metrics { display: flex; align-items: flex-start; gap: var(--space-6); margin: 0; }
 
 /* Заголовок секции работ в две колонки: слева крупное «Работы»,
    справа пояснение. Название проекта здесь не повторяется —
