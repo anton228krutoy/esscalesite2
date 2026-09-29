@@ -1,0 +1,69 @@
+/* ============================================================
+   Политика WearningLords — документ на двух языках.
+
+   Оформление текста общее с политикой Scandere и берётся из
+   privacy.css через @import, а не импортом из скрипта. Разница
+   в сборке: @import вклеивает правила сюда, а импорт из скрипта
+   сделал бы privacy.css общим модулем двух страниц — Vite вынес бы
+   его в отдельный файл, и у политики Scandere поменялся бы порядок
+   стилей, хотя сама она не менялась. Цена — полкилобайта правил
+   в двух файлах сборки.
+   ============================================================ */
+
+@import './privacy.css';
+
+/* Узкая колонка из privacy.css здесь проигрывала ширине .s-wrap:
+   в собранной странице privacy.css подключается раньше scandere.css,
+   и при равной специфичности побеждал 64rem. Строка во всю ширину
+   монитора читается тяжело — возвращаем колонку документа. */
+.w-page .p-doc { max-width: 44rem; }
+
+/* Переносы по слогам в заголовке нужны только узкому экрану:
+   в колонке 44rem «конфиденциальности» помещается целиком, а перенос
+   «конфиденци-альности» на мониторе выглядит как ошибка вёрстки. */
+@media (min-width: 48rem) {
+  .w-page .p-doc__title { hyphens: manual; }
+}
+
+/* Переключатель — якорные ссылки, а не вкладки на скрипте:
+   обе версии в разметке сразу, и страница читается целиком
+   даже там, где JS не выполнился. */
+.w-lang {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-7);
+}
+.p-doc .w-lang a {
+  padding: 0.45em 1.1em;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--s-line);
+  background: var(--s-card);
+  color: var(--c-text);
+  text-decoration: none;
+  transition: border-color var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) {
+  .p-doc .w-lang a:hover { border-color: rgb(var(--rgb-cool) / 0.5); }
+}
+
+/* Шапка липкая: без отступа прыжок к «Русскому» прятал бы
+   заголовок версии под ней. */
+.w-doc { scroll-margin-top: 5rem; }
+
+.w-doc + .w-doc {
+  margin-top: var(--space-8);
+  padding-top: var(--space-7);
+  border-top: 1px solid var(--c-line);
+}
+
+/* Путь к папке данных на Mac. Моноширинный — чтобы читался как
+   адрес, который набирают, а не как фраза; в base.css у code своих
+   стилей нет, а .t-mono не подходит: переводит всё в прописные,
+   и путь перестал бы совпадать с настоящим. */
+.w-doc code {
+  font-family: var(--ff-mono);
+  font-size: 0.88em;
+  color: var(--c-text);
+}

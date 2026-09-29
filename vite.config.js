@@ -64,6 +64,14 @@ function renderSections() {
         return html.replace('<!--SCANDERE-->', rs.renderScandere({ data: scandere, site }))
       }
 
+      if (html.includes('<!--WEARNINGLORDS-->')) {
+        const [rw, { wearninglords }] = await Promise.all([
+          import('./src/build/render-wearninglords.js'),
+          import('./src/data/wearninglords.js'),
+        ])
+        return html.replace('<!--WEARNINGLORDS-->', rw.renderWearninglords({ data: wearninglords, site }))
+      }
+
       return html
     },
   }
@@ -81,6 +89,8 @@ export default defineConfig({
         main: resolve(__dirname, 'index.html'),
         scandere: resolve(__dirname, 'scandere/index.html'),
         privacy: resolve(__dirname, 'scandere/privacy/index.html'),
+        wearninglords: resolve(__dirname, 'wearninglords/index.html'),
+        wearninglordsPrivacy: resolve(__dirname, 'wearninglords/privacy/index.html'),
       },
       output: {
         // WebGL-слой отдельным чанком: он грузится лениво и только там,
