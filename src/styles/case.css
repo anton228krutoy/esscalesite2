@@ -71,7 +71,9 @@
 .pin--active .pin__halo { stroke: rgb(var(--rgb-signal) / 0.6); }
 
 /* Пульс только у активной точки: если пульсируют все,
-   ни одна не читается как выбранная. */
+   ни одна не читается как выбранная. Долго правило было без
+   .pin--active, и пульсировали все четыре — а SVG-анимацию браузер
+   не выносит на видеокарту и перерисовывает схему на каждом кадре. */
 .pin__pulse {
   fill: none;
   stroke: rgb(var(--rgb-signal) / 0.7);
@@ -80,13 +82,46 @@
   transform-box: fill-box;
   opacity: 0;
 }
-[data-visible] .pin__pulse {
+[data-visible] .pin--active .pin__pulse {
   opacity: 1;
   animation: pin-pulse 3.4s var(--ease-out) infinite;
 }
 @keyframes pin-pulse {
   0%        { transform: scale(0.6); opacity: 0.9; }
   70%, 100% { transform: scale(3.4); opacity: 0; }
+}
+
+/* Окно кейса на главной: схема в обёртке, а пульс активной точки —
+   отдельный маленький SVG поверх неё (см. cityScene в render.js).
+   Анимация transform и opacity целого элемента — работа видеокарты,
+   схема под ним не перерисовывается. Обёртка забирает размер у схемы,
+   и доли --x/--y попадают точно в точку. */
+.case__map {
+  position: relative;
+  width: min(92%, 36rem);
+}
+.case__map .citymap { width: 100%; }
+
+/* 14/400 ширины схемы: в своих единицах кружок тот же, что был
+   на схеме, — r 6, обводка 1.2, — и масштабируется вместе с ней. */
+.case__pulse {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 3.5%;
+  height: auto;
+  translate: -50% -50%;
+  overflow: visible;
+  fill: none;
+  stroke: rgb(var(--rgb-signal) / 0.7);
+  stroke-width: 1.2;
+  opacity: 0;
+  pointer-events: none;
+}
+/* Два пульса — и покой: бесконечный держал бы страницу в работе
+   всё время, пока лента на экране (подробно — в works.css). */
+[data-visible] .case__pulse {
+  animation: pin-pulse 3.4s var(--ease-out) 2;
 }
 
 .pin__label {

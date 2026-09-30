@@ -76,7 +76,11 @@ const polar = (deg, r) => {
 
 const n = v => Number(v.toFixed(1))
 
-export function cityMap({ id = 'map', points = POINTS, showLabels = false } = {}) {
+/* pulse: false — без кружка пульса внутри схемы. Так схема рисуется
+   в окне кейса на главной: там пульс — отдельный элемент поверх
+   (см. cityScene в render.js), чтобы его анимация не перерисовывала
+   всю схему на каждом кадре. */
+export function cityMap({ id = 'map', points = POINTS, showLabels = false, pulse = true } = {}) {
   /* role="img" отсекает содержимое от скринридера, поэтому вся
      смысловая нагрузка должна быть в подписи. Перечисляем точки
      и отмечаем активную — иначе для незрячего пользователя схема
@@ -128,7 +132,7 @@ export function cityMap({ id = 'map', points = POINTS, showLabels = false } = {}
       : ''
     return `
     <${tag} class="${cls}"${attrs} style="--pin-delay: ${i * 700}ms">
-      <circle class="pin__pulse" cx="${p.x}" cy="${p.y}" r="6"/>
+      ${pulse ? `<circle class="pin__pulse" cx="${p.x}" cy="${p.y}" r="6"/>` : ''}
       <circle class="pin__halo" cx="${p.x}" cy="${p.y}" r="9"/>
       <circle class="pin__dot"  cx="${p.x}" cy="${p.y}" r="3.4"/>
       ${interactive ? `<circle class="pin__hit" cx="${p.x}" cy="${p.y}" r="16"/>` : ''}

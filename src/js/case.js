@@ -220,6 +220,14 @@ function followPointer(cases) {
     else tracking = false
   }
   const onScroll = () => {
+    // Ни одного окна в кадре и ничего не наведено — читать геометрию
+    // девяти окон ленты на каждый кадр прокрутки страницы незачем.
+    // Старые прямоугольники сбрасываем: вернувшуюся ленту перемерят
+    // наблюдатель (pointer(c) в initCase) и первое движение мыши.
+    if (!hovered() && !cases.some(c => c.inView)) {
+      for (const c of cases) c.rect = null
+      return
+    }
     measure()
     schedule()
     if (hovered() && !tracking) { tracking = true; idle = 0; requestAnimationFrame(track) }

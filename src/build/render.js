@@ -7,7 +7,7 @@
    попадают заранее, а не в браузере.
    ============================================================ */
 
-import { cityMap } from './city-map.js'
+import { cityMap, POINTS } from './city-map.js'
 import { wordsScene } from './words-scene.js'
 import { photoScene } from './photo-scene.js'
 import { esc, nbsp } from './escape.js'
@@ -56,9 +56,23 @@ export function renderDirections(items) {
 }
 
 /* Сцена Scandere: схема города, поверх неё — выбранная точка
-   и плитки показателей. */
+   и плитки показателей.
+
+   Пульс активной точки — отдельный маленький SVG поверх схемы,
+   а не кружок внутри неё. Анимацию внутри SVG браузер не может
+   отдать видеокарте и перерисовывал всю схему — дороги, реку,
+   маску — на каждом кадре экрана, в трёх копиях ленты: в покое это
+   была четверть ядра. Отдельный элемент браузер только масштабирует.
+   Координаты — доли от схемы 400 × 400, отсюда деление на 4. */
 function cityScene() {
-  return `${cityMap({ id: 'case' })}
+  const pin = POINTS.find(p => p.active) ?? POINTS[0]
+  return `<div class="case__map">
+            ${cityMap({ id: 'case', pulse: false })}
+            <svg class="case__pulse" viewBox="0 0 14 14" aria-hidden="true"
+                 style="--x: ${pin.x / 4}%; --y: ${pin.y / 4}%">
+              <circle cx="7" cy="7" r="6"/>
+            </svg>
+          </div>
 
           <div class="case__hud">
             <span class="case__hud-title t-mono">Заречная</span>

@@ -101,8 +101,8 @@ export function initWorks() {
     half = track.clientWidth / 2
     step = last > 0 ? centers[1] - centers[0] : slides[0].getBoundingClientRect().width
   }
-  const nearest = () => {
-    const mid = track.scrollLeft + half
+  const nearest = (x = track.scrollLeft) => {
+    const mid = x + half
     let best = 0
     for (let i = 1; i < centers.length; i++) {
       if (Math.abs(centers[i] - mid) < Math.abs(centers[best] - mid)) best = i
@@ -141,15 +141,18 @@ export function initWorks() {
   let queued = false
   const paint = () => {
     queued = false
-    const mid = track.scrollLeft + half
+    // scrollLeft читаем один раз: после записи переменных чтение
+    // заставило бы браузер пересчитать стили посреди кадра.
+    const x = track.scrollLeft
+    const mid = x + half
     cards.forEach((c, i) => {
       const d = Math.max(-1.5, Math.min(1.5, (centers[i] - mid) / step))
       c.style.setProperty('--works-d', d.toFixed(3))
       c.style.setProperty('--works-k', Math.abs(d).toFixed(3))
     })
-    setActive(nearest())
+    setActive(nearest(x))
     // Доехали — переезжаем с копии, если приехали на неё.
-    if (aim !== null && Math.abs(track.scrollLeft - (centers[aim] - half)) < 1) arrive()
+    if (aim !== null && Math.abs(x - (centers[aim] - half)) < 1) arrive()
   }
   const schedule = () => {
     if (!queued) { queued = true; requestAnimationFrame(paint) }
