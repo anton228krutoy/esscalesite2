@@ -28,11 +28,12 @@ function tokenRGB(name, fallback) {
    пикселей, на 5K-мониторе — на 14,7 млн, каждый кадр и всегда.
    Разницы на глаз нет: толщину линий в экранных пикселях держит
    uLineScale (field.frag). Ниже 1× не опускаемся — на обычном
-   мониторе картинка ровно та же, что была. */
+   мониторе картинка ровно та же, что была. Считается от размера
+   самого холста, а не окна: на телефоне холст выше окна (layout.css). */
 const MAX_PIXELS = 2.1e6
 const nativeDpr = () => Math.min(window.devicePixelRatio || 1, 2)
-function fieldDpr() {
-  const fit = Math.sqrt(MAX_PIXELS / (window.innerWidth * window.innerHeight))
+function fieldDpr(w, h) {
+  const fit = Math.sqrt(MAX_PIXELS / (w * h))
   return Math.max(Math.min(nativeDpr(), fit), Math.min(nativeDpr(), 1))
 }
 
@@ -60,8 +61,13 @@ export function createField(canvas) {
        на MacBook с двумя видеокартами high-performance переключал
        на неё всю систему — нагрев, батарея и заминка при переключении. */
     powerPreference: 'low-power',
-    dpr: fieldDpr(),
   })
+  /* Размер холста задаёт CSS (.field в layout.css). OGL при создании
+     пишет холсту инлайновые 300×150 px, и они перебили бы CSS — снимаем.
+     Буфер дальше размечает fit(), без renderer.setSize: тот снова
+     вписывал бы размер окна в px поверх CSS. */
+  canvas.style.removeProperty('width')
+  canvas.style.removeProperty('height')
   const gl = renderer.gl
   gl.clearColor(0, 0, 0, 0)
 
@@ -81,7 +87,7 @@ export function createField(canvas) {
       uCool:          { value: tokenRGB('--rgb-cool', [0.18, 0.73, 0.65]) },
       uSignal:        { value: tokenRGB('--rgb-signal', [1, 0.71, 0.33]) },
       uSignalMix:     { value: 0 },
-      uLineScale:     { value: 1 },   // см. applyResize
+      uLineScale:     { value: 1 },   // см. fit
     },
   })
 
@@ -104,27 +110,63 @@ export function createField(canvas) {
   let last = performance.now()
   let clock = 0
 
-  let resizePending = false
-  function applyResize() {
-    resizePending = false
-    const w = window.innerWidth
-    const h = window.innerHeight
-    renderer.dpr = fieldDpr()
-    renderer.setSize(w, h)
-    u.uResolution.value = [w * renderer.dpr, h * renderer.dpr]
+  /* Буфер — по размеру самого холста, а не окна. Холст высотой в большой
+     экран (layout.css), и панель браузера на телефоне, которая при
+     прокрутке прячется и появляется, его не меняет. Раньше каждое её
+     движение пересоздавало буфер: он при этом очищается, и поле пропадало
+     до следующего своего кадра, а рисунок, который меряется в высотах
+     холста (field.frag), прыгал — посреди жеста. Теперь буфер
+     пересоздаётся только при настоящей смене размера — поворот, ресайз
+     окна, масштаб, — и тут же перерисовывается: пустым его не покажут. */
+  let cssW = 1
+  let cssH = 1
+  let bufW = 0
+  let bufH = 0
+  function fit(w, h) {
+    if (!(w > 0 && h > 0)) return
+    cssW = w
+    cssH = h
+    const dpr = fieldDpr(w, h)
+    const bw = Math.max(1, Math.round(w * dpr))
+    const bh = Math.max(1, Math.round(h * dpr))
+    if (bw === bufW && bh === bufH) return
+    bufW = bw
+    bufH = bh
+    canvas.width = bw
+    canvas.height = bh
+    // Для OGL — пиксель на единицу: вьюпорт в render() ровно равен
+    // буферу, без дробного dpr и усечения.
+    renderer.dpr = 1
+    renderer.width = bw
+    renderer.height = bh
+    u.uResolution.value = [bw, bh]
     // Сколько пикселей поля приходится на пиксель экрана: меньше единицы,
     // когда поле считается грубее экрана. По нему шейдер пересчитывает
     // толщину линий обратно в экранные пиксели.
-    u.uLineScale.value = renderer.dpr / nativeDpr()
+    u.uLineScale.value = bw / w / nativeDpr()
+    renderer.render({ scene: mesh })
+  }
+  const fitToBox = () => {
+    const r = canvas.getBoundingClientRect()
+    fit(r.width, r.height)
   }
 
-  /* Пересоздание буфера — самая дорогая операция здесь, а на
-     мобильных появление и скрытие адресной строки при прокрутке
-     генерирует поток resize. Схлопываем их в один за кадр. */
+  // Размер холста — сразу после раскладки, в том же кадре: новый буфер
+  // успевает получить картинку до того, как его покажут.
+  const sizer = new ResizeObserver(entries => {
+    const { width, height } = entries[entries.length - 1].contentRect
+    fit(width, height)
+  })
+
+  /* Смену плотности экрана без смены размера (окно перенесли на другой
+     монитор) ResizeObserver не видит — её ловим по resize, как раньше.
+     На телефоне resize идёт и от панели браузера, но размер холста при
+     этом тот же, и fit ничего не делает. */
+  let resizePending = false
   function resize() {
     if (resizePending) return
     resizePending = true
-    requestAnimationFrame(applyResize)
+    requestAnimationFrame(() => { resizePending = false; fitToBox() })
   }
 
   const request = () => { timer = 0; raf = requestAnimationFrame(frame) }
@@ -175,8 +217,14 @@ export function createField(canvas) {
   }
 
   const onPointer = e => {
+    /* Только мышь. Касание — это прокрутка: браузер присылает pointermove
+       ещё до того, как палец повёл страницу, и поле выгибалось под пальцем
+       в начале жеста. А на iPhone pointerleave до document не доходит
+       (WebKit шлёт его только элементам), и выгиб оставался навсегда,
+       переезжая за пальцем от жеста к жесту. */
+    if (e.pointerType !== 'mouse') return
     wake()
-    target.mouse = [e.clientX / window.innerWidth, 1 - e.clientY / window.innerHeight]
+    target.mouse = [e.clientX / cssW, 1 - e.clientY / cssH]
     u.uMouseStrength.value = 1
   }
   const onLeave = () => { u.uMouseStrength.value = 0 }
@@ -187,7 +235,8 @@ export function createField(canvas) {
   document.addEventListener('pointerleave', onLeave, { passive: true })
   document.addEventListener('visibilitychange', onVisibility)
 
-  applyResize()
+  fitToBox()
+  sizer.observe(canvas)
   start()
 
   return {
@@ -213,6 +262,7 @@ export function createField(canvas) {
     stop,
     destroy() {
       stop()
+      sizer.disconnect()
       window.removeEventListener('resize', resize)
       window.removeEventListener('pointermove', onPointer)
       document.removeEventListener('pointerleave', onLeave)
