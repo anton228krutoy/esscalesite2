@@ -1,9 +1,15 @@
 /* ============================================================
    Поведение окон кейсов.
 
-   Три эффекта, все на CSS-переменных: блик и подсказка идут
-   за курсором, сцена внутри окна отстаёт от него (параллакс),
-   окно раскрывается по мере появления в кадре.
+   Три эффекта: блик и подсказка идут за курсором, сцена внутри
+   окна отстаёт от него (параллакс), окно раскрывается по мере
+   появления в кадре.
+
+   Координаты курсора пишутся только туда, где их читают: в блик,
+   в подсказку и в translate сцены — не на окно целиком. На окне
+   их унаследовало бы всё содержимое сцены, и каждый кадр движения
+   мыши пересчитывал бы стиль каждого её элемента (подробно —
+   у .case__scene в case.css).
 
    Второй WebGL-контекст ради этого не заводится: он стоил бы
    дороже, чем весь остальной сайт, а разница на глаз нулевая.
@@ -38,6 +44,9 @@ export function initCase() {
     .map(card => ({
       card,
       win: card.querySelector('[data-case-window]'),
+      scene: card.querySelector('[data-case-scene]'),
+      sheen: card.querySelector('[data-case-sheen]'),
+      cue: card.querySelector('[data-case-cue]'),   // только у работ со своей страницей
       slide: card.closest('[data-slide]'),   // место в ленте работ, если кейс в ней
       // Номер работы в ленте: у копий одной работы (works.js) он общий,
       // и состояние — видно ли окно, наведён ли курсор — тоже общее.
@@ -122,10 +131,13 @@ function followPointer(cases) {
     if (c.hovering === on) return
     c.hovering = on
     c.card.classList.toggle('is-hover', on)
-    if (!on) {
-      c.win.style.setProperty('--px', '0px')
-      c.win.style.setProperty('--py', '0px')
-    }
+    if (!on && c.scene) c.scene.style.translate = '0px 0px'
+  }
+
+  const at = (el, x, y) => {
+    if (!el) return
+    el.style.setProperty('--mx', x)
+    el.style.setProperty('--my', y)
   }
 
   const flush = () => {
@@ -164,10 +176,10 @@ function followPointer(cases) {
       const my = (cy - rect.top) / src.scale
       const px = ((cx - rect.left) / rect.width - 0.5) * 18      // сцена ходит мягче курсора
       const py = ((cy - rect.top) / rect.height - 0.5) * 18
-      c.win.style.setProperty('--mx', `${mx.toFixed(1)}px`)
-      c.win.style.setProperty('--my', `${my.toFixed(1)}px`)
-      c.win.style.setProperty('--px', `${(-px).toFixed(2)}px`)
-      c.win.style.setProperty('--py', `${(-py).toFixed(2)}px`)
+      const x = `${mx.toFixed(1)}px`, y = `${my.toFixed(1)}px`
+      at(c.sheen, x, y)
+      at(c.cue, x, y)
+      if (c.scene) c.scene.style.translate = `${(-px).toFixed(2)}px ${(-py).toFixed(2)}px`
     }
   }
 

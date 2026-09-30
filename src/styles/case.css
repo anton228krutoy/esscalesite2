@@ -45,9 +45,19 @@
   display: grid;
   place-items: center;
   /* Сцена ходит за курсором чуть медленнее самого курсора —
-     отсюда ощущение глубины, а не наклейки. */
-  transform: translate3d(var(--px, 0px), var(--py, 0px), 0) scale(var(--scene-scale, 1));
-  transition: transform var(--dur-slow) var(--ease-out);
+     отсюда ощущение глубины, а не наклейки.
+
+     Сдвиг case.js пишет прямо в translate сцены. Раньше это были
+     CSS-переменные на окне, а переменная наследуется всем, что внутри:
+     на каждом кадре движения мыши браузер пересчитывал стиль каждого
+     элемента сцены. Safari при этом заново рисует маску у любого SVG,
+     чей стиль пересчитан, — схема города в окне Scandere лежит под
+     маской, и подсказка «Открыть» на ней отставала от курсора.
+     will-change держит сцену на своём слое, как раньше translate3d:
+     движение не перерисовывает её содержимое. */
+  will-change: translate, scale;
+  transition: translate var(--dur-slow) var(--ease-out),
+              scale var(--dur-slow) var(--ease-out);
 }
 
 /* --- Схема города ------------------------------------------------------ */
@@ -221,7 +231,7 @@
 
 @media (hover: hover) {
   .case.is-hover .case__window { border-color: var(--c-line-strong); }
-  .case.is-hover .case__scene  { --scene-scale: 1.045; }
+  .case.is-hover .case__scene  { scale: 1.045; }
   .case.is-hover .case__sheen  { opacity: 1; }
   .case.is-hover .case__cue    { opacity: 1; scale: 1; }
 }
