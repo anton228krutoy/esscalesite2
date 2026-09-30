@@ -32,9 +32,21 @@ function tokenRGB(name, fallback) {
    самого холста, а не окна: на телефоне холст выше окна (layout.css). */
 const MAX_PIXELS = 2.1e6
 const nativeDpr = () => Math.min(window.devicePixelRatio || 1, 2)
+
+/* На телефоне и планшете без мыши — не больше полутора пикселей поля
+   на пиксель CSS. Потолок числа пикселей там не срабатывал: экран мал,
+   и поле считалось в 2× — 1,2–1,5 млн пикселей на кадр, по 25 вызовов
+   шума на каждый, 30 раз в секунду всю прокрутку. Видеокарта телефона
+   делила эту работу с прокруткой самой страницы. В 1,5× работы на 40 %
+   меньше, а толщину линий в экранных пикселях держит uLineScale — как
+   на Retina. Планшеты и так ниже 1,5× по общему потолку. */
+const TOUCH = matchMedia('(hover: none) and (pointer: coarse)').matches
+const TOUCH_MAX_DPR = 1.5
+
 function fieldDpr(w, h) {
   const fit = Math.sqrt(MAX_PIXELS / (w * h))
-  return Math.max(Math.min(nativeDpr(), fit), Math.min(nativeDpr(), 1))
+  const cap = TOUCH ? Math.min(nativeDpr(), TOUCH_MAX_DPR) : nativeDpr()
+  return Math.max(Math.min(cap, fit), Math.min(nativeDpr(), 1))
 }
 
 /* 30 кадров в секунду, а не частота экрана (на ProMotion — 120):
