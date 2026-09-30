@@ -128,6 +128,7 @@ export function renderWearninglords({ data, site }) {
            проекта её не считали, а придуманная цифра хуже отсутствующей. -->
       <p class="s-facts__note">
         Интерфейс: ${esc(listRu(data.languages))}.
+        Примеры файлов для импорта — <a href="/wearninglords/samples/">на отдельной странице</a>.
         Вопросы и предложения по приложению — в Telegram
         <a href="${esc(site.telegram)}" target="_blank" rel="noopener">${esc(site.telegramLabel)}</a>.
       </p>
@@ -149,6 +150,7 @@ export function renderWearninglords({ data, site }) {
 <footer class="s-foot">
   <div class="s-wrap s-foot__inner">
     <a class="t-mono" href="/">esscale.ru</a>
+    <a class="t-mono" href="/wearninglords/samples/">Примеры файлов</a>
     <a class="t-mono" href="/wearninglords/privacy/">Конфиденциальность</a>
     <span class="t-mono">© <span data-year>2026</span> ${esc(site.name)}</span>
   </div>
