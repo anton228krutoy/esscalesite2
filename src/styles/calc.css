@@ -86,8 +86,10 @@
   padding: var(--space-6);
   border: 1px solid var(--c-line);
   border-radius: var(--r-md);
-  background: rgb(var(--rgb-void) / 0.72);
-  backdrop-filter: blur(12px);
+  /* Плотная заливка вместо матового стекла: под итогом живой фон,
+     и размытие пересчитывалось на каждом его кадре, пока итог
+     на экране, — а он ещё и липкий. */
+  background: rgb(var(--rgb-void) / 0.9);
 }
 @media (max-width: 900px) {
   .result { position: static; }

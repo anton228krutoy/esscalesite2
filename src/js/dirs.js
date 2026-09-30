@@ -74,6 +74,23 @@ export function initDirections(field) {
 
   const fine = matchMedia('(hover: hover) and (pointer: fine)').matches
 
+  /* Наведение раскрывает строку, только если курсор на ней задержался.
+     Раньше строка раскрывалась от любого касания курсора, и провести
+     мышью через список к калькулятору значило раскрыть и перекрасить
+     секцию под каждой строкой по пути — перестройка раскладки
+     и перекраска фона на каждом шаге. */
+  const HOVER_MS = 150
+  let hoverTimer = 0
+  const cancelHover = () => { clearTimeout(hoverTimer); hoverTimer = 0 }
+
+  // Фокус с клавиатуры, а не от нажатия мышью или пальцем. Кнопка
+  // получает фокус до клика, и если раскрывать и на нём, клик тут же
+  // сворачивал только что раскрытую строку: на Android нажатие по
+  // закрытой строке не делало ничего.
+  const keyboardFocus = el => {
+    try { return el.matches(':focus-visible') } catch { return true }
+  }
+
   for (const item of items) {
     const head = item.querySelector('.dir__head')
     if (!head) continue
@@ -83,6 +100,7 @@ export function initDirections(field) {
        не делало ничего, и объявленное состояние расходилось
        с поведением. */
     head.addEventListener('click', () => {
+      cancelHover()
       if (item.classList.contains('is-active')) collapse()
       else open(item)
     })
@@ -90,23 +108,33 @@ export function initDirections(field) {
     /* На мышином вводе строка открывается наведением: так список
        перелистывается без единого клика. С клавиатуры и на тач-
        устройствах остаётся клик — там наведения просто нет. */
-    if (fine) head.addEventListener('pointerenter', () => open(item))
-    head.addEventListener('focus', () => open(item))
+    if (fine) {
+      head.addEventListener('pointerenter', () => {
+        cancelHover()
+        hoverTimer = setTimeout(() => open(item), HOVER_MS)
+      })
+      head.addEventListener('pointerleave', cancelHover)
+    }
+    head.addEventListener('focus', () => {
+      cancelHover()
+      if (keyboardFocus(head)) open(item)
+    })
   }
 
   /* Прокрутка двигает список, а не курсор, поэтому pointerenter
      при листании не срабатывает: строка под указателем меняется,
      а открытой остаётся прежняя — и цвет замирает на ней.
-     Поэтому при скролле сами ищем строку под курсором. */
+     Поэтому, когда прокрутка остановилась, сами ищем строку под
+     курсором. Именно когда остановилась, а не на каждом кадре: иначе
+     строки раскрывались одна за другой, пока список проезжал под
+     курсором, и каждая перестраивала раскладку посреди прокрутки. */
   if (fine) {
     let cx = -1, cy = -1
-    let queued = false
 
     document.addEventListener('pointermove', e => { cx = e.clientX; cy = e.clientY },
       { passive: true })
 
     const sync = () => {
-      queued = false
       if (cx < 0) return
       // За пределами секции искать нечего: без этой проверки пять
       // чтений геометрии выполнялись на каждом кадре прокрутки
@@ -123,9 +151,16 @@ export function initDirections(field) {
       }
     }
 
-    window.addEventListener('scroll', () => {
-      if (!queued) { queued = true; requestAnimationFrame(sync) }
-    }, { passive: true })
+    if ('onscrollend' in window) {
+      window.addEventListener('scrollend', sync, { passive: true })
+    } else {
+      // Где scrollend ещё нет — пауза в прокрутке вместо него.
+      let timer = 0
+      window.addEventListener('scroll', () => {
+        clearTimeout(timer)
+        timer = setTimeout(sync, HOVER_MS)
+      }, { passive: true })
+    }
   }
 
   paint(items.find(i => i.classList.contains('is-active')) || items[0])

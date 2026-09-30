@@ -8,13 +8,17 @@
 
 /* Кастомные свойства по умолчанию не анимируются: браузер считает
    их строками. Регистрация задаёт им тип, и переход между цветами
-   становится плавным, а не скачком. */
-@property --sec-r { syntax: '<number>'; inherits: true; initial-value: 47; }
-@property --sec-g { syntax: '<number>'; inherits: true; initial-value: 186; }
-@property --sec-b { syntax: '<number>'; inherits: true; initial-value: 166; }
+   становится плавным, а не скачком.
+
+   inherits: false — цвет нужен одному свечению, а не всей секции.
+   С наследованием каждый кадр перехода пересчитывал стили всех
+   ~80 элементов списка. Скрипт ставит значения на секцию, свечение
+   забирает их явно, через inherit, и переход идёт только на нём. */
+@property --sec-r { syntax: '<number>'; inherits: false; initial-value: 47; }
+@property --sec-g { syntax: '<number>'; inherits: false; initial-value: 186; }
+@property --sec-b { syntax: '<number>'; inherits: false; initial-value: 166; }
 
 .dirs {
-  --sec: var(--sec-r) var(--sec-g) var(--sec-b);
   position: relative;
   /* Свечение ниже нарочно шире секции, и его правые 20 % лежали
      за краем экрана. Увидеть их нельзя, но браузер считал их
@@ -26,9 +30,6 @@
      свечение по-прежнему выходит за секцию, а hidden обрезал бы
      и его. */
   overflow-x: clip;
-  transition: --sec-r var(--dur-slow) var(--ease-out),
-              --sec-g var(--dur-slow) var(--ease-out),
-              --sec-b var(--dur-slow) var(--ease-out);
 }
 
 /* Свечение позади списка — то, что делает смену цвета заметной
@@ -39,8 +40,14 @@
   inset: -10% -20%;
   z-index: -1;
   pointer-events: none;
-  background: radial-gradient(56% 46% at 50% 44%, rgb(var(--sec) / 0.16), transparent 74%);
-  transition: background var(--dur-slow) var(--ease-out);
+  --sec-r: inherit;
+  --sec-g: inherit;
+  --sec-b: inherit;
+  background: radial-gradient(56% 46% at 50% 44%,
+    rgb(var(--sec-r) var(--sec-g) var(--sec-b) / 0.16), transparent 74%);
+  transition: --sec-r var(--dur-slow) var(--ease-out),
+              --sec-g var(--dur-slow) var(--ease-out),
+              --sec-b var(--dur-slow) var(--ease-out);
 }
 
 .dirs .sec-head__title { color: var(--c-text); }
