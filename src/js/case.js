@@ -240,9 +240,12 @@ function followPointer(cases) {
       for (const c of cases) c.rect = null
       return
     }
+    // Пока курсор над окном, track() и так меряет и рисует на каждом
+    // кадре — второй замер и второй flush в том же кадре были лишними.
+    if (tracking) return
     measure()
     schedule()
-    if (hovered() && !tracking) { tracking = true; idle = 0; requestAnimationFrame(track) }
+    if (hovered()) { tracking = true; idle = 0; requestAnimationFrame(track) }
   }
   /* На документе и на погружении, а не на window: событие scroll
      не всплывает, и прокрутку ленты работ window не слышал бы —

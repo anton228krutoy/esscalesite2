@@ -203,18 +203,36 @@
 
 /* --- Блик и подсказка --------------------------------------------------- */
 
-/* Блик идёт за курсором — то самое «стекло» поверх окна. */
+/* Блик идёт за курсором — то самое «стекло» поверх окна.
+
+   Пятно нарисовано один раз и ездит целиком (translate), а не
+   перерисовывается. Раньше центр градиента стоял в --mx/--my, и каждый
+   кадр движения мыши — а при прокрутке страницы под неподвижным
+   курсором каждый кадр прокрутки — заново рисовал блик размером с окно.
+   Градиент прозрачен дальше 62 % радиуса, то есть дальше 13.64rem от
+   центра, поэтому квадрат 27.28rem вмещает его целиком: пиксели те же.
+   overflow: clip — чтобы уехавшее за край пятно не раздувало
+   прокручиваемую область окна. */
 .case__sheen {
   position: absolute;
   inset: 0;
+  overflow: clip;
   pointer-events: none;
   opacity: 0;
   transition: opacity var(--dur-base) var(--ease-out);
-  background: radial-gradient(
-    22rem 22rem at var(--mx, 50%) var(--my, 50%),
-    rgb(var(--rgb-cool) / 0.16),
-    transparent 62%
-  );
+}
+/* Без запасного значения по центру окна: блик виден только при
+   наведении, а координаты case.js пишет в том же кадре, что и само
+   наведение. */
+.case__sheen::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 27.28rem;
+  height: 27.28rem;
+  translate: calc(var(--mx, 0px) - 13.64rem) calc(var(--my, 0px) - 13.64rem);
+  background: radial-gradient(22rem 22rem at 50% 50%, rgb(var(--rgb-cool) / 0.16), transparent 62%);
 }
 
 .case__cue {
@@ -246,6 +264,9 @@
   .case.is-hover .case__scene  { scale: 1.045; }
   .case.is-hover .case__sheen  { opacity: 1; }
   .case.is-hover .case__cue    { opacity: 1; scale: 1; }
+  /* Свой слой пятну — только пока оно видно: так движение не
+     перерисовывает его, а девять окон ленты не держат по лишнему слою. */
+  .case.is-hover .case__sheen::before { will-change: translate; }
 }
 
 /* На тач-устройствах подсказка «Открыть» не всплывает по наведению,
