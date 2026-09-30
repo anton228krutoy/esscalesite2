@@ -30,6 +30,11 @@ uniform float uIntensity;
 uniform vec3  uCool;
 uniform vec3  uSignal;
 uniform float uSignalMix;
+/* Сколько пикселей поля на пиксель экрана. На Retina поле теперь
+   считается грубее экрана (field.js, MAX_PIXELS), и fwidth меряет
+   в крупных пикселях — без поправки линии стали бы толще, а гашение
+   в густых местах сработало бы раньше. */
+uniform float uLineScale;
 
 in  vec2 vUv;
 out vec4 fragColor;
@@ -110,7 +115,7 @@ void main() {
      поэтому толщина постоянна независимо от масштаба поля —
      без этого линии муарят на краях. */
   float scaled = v * uDensity;
-  float w = fwidth(scaled);
+  float w = fwidth(scaled) * uLineScale;
   float band = abs(fract(scaled) - 0.5);
   float iso = 1.0 - smoothstep(0.0, w * 1.6, band);
 
@@ -121,7 +126,7 @@ void main() {
   /* Второй, более редкий набор линий — «главные» уровни,
      как утолщённые горизонтали на топографической карте. */
   float majorScaled = v * uDensity * 0.25;
-  float majorW = fwidth(majorScaled);
+  float majorW = fwidth(majorScaled) * uLineScale;
   float majorBand = abs(fract(majorScaled) - 0.5);
   float major = 1.0 - smoothstep(0.0, majorW * 2.0, majorBand);
   major *= smoothstep(0.55, 0.12, majorW);

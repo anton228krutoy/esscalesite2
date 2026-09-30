@@ -23,13 +23,38 @@ function tokenRGB(name, fallback) {
   return parts.slice(0, 3).map(n => n / 255)
 }
 
+/* Плотность пикселей поля. Потолок — число пикселей, а не множитель:
+   при множителе 2 поле на 14-дюймовом Retina считалось на 5,2 млн
+   пикселей, на 5K-мониторе — на 14,7 млн, каждый кадр и всегда.
+   Разницы на глаз нет: толщину линий в экранных пикселях держит
+   uLineScale (field.frag). Ниже 1× не опускаемся — на обычном
+   мониторе картинка ровно та же, что была. */
+const MAX_PIXELS = 2.1e6
+const nativeDpr = () => Math.min(window.devicePixelRatio || 1, 2)
+function fieldDpr() {
+  const fit = Math.sqrt(MAX_PIXELS / (window.innerWidth * window.innerHeight))
+  return Math.max(Math.min(nativeDpr(), fit), Math.min(nativeDpr(), 1))
+}
+
+/* 30 кадров в секунду, а не частота экрана (на ProMotion — 120):
+   поле дрейфует медленно (uTime · 0.028), и на глаз разницы нет,
+   а работы видеокарте вчетверо меньше. Между кадрами — таймер,
+   а не холостые rAF: так страница по-настоящему простаивает.
+   Минус 8 мс — чтобы rAF попал на ближайший кадр экрана, а не на
+   следующий за ним. */
+const FRAME_MS = 1000 / 30
+
 export function createField(canvas) {
   const renderer = new Renderer({
     canvas,
     alpha: true,
+    depth: false,              // один треугольник на весь экран — буфер глубины не нужен
     antialias: false,          // изолинии сглаживает сам шейдер через fwidth
-    powerPreference: 'high-performance',
-    dpr: Math.min(window.devicePixelRatio || 1, 2),
+    /* Декоративный фон — не повод будить дискретную видеокарту:
+       на MacBook с двумя видеокартами high-performance переключал
+       на неё всю систему — нагрев, батарея и заминка при переключении. */
+    powerPreference: 'low-power',
+    dpr: fieldDpr(),
   })
   const gl = renderer.gl
   gl.clearColor(0, 0, 0, 0)
@@ -50,6 +75,7 @@ export function createField(canvas) {
       uCool:          { value: tokenRGB('--rgb-cool', [0.18, 0.73, 0.65]) },
       uSignal:        { value: tokenRGB('--rgb-signal', [1, 0.71, 0.33]) },
       uSignalMix:     { value: 0 },
+      uLineScale:     { value: 1 },   // см. applyResize
     },
   })
 
@@ -64,7 +90,8 @@ export function createField(canvas) {
     mouse: [0.5, 0.5],
     cool: baseCool.slice(),
   }
-  let raf = null
+  let raf = 0
+  let timer = 0
   let running = false
   let last = performance.now()
   let clock = 0
@@ -74,8 +101,13 @@ export function createField(canvas) {
     resizePending = false
     const w = window.innerWidth
     const h = window.innerHeight
+    renderer.dpr = fieldDpr()
     renderer.setSize(w, h)
     u.uResolution.value = [w * renderer.dpr, h * renderer.dpr]
+    // Сколько пикселей поля приходится на пиксель экрана: меньше единицы,
+    // когда поле считается грубее экрана. По нему шейдер пересчитывает
+    // толщину линий обратно в экранные пиксели.
+    u.uLineScale.value = renderer.dpr / nativeDpr()
   }
 
   /* Пересоздание буфера — самая дорогая операция здесь, а на
@@ -87,8 +119,13 @@ export function createField(canvas) {
     requestAnimationFrame(applyResize)
   }
 
+  const request = () => { timer = 0; raf = requestAnimationFrame(frame) }
+
   function frame(now) {
-    raf = requestAnimationFrame(frame)
+    raf = 0
+    // Следующий кадр планируем сразу, до отрисовки: если она бросит
+    // исключение, поле не должно замереть навсегда.
+    if (running) timer = setTimeout(request, FRAME_MS - 8)
     // Дельта ограничена: после возврата на вкладку поле не прыгает вперёд.
     const dt = Math.min((now - last) / 1000, 0.05)
     last = now
@@ -116,13 +153,14 @@ export function createField(canvas) {
     if (running) return
     running = true
     last = performance.now()
-    raf = requestAnimationFrame(frame)
+    request()
   }
 
   function stop() {
     running = false
-    if (raf) cancelAnimationFrame(raf)
-    raf = null
+    cancelAnimationFrame(raf)
+    clearTimeout(timer)
+    raf = timer = 0
   }
 
   const onPointer = e => {

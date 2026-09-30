@@ -25,12 +25,21 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
    отрисовки. Здесь дублировать не нужно. */
 
 /* Решение принимается до загрузки чанка, а не после: незачем
-   тянуть 30 КБ, чтобы потом выяснить, что рисовать некому. */
+   тянуть ~50 КБ, чтобы потом выяснить, что рисовать некому.
+
+   failIfMajorPerformanceCaveat: на заблокированной видеокарте,
+   в виртуальной машине и через удалённый рабочий стол WebGL2 всё
+   равно «есть» — программный, на процессоре, и поле шло бы там
+   рывками, забирая процессор у всей страницы. Пробный контекст
+   отпускаем сразу: иначе он висел бы до сборки мусора рядом
+   с настоящим. */
 function canRunScene() {
   if (reduceMotion) return false
   try {
     const c = document.createElement('canvas')
-    if (!c.getContext('webgl2')) return false
+    const gl = c.getContext('webgl2', { failIfMajorPerformanceCaveat: true })
+    if (!gl) return false
+    gl.getExtension('WEBGL_lose_context')?.loseContext()
   } catch { return false }
 
   const mem = navigator.deviceMemory
