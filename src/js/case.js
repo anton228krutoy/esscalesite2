@@ -75,24 +75,31 @@ export function initCase() {
      считает пересечение, не заставляя нас читать геометрию каждый кадр. */
   const io = new IntersectionObserver(
     entries => {
+      /* Сначала только замеры, потом записи. Запись между замерами
+         заставляла браузер пересчитывать стили посреди обработчика.
+         И в пакете, где копия уходит из кадра, а оригинал входит
+         (переезд петли), копия успевала снять data-visible со всей
+         работы раньше, чем оригинал вернёт его, — и анимации сцены
+         начинались заново. */
+      const touched = new Map()   // работа (или сам кейс вне ленты) → кейс
+      const open = new Set()
       for (const e of entries) {
         const c = cases.find(x => x.win === e.target)
-        const shown = e.intersectionRatio >= REVEAL
         c.inView = e.isIntersecting
-        // До записи стилей ниже: так замер не заставляет браузер
-        // пересчитывать раскладку посреди обработчика.
+        c.shown = e.intersectionRatio >= REVEAL
         pointer?.(c)
+        touched.set(c.group ?? c, c)
         // В ленте работ окна раскрываются все разом. Поодиночке
         // лента после переезда с копии на оригинал ставила бы
         // в центр ещё поджатое окно, и оно заметно «вздрагивало».
-        if (shown) for (const x of c.slide ? cases.filter(y => y.slide) : [c]) {
-          x.win.style.setProperty('--case-scale', '1')
-        }
-        // Пульс точки на схеме и курсор в поле ответа живут,
-        // только пока окно заметно в кадре. У копий одной работы —
-        // пока заметна хоть одна: иначе после переезда с копии на
-        // оригинал анимации сцены начинались бы заново, с рывком.
-        c.shown = shown
+        if (c.shown) for (const x of c.slide ? cases.filter(y => y.slide) : [c]) open.add(x)
+      }
+      for (const x of open) x.win.style.setProperty('--case-scale', '1')
+      // Пульс точки на схеме и курсор в поле ответа живут,
+      // только пока окно заметно в кадре. У копий одной работы —
+      // пока заметна хоть одна: иначе после переезда с копии на
+      // оригинал анимации сцены начинались бы заново, с рывком.
+      for (const c of touched.values()) {
         const members = c.group === null ? [c] : cases.filter(x => x.group === c.group)
         const visible = members.some(m => m.shown)
         for (const m of members) m.win.toggleAttribute('data-visible', visible)
@@ -115,6 +122,7 @@ function followPointer(cases) {
   let cx = 0, cy = 0          // курсор в координатах окна браузера
   let over = false            // курсор над страницей
   let queued = false
+  let moving = false          // лента работ в пути (works.js)
 
   /* Окно на экране меньше своей раскладки: оно раскрывается из
      0.96, а в ленте боковые карточки ещё и уменьшены. Блик и
@@ -159,7 +167,7 @@ function followPointer(cases) {
     const hit = new Map()   // работа (или сам кейс вне ленты) → кейс под курсором
     for (const c of cases) {
       const { rect } = c
-      const inside = over && (c.inView || c.slide) && rect !== null &&
+      const inside = over && !(moving && c.slide) && (c.inView || c.slide) && rect !== null &&
         (!c.slide || c.slide.hasAttribute('data-active')) &&
         cx >= rect.left && cx <= rect.right &&
         cy >= rect.top  && cy <= rect.bottom
@@ -204,7 +212,7 @@ function followPointer(cases) {
     // Геометрию здесь НЕ перечитываем: она меняется от скролла и
     // ресайза, а не от движения мыши. Чтение на каждое движение
     // давало пересчёт раскладки после записи стилей в том же кадре.
-    for (const c of cases) if ((c.inView || c.slide) && !c.rect) read(c)
+    for (const c of cases) if ((c.inView || c.slide) && !c.rect && !(moving && c.slide)) read(c)
     schedule()
   }, { passive: true })
 
@@ -247,9 +255,10 @@ function followPointer(cases) {
     schedule()
     if (hovered()) { tracking = true; idle = 0; requestAnimationFrame(track) }
   }
-  /* На документе и на погружении, а не на window: событие scroll
-     не всплывает, и прокрутку ленты работ window не слышал бы —
-     окна уезжали бы вбок, а блик оставался на старом месте. */
+  /* На документе и на погружении: так слышна прокрутка и страницы,
+     и любого прокручиваемого блока — событие scroll не всплывает.
+     Ленту работ двигает не прокрутка, а анимация: о её поездке
+     works.js сообщает сам (works:move и works:settle ниже). */
   document.addEventListener('scroll', onScroll, { passive: true, capture: true })
   window.addEventListener('resize', onScroll, { passive: true })
 
@@ -265,6 +274,21 @@ function followPointer(cases) {
       schedule()
     })
   }
+
+  /* Лента работ едет без прокрутки: её двигает композитор, и событий
+     scroll в пути нет. О поездке works.js сообщает сам. На время пути
+     наведение с карточек ленты снимаем — они уезжают из-под курсора,
+     и «Открыть» на лету обещало бы не то, — а когда лента встала,
+     меряем окна заново и решаем, что теперь под курсором. */
+  document.addEventListener('works:move', () => {
+    moving = true
+    for (const c of cases) if (c.slide) { setHover(c, false); c.rect = null }
+  })
+  document.addEventListener('works:settle', () => {
+    moving = false
+    measure()
+    schedule()
+  })
 
   /* Указатель ушёл со страницы целиком — состояние снимаем сразу.
      Его последние координаты больше не в счёт: иначе следующий
