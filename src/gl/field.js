@@ -58,8 +58,19 @@ function fieldDpr(w, h) {
 
    В покое — 15: пока страницу не крутят и не водят мышью, поле
    только медленно дрейфует, а каждый его кадр — это сборка всего
-   экрана. Любое движение или команда снаружи сразу возвращают 30. */
+   экрана. Любое движение или команда снаружи сразу возвращают 30.
+
+   Пока страницу крутят или ведут мышью — 60, и кадры привязаны
+   к кадрам экрана (на 120 Гц — через один), а не к таймеру. Поле идёт
+   за прокруткой: положение на странице перестраивает рисунок
+   (uProgress), и на 30 кадрах линии перетекали ступеньками рядом со
+   страницей, которая едет в 120 Гц, — прокрутка на Mac казалась рваной.
+   Таймер к тому же на загруженной машине опаздывает, и ступеньки
+   выходили ещё и неровными. На телефоне остаётся 30: там видеокарта
+   нужнее самой прокрутке. */
 const FRAME_MS = 1000 / 30
+const ACTIVE_FRAME_MS = 1000 / 60
+const ACTIVE_FOR_MS = 250
 const IDLE_FRAME_MS = 1000 / 15
 const IDLE_AFTER_MS = 2000
 
@@ -118,7 +129,16 @@ export function createField(canvas) {
   let timer = 0
   let running = false
   let lastInput = -Infinity
-  const wake = () => { lastInput = performance.now() }
+  let drawn = -Infinity      // когда поле рисовалось в последний раз
+  const active = now => !TOUCH && now - lastInput < ACTIVE_FOR_MS
+  const wake = () => {
+    const now = performance.now()
+    const was = active(now)
+    lastInput = now
+    // Поле ждало таймера медленного темпа — не ждём его: первое же
+    // движение должно попасть в ближайший кадр экрана.
+    if (!was && timer && active(now)) { clearTimeout(timer); request() }
+  }
   let last = performance.now()
   let clock = 0
 
@@ -185,12 +205,20 @@ export function createField(canvas) {
 
   function frame(now) {
     raf = 0
+    const fast = active(now)
     // Следующий кадр планируем сразу, до отрисовки: если она бросит
     // исключение, поле не должно замереть навсегда.
     if (running) {
-      const pace = now - lastInput > IDLE_AFTER_MS ? IDLE_FRAME_MS : FRAME_MS
-      timer = setTimeout(request, pace - 8)
+      if (fast) raf = requestAnimationFrame(frame)
+      else {
+        const pace = now - lastInput > IDLE_AFTER_MS ? IDLE_FRAME_MS : FRAME_MS
+        timer = setTimeout(request, pace - 8)
+      }
     }
+    // В быстром темпе rAF идёт с частотой экрана, а поле — не чаще 60:
+    // на 120 Гц кадр через один. Запас 4 мс — на дрожание времени кадра.
+    if (fast && now - drawn < ACTIVE_FRAME_MS - 4) return
+    drawn = now
     // Дельта ограничена: после возврата на вкладку поле не прыгает вперёд.
     const dt = Math.min((now - last) / 1000, 0.05)
     last = now
@@ -255,7 +283,7 @@ export function createField(canvas) {
     /* Плотность поля. Это тот самый рычаг, за который берётся
        калькулятор: чем больше набрано EP, тем гуще изолинии. */
     // Каждая команда снаружи будит поле: переход к новому значению
-    // должен идти на полных 30 кадрах, а не в режиме покоя.
+    // должен идти в полном темпе, а не в режиме покоя.
     setDensity: v => { target.density = v; wake() },
     setProgress: v => { target.progress = v; wake() },
     setIntensity: v => { target.intensity = v; wake() },
