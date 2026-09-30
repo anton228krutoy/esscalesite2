@@ -277,14 +277,20 @@
 
    Только при data-ready — его ставит скрипт. Без скрипта выбранной
    карточки нет, и текст пропал бы у всех. Место под подписью
-   остаётся (opacity, а не display), поэтому лента не прыгает. */
-.works[data-ready] .works__slide > .case > :not(.case__window) {
+   остаётся (opacity, а не display), поэтому лента не прыгает.
+
+   Подпись и описание названы явно, а не «всё, кроме окна»
+   (:not(.case__window)). По классу внутри :not() Chrome не может
+   понять, кого задевает смена атрибута, и на каждом переключении
+   data-active пересчитывал стили всей карточки вместе со сценой,
+   а data-ready на <html> (main.js) — стили всей страницы. */
+.works[data-ready] .works__slide > .case > :is(.case__meta, .case__text) {
   opacity: 0;
   translate: 0 0.6rem;
   transition: opacity var(--dur-fast) var(--ease-out),
               translate var(--dur-fast) var(--ease-out);
 }
-.works[data-ready] .works__slide[data-active] > .case > :not(.case__window) {
+.works[data-ready] .works__slide[data-active] > .case > :is(.case__meta, .case__text) {
   opacity: 1;
   translate: none;
   transition-duration: var(--dur-slow);
@@ -292,8 +298,15 @@
 }
 
 /* Боковая карточка по клику встаёт в центр, а не открывается:
-   открыть можно то, что уже видно целиком. Курсор это подсказывает. */
-.works__slide:not([data-active]) > .case { cursor: pointer; }
+   открыть можно то, что уже видно целиком. Курсор это подсказывает.
+
+   Только у карточки без страницы (<article>): над ссылкой рука и так
+   во всех браузерах. Переключать курсор на ссылке нельзя: курсор
+   наследуется, а у ссылок в Safari он auto, и каждая смена выбранной
+   работы пересчитывала стиль всей сцены. Safari при этом заново
+   рисует маску схемы города (подробно — у .case__scene в case.css),
+   и делал это посреди поездки ленты. */
+.works__slide:not([data-active]) > .case:not([href]) { cursor: pointer; }
 
 /* На телефоне «Открыть» висит в углу окна постоянно (case.css),
    но боковую карточку тап не откроет, а поставит в центр —
