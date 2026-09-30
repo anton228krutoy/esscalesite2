@@ -1,0 +1,168 @@
+{
+  "format": "wearninglords.vocabulary",
+  "version": 1,
+  "folder": {
+    "id": "esscale-sample-spanish-starter",
+    "name": "Spanish Starter",
+    "topics": [
+      {
+        "id": "esscale-sample-spanish-starter-food",
+        "name": "Food and Drinks",
+        "words": [
+          {
+            "term": "la manzana",
+            "meaning": "apple"
+          },
+          {
+            "term": "el pan",
+            "meaning": "bread"
+          },
+          {
+            "term": "el queso",
+            "meaning": "cheese"
+          },
+          {
+            "term": "la leche",
+            "meaning": "milk"
+          },
+          {
+            "term": "el agua",
+            "meaning": "water"
+          },
+          {
+            "term": "el pollo",
+            "meaning": "chicken"
+          },
+          {
+            "term": "la cena",
+            "meaning": "dinner, supper"
+          },
+          {
+            "term": "el desayuno",
+            "meaning": "breakfast"
+          },
+          {
+            "term": "la fresa",
+            "meaning": "strawberry"
+          },
+          {
+            "term": "el zumo",
+            "meaning": "juice"
+          },
+          {
+            "term": "el arroz",
+            "meaning": "rice"
+          },
+          {
+            "term": "comer",
+            "meaning": "to eat"
+          },
+          {
+            "term": "beber",
+            "meaning": "to drink"
+          },
+          {
+            "term": "cocinar",
+            "meaning": "to cook"
+          }
+        ]
+      },
+      {
+        "id": "esscale-sample-spanish-starter-travel",
+        "name": "Travel",
+        "words": [
+          {
+            "term": "el billete",
+            "meaning": "ticket"
+          },
+          {
+            "term": "el aeropuerto",
+            "meaning": "airport"
+          },
+          {
+            "term": "la maleta",
+            "meaning": "suitcase"
+          },
+          {
+            "term": "el tren",
+            "meaning": "train"
+          },
+          {
+            "term": "la playa",
+            "meaning": "beach"
+          },
+          {
+            "term": "la llave",
+            "meaning": "key"
+          },
+          {
+            "term": "el mapa",
+            "meaning": "map"
+          },
+          {
+            "term": "viajar",
+            "meaning": "to travel"
+          },
+          {
+            "term": "reservar",
+            "meaning": "to book, to reserve"
+          },
+          {
+            "term": "la estación",
+            "meaning": "station"
+          },
+          {
+            "term": "el pasaporte",
+            "meaning": "passport"
+          }
+        ]
+      },
+      {
+        "id": "esscale-sample-spanish-starter-verbs",
+        "name": "Everyday Verbs",
+        "words": [
+          {
+            "term": "hablar",
+            "meaning": "to speak, to talk"
+          },
+          {
+            "term": "aprender",
+            "meaning": "to learn"
+          },
+          {
+            "term": "entender",
+            "meaning": "to understand"
+          },
+          {
+            "term": "escribir",
+            "meaning": "to write"
+          },
+          {
+            "term": "leer",
+            "meaning": "to read"
+          },
+          {
+            "term": "trabajar",
+            "meaning": "to work"
+          },
+          {
+            "term": "vivir",
+            "meaning": "to live"
+          },
+          {
+            "term": "dormir",
+            "meaning": "to sleep"
+          },
+          {
+            "term": "esperar",
+            "meaning": "to wait, to hope"
+          },
+          {
+            "term": "buscar",
+            "meaning": "to look for, to search"
+          }
+        ]
+      }
+    ]
+  }
+}

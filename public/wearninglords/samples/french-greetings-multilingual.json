@@ -1,0 +1,104 @@
+{
+  "format": "wearninglords.vocabulary",
+  "version": 1,
+  "topic": {
+    "id": "esscale-sample-french-greetings",
+    "name": {
+      "en": "French — Greetings",
+      "ru": "Французский — приветствия",
+      "es": "Francés — saludos",
+      "pt-BR": "Francês — cumprimentos",
+      "de": "Französisch — Begrüßungen",
+      "it": "Francese — saluti",
+      "zh-Hans": "法语 — 问候",
+      "ja": "フランス語 — あいさつ",
+      "ko": "프랑스어 — 인사"
+    },
+    "words": [
+      {
+        "term": "bonjour",
+        "meaning": {
+          "en": "hello, good morning",
+          "ru": "здравствуйте, доброе утро",
+          "es": "hola, buenos días",
+          "pt-BR": "olá, bom dia",
+          "de": "hallo, guten Morgen",
+          "it": "ciao, buongiorno",
+          "zh-Hans": "你好, 早上好",
+          "ja": "こんにちは, おはようございます",
+          "ko": "안녕하세요, 좋은 아침입니다"
+        }
+      },
+      {
+        "term": "bonsoir",
+        "meaning": {
+          "en": "good evening",
+          "ru": "добрый вечер",
+          "es": "buenas noches",
+          "pt-BR": "boa noite",
+          "de": "guten Abend",
+          "it": "buonasera",
+          "zh-Hans": "晚上好",
+          "ja": "こんばんは",
+          "ko": "좋은 저녁입니다"
+        }
+      },
+      {
+        "term": "merci",
+        "meaning": {
+          "en": "thank you",
+          "ru": "спасибо",
+          "es": "gracias",
+          "pt-BR": "obrigado",
+          "de": "danke",
+          "it": "grazie",
+          "zh-Hans": "谢谢",
+          "ja": "ありがとう",
+          "ko": "감사합니다"
+        }
+      },
+      {
+        "term": "s'il vous plaît",
+        "meaning": {
+          "en": "please",
+          "ru": "пожалуйста",
+          "es": "por favor",
+          "pt-BR": "por favor",
+          "de": "bitte",
+          "it": "per favore",
+          "zh-Hans": "请",
+          "ja": "お願いします",
+          "ko": "부탁합니다"
+        }
+      },
+      {
+        "term": "au revoir",
+        "meaning": {
+          "en": "goodbye",
+          "ru": "до свидания",
+          "es": "adiós",
+          "pt-BR": "tchau, adeus",
+          "de": "auf Wiedersehen",
+          "it": "arrivederci",
+          "zh-Hans": "再见",
+          "ja": "さようなら",
+          "ko": "안녕히 가세요"
+        }
+      },
+      {
+        "term": "à bientôt",
+        "meaning": {
+          "en": "see you soon",
+          "ru": "до скорого",
+          "es": "hasta pronto",
+          "pt-BR": "até logo",
+          "de": "bis bald",
+          "it": "a presto",
+          "zh-Hans": "回头见",
+          "ja": "またね",
+          "ko": "곧 봐요"
+        }
+      }
+    ]
+  }
+}

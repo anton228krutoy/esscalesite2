@@ -1,0 +1,66 @@
+{
+  "format": "wearninglords.vocabulary",
+  "version": 1,
+  "topic": {
+    "id": "esscale-sample-spanish-food",
+    "name": "Spanish — Food and Drinks",
+    "words": [
+      {
+        "term": "la manzana",
+        "meaning": "apple"
+      },
+      {
+        "term": "el pan",
+        "meaning": "bread"
+      },
+      {
+        "term": "el queso",
+        "meaning": "cheese"
+      },
+      {
+        "term": "la leche",
+        "meaning": "milk"
+      },
+      {
+        "term": "el agua",
+        "meaning": "water"
+      },
+      {
+        "term": "el pollo",
+        "meaning": "chicken"
+      },
+      {
+        "term": "la cena",
+        "meaning": "dinner, supper"
+      },
+      {
+        "term": "el desayuno",
+        "meaning": "breakfast"
+      },
+      {
+        "term": "la fresa",
+        "meaning": "strawberry"
+      },
+      {
+        "term": "el zumo",
+        "meaning": "juice"
+      },
+      {
+        "term": "el arroz",
+        "meaning": "rice"
+      },
+      {
+        "term": "comer",
+        "meaning": "to eat"
+      },
+      {
+        "term": "beber",
+        "meaning": "to drink"
+      },
+      {
+        "term": "cocinar",
+        "meaning": "to cook"
+      }
+    ]
+  }
+}

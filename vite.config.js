@@ -91,6 +91,7 @@ export default defineConfig({
         privacy: resolve(__dirname, 'scandere/privacy/index.html'),
         wearninglords: resolve(__dirname, 'wearninglords/index.html'),
         wearninglordsPrivacy: resolve(__dirname, 'wearninglords/privacy/index.html'),
+        wearninglordsSamples: resolve(__dirname, 'wearninglords/samples/index.html'),
       },
       output: {
         // WebGL-слой отдельным чанком: он грузится лениво и только там,
