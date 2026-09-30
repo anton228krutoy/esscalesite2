@@ -92,18 +92,32 @@ function motifOf(ch) {
 }
 
 export function photoScene() {
-  const cells = SHEET.flatMap(row => [...row])
+  const rows = SHEET.map(row => [...row])
+  const cells = rows.flat()
 
   // Копии в веере — те же кадры, что подсвечены на листе. Берутся
   // из самого листа, а не перечисляются второй раз: иначе, поменяв
   // лист, легко получить веер из снимков, которых на нём нет.
   const lit = cells.filter(isLit).map(motifOf)
 
+  /* Лист — два слоя одной сетки, один над другим. Нижний — все кадры,
+     кроме подсвеченных, и приглушён он целиком: прозрачность стоит на
+     слое, а не на каждом кадре. С прозрачностью у каждого из шестидесяти
+     кадров браузер рисовал лист как шестьдесят отдельных полупрозрачных
+     групп — самая дорогая отрисовка на главной, и повторялась она всякий
+     раз, когда карточка въезжала в кадр. Кадры друг друга не касаются
+     (между ними зазор сетки), поэтому одна группа даёт те же пиксели.
+     Места подсвеченных кадров в нижнем слое держат пустые ячейки,
+     а сами они — в верхнем слое, на тех же клетках сетки. */
   let n = 0
-  const sheet = cells.map(ch => isLit(ch)
-    ? `<span class="photo__pic photo__pic--${motifOf(ch)} is-lit" style="--lit: ${n++}"></span>`
+  const dim = cells.map(ch => isLit(ch)
+    ? '<span class="photo__slot"></span>'
     : `<span class="photo__pic photo__pic--${motifOf(ch)}"></span>`
   ).join('')
+  const bright = rows.flatMap((row, r) => row.map((ch, c) => isLit(ch)
+    ? `<span class="photo__pic photo__pic--${motifOf(ch)} is-lit" style="--lit: ${n++}; grid-area: ${r + 1} / ${c + 1}"></span>`
+    : ''
+  )).join('')
 
   // --k — место в веере: 0 — верхняя копия. В разметке копии идут
   // от нижней к верхней, чтобы верхняя и рисовалась последней.
@@ -120,7 +134,10 @@ export function photoScene() {
 
   return `<div class="photo">
             <div class="photo__field">
-              <div class="photo__sheet">${sheet}</div>
+              <div class="photo__sheet">
+                <div class="photo__layer photo__layer--dim">${dim}</div>
+                <div class="photo__layer">${bright}</div>
+              </div>
             </div>
 
             <div class="photo__stack">${prints}
