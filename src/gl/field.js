@@ -41,8 +41,14 @@ function fieldDpr() {
    а работы видеокарте вчетверо меньше. Между кадрами — таймер,
    а не холостые rAF: так страница по-настоящему простаивает.
    Минус 8 мс — чтобы rAF попал на ближайший кадр экрана, а не на
-   следующий за ним. */
+   следующий за ним.
+
+   В покое — 15: пока страницу не крутят и не водят мышью, поле
+   только медленно дрейфует, а каждый его кадр — это сборка всего
+   экрана. Любое движение или команда снаружи сразу возвращают 30. */
 const FRAME_MS = 1000 / 30
+const IDLE_FRAME_MS = 1000 / 15
+const IDLE_AFTER_MS = 2000
 
 export function createField(canvas) {
   const renderer = new Renderer({
@@ -93,6 +99,8 @@ export function createField(canvas) {
   let raf = 0
   let timer = 0
   let running = false
+  let lastInput = -Infinity
+  const wake = () => { lastInput = performance.now() }
   let last = performance.now()
   let clock = 0
 
@@ -125,7 +133,10 @@ export function createField(canvas) {
     raf = 0
     // Следующий кадр планируем сразу, до отрисовки: если она бросит
     // исключение, поле не должно замереть навсегда.
-    if (running) timer = setTimeout(request, FRAME_MS - 8)
+    if (running) {
+      const pace = now - lastInput > IDLE_AFTER_MS ? IDLE_FRAME_MS : FRAME_MS
+      timer = setTimeout(request, pace - 8)
+    }
     // Дельта ограничена: после возврата на вкладку поле не прыгает вперёд.
     const dt = Math.min((now - last) / 1000, 0.05)
     last = now
@@ -164,6 +175,7 @@ export function createField(canvas) {
   }
 
   const onPointer = e => {
+    wake()
     target.mouse = [e.clientX / window.innerWidth, 1 - e.clientY / window.innerHeight]
     u.uMouseStrength.value = 1
   }
@@ -181,15 +193,18 @@ export function createField(canvas) {
   return {
     /* Плотность поля. Это тот самый рычаг, за который берётся
        калькулятор: чем больше набрано EP, тем гуще изолинии. */
-    setDensity: v => { target.density = v },
-    setProgress: v => { target.progress = v },
-    setIntensity: v => { target.intensity = v },
-    setSignalMix: v => { target.signalMix = v },
+    // Каждая команда снаружи будит поле: переход к новому значению
+    // должен идти на полных 30 кадрах, а не в режиме покоя.
+    setDensity: v => { target.density = v; wake() },
+    setProgress: v => { target.progress = v; wake() },
+    setIntensity: v => { target.intensity = v; wake() },
+    setSignalMix: v => { target.signalMix = v; wake() },
 
     /* Акцент сцены. Принимает три компонента 0–255 — те же, что
        лежат в данных направлений, чтобы источник цвета оставался
        один. Без аргумента возвращает исходный цвет темы. */
     setAccent(rgb) {
+      wake()
       target.cool = rgb
         ? rgb.map(n => Math.min(Math.max(Number(n) || 0, 0), 255) / 255)
         : baseCool.slice()
