@@ -13,10 +13,10 @@ import '../styles/calc.css'
 /* ============================================================
    Точка входа.
 
-   Тяжёлое — WebGL-сцена и плавный скролл — грузится лениво и
-   только там, где устройство это потянет. На всём остальном
-   сайт работает как обычная быстрая страница: фон вырождается
-   в статичный градиент, и ничего не ломается.
+   Тяжёлое — WebGL-сцена — грузится лениво и только там, где
+   устройство это потянет. На всём остальном сайт работает как
+   обычная быстрая страница: фон вырождается в статичный градиент,
+   и ничего не ломается. Прокрутка везде родная, браузерная.
    ============================================================ */
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -85,6 +85,7 @@ async function boot() {
       const { createField } = await import('../gl/field.js')
       field = createField(canvas)
       canvas.dataset.ready = 'true'
+      followScroll(field)
     } catch (err) {
       // Сцена — украшение поверх работающей страницы. Если она
       // не поднялась, это не повод ломать сайт.
@@ -114,33 +115,36 @@ async function boot() {
   const year = document.querySelector('[data-year]')
   if (year) year.textContent = new Date().getFullYear()
 
-  if (!reduceMotion) initMotion(field)
+  if (!reduceMotion) initMotion()
   else {
     document.querySelectorAll('[data-reveal]').forEach(el => (el.dataset.reveal = 'shown'))
     document.querySelectorAll('[data-lines]').forEach(el => (el.dataset.lines = 'shown'))
   }
 }
 
-async function initMotion(field) {
-  const [{ default: Lenis }, { gsap }] = await Promise.all([
-    import('lenis'),
-    import('gsap'),
-  ])
-
-  const lenis = new Lenis({ duration: 1.1, smoothWheel: true })
-
-  // Один rAF на страницу: Lenis и GSAP делят его, а не заводят свой.
-  const loop = time => {
-    lenis.raf(time)
-    requestAnimationFrame(loop)
+/* Положение на странице ведёт состояние поля. Прокрутка родная —
+   её ведёт сам браузер, вне основного потока, а сюда приходит только
+   число. Раньше этим занимался Lenis: он перехватывал колесо, крутил
+   страницу из скрипта с полуторасекундным сглаживанием поверх инерции
+   трекпада и держал цикл отрисовки до конца жизни страницы.
+   Плавность перехода даёт само поле — оно подтягивает uProgress
+   к цели на каждом кадре. Высоту страницы перечитываем только при
+   изменении размеров, а не на каждой прокрутке. */
+function followScroll(field) {
+  let limit = 0
+  const update = () => field.setProgress(limit > 0 ? Math.min(scrollY / limit, 1) : 0)
+  const measure = () => {
+    limit = document.documentElement.scrollHeight - innerHeight
+    update()
   }
-  requestAnimationFrame(loop)
+  new ResizeObserver(measure).observe(document.body)
+  addEventListener('resize', measure, { passive: true })
+  addEventListener('scroll', update, { passive: true })
+  measure()
+}
 
-  // Скролл ведёт состояние поля. Обработчик не пишет стилей и
-  // ничего не читает из layout — только передаёт число в шейдер.
-  lenis.on('scroll', ({ scroll, limit }) => {
-    field?.setProgress(limit > 0 ? Math.min(scroll / limit, 1) : 0)
-  })
+async function initMotion() {
+  const { gsap } = await import('gsap')
 
   /* Вход первого экрана — одна поставленная сцена.
 

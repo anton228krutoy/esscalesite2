@@ -6,7 +6,9 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: auto;          /* скроллом управляет Lenis */
+  /* Прокрутка родная, и переход по якорям шапки — мгновенный:
+     плавную прокрутку поверх инерции трекпада не навязываем. */
+  scroll-behavior: auto;
   color-scheme: dark;
 }
 
