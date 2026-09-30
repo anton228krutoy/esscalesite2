@@ -19,10 +19,31 @@ import '../styles/calc.css'
    и ничего не ломается. Прокрутка везде родная, браузерная.
    ============================================================ */
 
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+const root = document.documentElement
 
-/* data-anim выставляет синхронный скрипт в <head> — до первой
-   отрисовки. Здесь дублировать не нужно. */
+/* Метка для сторожа в <head> (index.html): модуль дошёл и выполняется.
+   Без неё к DOMContentLoaded сторож решит, что главный файл не пришёл,
+   и откроет страницу сам. data-anim тоже ставит он — до первой
+   отрисовки, здесь дублировать не нужно. */
+root.dataset.boot = ''
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+const RELOAD_KEY = 'esscale:reload'
+const wait = ms => new Promise(r => setTimeout(r, ms))
+
+/* Файл, запрошенный через import(), не пришёл. Чаще всего это выкладка:
+   страница из кеша ссылается на файлы, которых на сервере уже нет,
+   и лечит это одна перезагрузка. Флаг общий со сторожем: больше одной
+   перезагрузки за 30 с не будет, даже если сломано что-то другое, —
+   тогда сбой просто гасится там, где файл запрашивали. */
+addEventListener('vite:preloadError', () => {
+  try {
+    const last = Number(sessionStorage.getItem(RELOAD_KEY)) || 0
+    if (Date.now() - last < 30000) return
+    sessionStorage.setItem(RELOAD_KEY, String(Date.now()))
+    location.reload()
+  } catch {}
+})
 
 /* Решение принимается до загрузки чанка, а не после: незачем
    тянуть ~50 КБ, чтобы потом выяснить, что рисовать некому.
@@ -71,55 +92,93 @@ function runCounter() {
 
 const finishCounter = runCounter()
 
+/* Всё, что нужно странице, запрашивается сразу и параллельно. Раньше
+   файлы шли цепочкой — шрифты, сцена, заставка, калькулятор, кейсы,
+   направления, GSAP, — и заголовок стоял пустым, пока догружался хвост.
+
+   Сцену ждём не дольше 4 с: зависший файл не должен держать заставку.
+   Не пришла вовремя — страница открывается с градиентом вместо поля. */
+const sceneModule = canRunScene()
+  ? Promise.race([
+      import('../gl/field.js'),
+      wait(4000).then(() => { throw new Error('файл сцены не пришёл за 4 с') }),
+    ]).catch(err => {
+      console.warn('[field] сцена не запущена:', err)
+      return null
+    })
+  : Promise.resolve(null)
+
+/* Секции тоже запрашиваем сразу, а запускаем, когда решится судьба
+   сцены: калькулятору и направлениям нужно поле. Пустой catch — только
+   чтобы браузер не счёл сбой необработанным раньше, чем до него дойдёт
+   startSections. */
+const sections = {
+  calculator: import('./calculator.js'),
+  case: import('./case.js'),
+  dirs: import('./dirs.js'),
+}
+for (const loading of Object.values(sections)) loading.catch(() => {})
+
 async function boot() {
   // Шрифты — часть первого впечатления: показывать текст
   // до их готовности значит показать подмену начертания.
   if (document.fonts?.ready) {
-    await Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 2500))])
+    await Promise.race([document.fonts.ready, wait(2500)])
   }
 
-  let field = null
-  if (canRunScene()) {
+  const field = startField(await sceneModule)
+  startSections(field)
+
+  finishCounter()
+  await wait(420)
+  reveal()
+}
+
+function startField(mod) {
+  if (mod) {
     try {
       const canvas = document.querySelector('[data-field]')
-      const { createField } = await import('../gl/field.js')
-      field = createField(canvas)
+      const field = mod.createField(canvas)
       canvas.dataset.ready = 'true'
       followScroll(field)
+      return field
     } catch (err) {
       // Сцена — украшение поверх работающей страницы. Если она
       // не поднялась, это не повод ломать сайт.
       console.warn('[field] сцена не запущена:', err)
-      document.documentElement.dataset.fieldFallback = 'true'
     }
-  } else {
-    document.documentElement.dataset.fieldFallback = 'true'
   }
+  root.dataset.fieldFallback = 'true'
+  return null
+}
 
-  finishCounter()
-  await new Promise(r => setTimeout(r, 420))
+/* Каждая секция поднимается сама по себе: не пришёл или упал один
+   файл — остальные работают. Обычно к этому моменту все три уже
+   загружены и поднимаются тут же, под заставкой, пока она ещё
+   закрывает экран. */
+function startSections(field) {
+  const start = (name, run) => sections[name]
+    .then(run)
+    .catch(err => console.warn(`[${name}] секция не запущена:`, err))
+  start('calculator', m => m.initCalculator(field))
+  start('case', m => m.initCase())
+  start('dirs', m => m.initDirections(field))
+}
 
-  document.documentElement.dataset.ready = 'true'
-  loader?.setAttribute('data-hidden', 'true')
-  loader?.addEventListener('transitionend', () => loader.remove(), { once: true })
+/* Заставка уходит, и одновременно стартует вход первого экрана —
+   переходами CSS (layout.css). Без data-anim заставка не показана
+   вовсе («меньше движения» или сторож в <head> уже открыл страницу),
+   её просто убираем. */
+function reveal() {
+  if (root.dataset.ready) return
+  root.dataset.ready = 'true'
+  document.querySelectorAll('[data-lines]').forEach(el => (el.dataset.lines = 'shown'))
+  document.querySelectorAll('[data-reveal]').forEach(el => (el.dataset.reveal = 'shown'))
 
-  const { initCalculator } = await import('./calculator.js')
-  initCalculator(field)
-
-  const { initCase } = await import('./case.js')
-  initCase()
-
-  const { initDirections } = await import('./dirs.js')
-  initDirections(field)
-
-  const year = document.querySelector('[data-year]')
-  if (year) year.textContent = new Date().getFullYear()
-
-  if (!reduceMotion) initMotion()
-  else {
-    document.querySelectorAll('[data-reveal]').forEach(el => (el.dataset.reveal = 'shown'))
-    document.querySelectorAll('[data-lines]').forEach(el => (el.dataset.lines = 'shown'))
-  }
+  if (!loader) return
+  if (!root.hasAttribute('data-anim')) return loader.remove()
+  loader.setAttribute('data-hidden', 'true')
+  loader.addEventListener('transitionend', () => loader.remove(), { once: true })
 }
 
 /* Положение на странице ведёт состояние поля. Прокрутка родная —
@@ -143,43 +202,11 @@ function followScroll(field) {
   measure()
 }
 
-async function initMotion() {
-  const { gsap } = await import('gsap')
+const year = document.querySelector('[data-year]')
+if (year) year.textContent = new Date().getFullYear()
 
-  /* Вход первого экрана — одна поставленная сцена.
-
-     Заголовок идёт первым и отдельно: его строки выезжают
-     из-под масок, а не проявляются. Остальное подтягивается
-     следом — и подзаголовок с ответом на него («Пока.») читается
-     как реплика после паузы, а заголовок остаётся главным
-     событием, а не одним из. */
-  const tl = gsap.timeline({ defaults: { ease: 'expo.out' } })
-
-  const title = document.querySelector('[data-lines]')
-  const lines = document.querySelectorAll('.hero__title .line__in')
-  if (lines.length) {
-    /* Анимируем y, а не yPercent: начальный сдвиг задан в CSS
-       процентами, а GSAP хранит y и yPercent раздельно и сумирует.
-       При yPercent: 0 пиксельный сдвиг остался бы на месте — строки
-       так и не выехали бы из-под маски. */
-    tl.to(lines, {
-      y: 0,
-      duration: 1.15,
-      stagger: 0.14,
-      ease: 'expo.out',
-      // Помечаем вход завершённым — по этому признаку снимается
-      // will-change: держать композитный слой после одноразовой
-      // анимации незачем.
-      onComplete: () => title?.setAttribute('data-lines', 'shown'),
-    })
-  }
-
-  tl.to('[data-reveal]', {
-    opacity: 1,
-    y: 0,
-    duration: 1.1,
-    stagger: 0.08,
-  }, lines.length ? '-=0.75' : 0)
-}
-
-boot()
+// Что бы ни случилось по дороге, страница открывается.
+boot().catch(err => {
+  console.error('[boot]', err)
+  reveal()
+})

@@ -98,7 +98,6 @@ export default defineConfig({
         // где устройство его потянет.
         manualChunks(id) {
           if (id.includes('node_modules/ogl')) return 'gl'
-          if (id.includes('node_modules/gsap')) return 'motion'
         },
       },
     },

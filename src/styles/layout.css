@@ -39,7 +39,6 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-loader);
-  display: grid;
   place-items: center;
   background: var(--c-bg);
   transition: opacity var(--dur-slow) var(--ease-out);
@@ -218,14 +217,22 @@
 .hero__title .line__in {
   display: block;
 }
-/* will-change только на время входа: держать композитный слой
-   до конца жизни страницы ради одноразовой анимации незачем,
-   тем более рядом с полноэкранным WebGL. */
-:root[data-anim] .hero__title:not([data-lines="shown"]) .line__in {
-  will-change: transform;
-}
+/* Вход первого экрана — одна поставленная сцена. Заголовок идёт
+   первым и отдельно: его строки выезжают из-под масок, а не
+   проявляются. Остальное подтягивается следом (см. «Вход» ниже),
+   и подзаголовок с ответом «Пока.» читается как реплика после паузы.
+
+   Сцену запускает main.js, выставив data-lines и data-reveal
+   в "shown" в тот момент, когда уходит заставка. Движение — переходы
+   CSS с кривой expo.out: раньше то же самое играл таймлайн GSAP,
+   и ради одного входа грузились 70 КБ библиотеки. Слой на время
+   перехода браузер заводит сам, will-change не нужен. */
 :root[data-anim] .hero__title .line__in {
   transform: translateY(110%);
+  transition: transform 1.15s var(--ease-out);
+}
+:root[data-anim] .hero__title .line:nth-child(2) .line__in {
+  transition-delay: 0.14s;
 }
 :root[data-anim] .hero__title[data-lines="shown"] .line__in {
   transform: none;
@@ -277,10 +284,15 @@
 /* --- Вход -------------------------------------------------------------- */
 
 /* То же правило, что и на странице проекта: прячет только скрипт,
-   и только после того, как сам объявил себя работающим. */
+   и только после того, как сам объявил себя работающим.
+   Первый элемент трогается через 0.54 с после заголовка, пока его
+   строки ещё доезжают, следующие — с шагом 0.08 с по --i
+   (index.html). */
 :root[data-anim] [data-reveal] {
   opacity: 0;
   transform: translateY(1.4rem);
+  transition: opacity 1.1s var(--ease-out), transform 1.1s var(--ease-out);
+  transition-delay: calc(0.54s + var(--i, 0) * 0.08s);
 }
 :root[data-anim] [data-reveal="shown"] { opacity: 1; transform: none; }
 

@@ -30,12 +30,40 @@
     /* Синхронно и до первой отрисовки: помечаем, что скрипт жив.
        Прелоадер и стартовые состояния анимаций висят на этом
        атрибуте, поэтому без JS они просто не применяются, а не
-       остаются навсегда поверх контента. */
-    try {
-      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        document.documentElement.dataset.anim = ''
-      }
-    } catch (e) {}
+       остаются навсегда поверх контента.
+
+       Снимает заставку main.js. Если он не пришёл — чаще всего это
+       страница из кеша после выкладки, чьих файлов на сервере уже
+       нет, — она закрывала бы страницу навсегда. Поэтому сторож:
+       main.js первым делом ставит data-boot, и если к DOMContentLoaded
+       метки нет, страница один раз перезагружается (свежая тянет новые
+       файлы). Не помогло — data-anim снимается, и страница открыта без
+       заставки. Через 15 с — в любом случае, если она так и не
+       открылась. Флаг перезагрузки общий с main.js: не чаще раза
+       в 30 с, чтобы не зациклиться. */
+    (function () {
+      try {
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
+        var root = document.documentElement
+        root.dataset.anim = ''
+
+        var open = function () {
+          if (!root.hasAttribute('data-ready')) root.removeAttribute('data-anim')
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+          if (root.hasAttribute('data-boot')) return
+          try {
+            var last = Number(sessionStorage.getItem('esscale:reload')) || 0
+            if (Date.now() - last > 30000) {
+              sessionStorage.setItem('esscale:reload', String(Date.now()))
+              return location.reload()
+            }
+          } catch (e) {}
+          open()
+        })
+        setTimeout(open, 15000)
+      } catch (e) {}
+    })()
   </script>
 
   <script type="module" src="/src/js/main.js"></script>
@@ -71,11 +99,11 @@
         <span class="line"><span class="line__in">как это сделать.</span></span>
       </h1>
 
-      <p class="hero__lede" data-reveal>
+      <p class="hero__lede" data-reveal style="--i: 1">
         <span class="hero__accent">Пока.</span> Обычно это занимает пару&nbsp;недель.
       </p>
 
-      <div class="readout" data-reveal>
+      <div class="readout" data-reveal style="--i: 2">
         <div class="readout__item">
           <span class="readout__value">15&nbsp;EP</span>
           <span class="readout__label">скорость команды в неделю</span>
